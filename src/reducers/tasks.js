@@ -4,10 +4,10 @@ const initialState = [];
 
 const tasks = (state = initialState, action) => {
   switch (action.type) {
-    case types.SET_TASKS: {
-      const { tasks } = action;
-      return [...tasks];
-    }
+    case types.SET_TASKS:
+      return [...action.tasks];
+    case types.ADD_TASK:
+      return [...state, action.task];
     default:
       return state;
   }

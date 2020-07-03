@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import Task from "./Task";
 import Tooltips from "./Tooltip";
 
+import { setTasks } from "../actions/index";
+
 class Project extends Component {
   constructor(props, context) {
     super(props, context);
@@ -38,11 +40,14 @@ class Project extends Component {
           project: r.data,
           err: "",
         });
+        return r.data;
       })
-      .then(() => {
+      .then(({ tasks }) => {
         this.setState({
           loading: false,
         });
+        console.log(tasks);
+        this.props.setTasks(tasks);
       })
       .catch((e) => {
         console.log(e);
@@ -128,9 +133,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setTasks: (tasks) => {
-    console.log(tasks);
-  },
+  setTasks: (tasks) => dispatch(setTasks(tasks)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Project);

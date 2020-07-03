@@ -1,9 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
+import { createStore, compose, applyMiddleware } from "redux";
 import { Router, Route, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
+import thunk from "redux-thunk";
 
 import App from "./App";
 import About from "./components/About";
@@ -13,10 +14,7 @@ import "./styles.css";
 
 const history = createBrowserHistory();
 
-const store = createStore(
-  reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+const store = createStore(reducer, compose(applyMiddleware(thunk)));
 
 const IndexPage = () => {
   return (

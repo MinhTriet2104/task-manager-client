@@ -1,12 +1,13 @@
 import React, { Component } from "react";
-
+import { connect } from "react-redux";
 import moment from "moment";
-// import ModalExampleDimmer from "./modal";
 import axios from "axios";
 import $ from "jquery";
 import "jquery-ui-dist/jquery-ui";
 
 import Loader from "./Loader";
+
+import { deleteTask } from "../actions/index";
 
 class Task extends Component {
   componentDidUpdate(prevProps) {
@@ -98,4 +99,13 @@ class Task extends Component {
     return <div className="process">{content}</div>;
   }
 }
-export default Task;
+
+const mapStateToProps = (state) => ({
+  tasks: state.tasks,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  deleteTask: (id) => dispatch(deleteTask(id)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Task);

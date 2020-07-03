@@ -1,4 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
+import moment from "moment";
+import axios from "axios";
+
 import {
   Button,
   Modal,
@@ -9,8 +13,8 @@ import {
   FormGroup,
   Label,
 } from "reactstrap";
-import moment from "moment";
-import axios from "axios";
+
+import { addTaskRequest } from "../../actions/index";
 
 class AddModal extends React.Component {
   constructor(props) {
@@ -74,35 +78,29 @@ class AddModal extends React.Component {
   }
 
   handleClick = (event) => {
-    axios
-      .post("http://localhost:2104/task", {
-        name: this.state.name,
-        description: this.state.description,
-        status: this.props.status,
-        assignee: this.state.assignee,
-        dueDate: this.state.dueDate,
-        difficult: this.state.difficult,
-        projectId: this.state.projectId,
-        creator: this.state.creator,
-      })
-      .then((response) => {
-        if (response.status === 201) {
-          alert("Created");
-          this.toggle();
-          this.setState({
-            name: "",
-            description: "",
-            assignee: "",
-            dueDate: "",
-            difficult: 1,
-            loading: false,
-          });
-        }
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const task = {
+      name: this.state.name,
+      description: this.state.description,
+      status: this.props.status,
+      assignee: this.state.assignee,
+      dueDate: this.state.dueDate,
+      difficult: this.state.difficult,
+      projectId: this.state.projectId,
+      creator: this.state.creator,
+    };
+
+    this.props.addTask(task);
+
+    alert("Created");
+    this.toggle();
+    this.setState({
+      name: "",
+      description: "",
+      assignee: "",
+      dueDate: "",
+      difficult: 1,
+      loading: false,
+    });
   };
 
   toggle() {
@@ -214,4 +212,8 @@ class AddModal extends React.Component {
   }
 }
 
-export default AddModal;
+const mapDispathToProps = (dispatch) => ({
+  addTask: (task) => dispatch(addTaskRequest(task)),
+});
+
+export default connect(null, mapDispathToProps)(AddModal);
