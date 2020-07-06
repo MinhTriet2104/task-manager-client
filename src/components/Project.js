@@ -1,17 +1,17 @@
 import React, { Component } from "react";
-import axios from "axios";
+// import axios from "axios";
 import { connect } from "react-redux";
 
 import Task from "./Task";
 import Tooltips from "./Tooltip";
 
-import { setTasks } from "../actions/index";
+import { getProject } from "../actions/index";
 
 class Project extends Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
     this.state = {
-      project: {},
+      // project: {},
       err: "",
       loading: true,
     };
@@ -32,45 +32,51 @@ class Project extends Component {
   };
 
   getProjectAndTasks = () => {
-    axios
-      .get(`http://localhost:2104/project/${this.props.projectId}`)
-      .then((r) => {
-        console.log("getProjectAndTasks:", r.data);
-        this.setState({
-          project: r.data,
-          err: "",
-        });
-        return r.data;
-      })
-      .then(({ tasks }) => {
-        this.setState({
-          loading: false,
-        });
-        console.log(tasks);
-        this.props.setTasks(tasks);
-      })
-      .catch((e) => {
-        console.log(e);
-        if (!e.response) {
-          this.setState({
-            loading: true,
-            err: e,
-          });
-        } else
-          this.setState({
-            loading: true,
-            err: e,
-          });
-      });
+    this.props.getProject(this.props.projectId);
+    this.setState({
+      loading: false,
+    });
+    // axios
+    //   .get(`http://localhost:2104/project/${this.props.projectId}`)
+    //   .then((r) => {
+    //     console.log("getProjectAndTasks:", r.data);
+    //     this.setState({
+    //       project: r.data,
+    //       err: "",
+    //     });
+    //     this.props.setTasks(r.data.tasks);
+    //     return r.data;
+    //   })
+    //   .then(({ tasks }) => {
+    //     this.setState({
+    //       tasks: this.props.tasks,
+    //       loading: false,
+    //     });
+    //   })
+    //   .catch((e) => {
+    //     console.log(e);
+    //     if (!e.response) {
+    //       this.setState({
+    //         loading: true,
+    //         err: e,
+    //       });
+    //     } else
+    //       this.setState({
+    //         loading: true,
+    //         err: e,
+    //       });
+    //   });
   };
 
   render() {
-    const { name, tasks } = this.state.project;
+    const { tasks } = this.props;
 
     return (
       <div className="container">
         <div className="space">
-          <h2 className="story">{name ? name : "Loading..."}</h2>
+          <h2 className="story">
+            {this.props.project ? this.props.project.name : "Loading..."}
+          </h2>
         </div>
         <div className="row">
           <div className="col-sm mcell mcolor1">
@@ -129,11 +135,12 @@ class Project extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  project: state.project,
   tasks: state.tasks,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setTasks: (tasks) => dispatch(setTasks(tasks)),
+  getProject: (id) => dispatch(getProject(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Project);

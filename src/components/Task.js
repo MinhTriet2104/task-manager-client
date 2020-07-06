@@ -1,17 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
-import axios from "axios";
+// import axios from "axios";
 import $ from "jquery";
 import "jquery-ui-dist/jquery-ui";
 
 import Loader from "./Loader";
 
-import { deleteTask } from "../actions/index";
+import { deleteTaskRequest } from "../actions/index";
 
 class Task extends Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
   componentDidUpdate(prevProps) {
-    if (this.props.loading !== prevProps.loading) {
+    if (this.props.tasks !== prevProps.tasks) {
       $(".mcell-task").draggable({
         appendTo: "body",
         cursor: "move",
@@ -33,16 +39,8 @@ class Task extends Component {
   }
 
   handleDelete = (id) => {
-    axios
-      .delete("http://localhost:2104/task/" + id)
-      .then(function (response) {
-        if (response.status === 200) alert("Deleted");
-        console.log(response);
-      })
-      .then(() => {})
-      .catch(function (error) {
-        console.log(error);
-      });
+    this.props.deleteTaskRequest(id);
+    alert("Deleted");
   };
 
   render() {
@@ -100,12 +98,12 @@ class Task extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  tasks: state.tasks,
-});
+// const mapStateToProps = (state) => ({
+//   tasks: state.tasks,
+// });
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteTask: (id) => dispatch(deleteTask(id)),
+  deleteTaskRequest: (id) => dispatch(deleteTaskRequest(id)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Task);
+export default connect(null, mapDispatchToProps)(Task);

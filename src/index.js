@@ -14,7 +14,11 @@ import "./styles.css";
 
 const history = createBrowserHistory();
 
-const store = createStore(reducer, compose(applyMiddleware(thunk)));
+const composeEnhancers =
+  (typeof window !== "undefined" &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+  compose;
+const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
 
 const IndexPage = () => {
   return (

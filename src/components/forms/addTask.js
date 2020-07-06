@@ -67,9 +67,6 @@ class AddModal extends React.Component {
           err: "",
         });
       })
-      .then((r) => {
-        console.log(this.state.users);
-      })
       .catch((e) => {
         this.setState({
           err: e,
@@ -159,7 +156,7 @@ class AddModal extends React.Component {
                 type="select"
                 name="assignee"
                 id="assignee"
-                value={this.state.assignee}
+                defaultValue={this.state.assignee}
                 onChange={this.handleInput.bind(this)}
               >
                 <option value="" disabled>
@@ -174,7 +171,7 @@ class AddModal extends React.Component {
                 type="select"
                 name="color"
                 id="color"
-                value={this.state.difficult}
+                defaultValue={this.state.difficult}
                 onChange={this.handleInput.bind(this)}
               >
                 <option value="" disabled>
