@@ -90,6 +90,10 @@ class Project extends Component {
               />
             </div>
             <Task tasks={tasks} loading={this.state.loading} filter="1" />
+            <button className="btnAdd">
+              <i className="fas fa-plus customAddTask btn-icon"></i>
+              Add a task{" "}
+            </button>
           </div>
           <div className="col-sm mcell mcolor2">
             <div className="mcell-title story">
@@ -102,6 +106,10 @@ class Project extends Component {
               />
             </div>
             <Task tasks={tasks} loading={this.state.loading} filter="2" />
+            <button className="btnAdd">
+              <i className="fas fa-plus customAddTask btn-icon"></i>
+              Add a task{" "}
+            </button>
           </div>
 
           <div className="col-sm mcell mcolor3">
@@ -115,6 +123,10 @@ class Project extends Component {
               />{" "}
             </div>
             <Task tasks={tasks} loading={this.state.loading} filter="3" />
+            <button className="btnAdd">
+              <i className="fas fa-plus customAddTask btn-icon"></i>
+              Add a task{" "}
+            </button>
           </div>
           <div className="col-sm mcell mcolor4">
             <div className="mcell-title story">
@@ -127,6 +139,10 @@ class Project extends Component {
               />{" "}
             </div>
             <Task tasks={tasks} loading={this.state.loading} filter="4" />
+            <button className="btnAdd">
+              <i className="fas fa-plus customAddTask btn-icon"></i>
+              Add a task{" "}
+            </button>
           </div>
         </div>
       </div>

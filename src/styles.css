@@ -207,6 +207,7 @@ li .active:before {
   border-radius: 0 0 4px 4px;
   display: inline-table;
   box-shadow: 0px 3px 5px #bababa7d;
+  padding-bottom: 50px;
 }
 
 .mcolor1:before,
@@ -234,6 +235,60 @@ li .active:before {
 .mcolor4:before {
   background: linear-gradient(to right, #76d2a6 0%, #79d3eb 100%);
 }
+
+/* code Văn thêm */
+.task-name{
+  font-weight: bold !important;
+  font-size: larger !important;
+}
+#icTitle {
+  transform: rotate(90deg);
+  position: absolute;
+  top: 76px;
+  height: 45px;
+  left: 35px;
+}
+.icDelete {
+  padding-right: 6px !important;
+}
+.icComent {
+  padding-left: 10px;
+  cursor: pointer;
+}
+.icDif {
+  float: left;
+  cursor: pointer;
+  width: 15px;
+  position: relative;
+  left: 2px;
+  bottom: -7px;
+  height: 14px;
+}
+.numCmt, .numDif {
+  display: inline-flex;
+  padding-left: 10px;
+}
+.btn-icon {
+  top: 0px;
+  padding: 10px 5px;
+}
+.btnAdd {
+  background-color: transparent;
+  color: gray;
+  border: none;
+  width: 91%;
+  text-align: left;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 0px;
+  margin: 10px auto;
+  cursor: pointer;
+}
+.btnAdd:hover {
+  background-color: rgb(132, 128, 128);
+  color: #e2dfdf;
+}
+/* code Văn thêm ở trên */
 .mcell-title {
   background-color: #f6f8fc;
   font-size: 15px;
@@ -272,25 +327,29 @@ li .active:before {
 }
 .task-name {
   font-size: 19px;
+  padding-top: 15px;
 }
 .task-details {
   font-size: 13px;
 }
 .task-contributors {
   text-align: right;
-  display: inline-block;
   width: 50%;
+  display: inline-block;
+  right: -61px;
+  position: relative;
+  bottom: 6px;
 }
 .task-due {
   display: inline-block;
   width: 48%;
   font-weight: normal;
-  font-size: 16px;
+  font-size: 13px;
 }
 .task-contributors img {
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
 }
 .task-contributors span {
   text-align: left;

@@ -60,10 +60,11 @@ class Task extends Component {
           return (
             <li id={task._id} className="mcell-task" key={index}>
               <span className="task-name">
-                <span>{task.name}</span>
+                <div className={"colorGreen"} id="icTitle" />
+                <span >{task.name}</span>
                 <i
                   id="delete"
-                  className="fas fa-times"
+                  className="far fa-trash-alt icDelete"
                   onClick={() => this.handleDelete(task._id)}
                 ></i>
               </span>
@@ -76,7 +77,62 @@ class Task extends Component {
                 <span className="task-due">
                   {moment(task.dueDate).format("DD.MM.YYYY")}
                 </span>
-                <span className="task-contributors">
+                
+              </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 40 40"
+                width="40pt"
+                height="40pt"
+                className="icDif"
+              >
+                <rect
+                  x="0"
+                  y="1"
+                  width="40"
+                  height="4"
+                  transform="matrix(1,0,0,1,0,0)"
+                  fill="rgb(0,0,0)"
+                />
+                <rect
+                  x="0"
+                  y="9"
+                  width="35"
+                  height="4"
+                  transform="matrix(1,0,0,1,0,0)"
+                  fill="rgb(0,0,0)"
+                />
+                <rect
+                  x="0"
+                  y="17"
+                  width="30"
+                  height="4"
+                  transform="matrix(1,0,0,1,0,0)"
+                  fill="rgb(0,0,0)"
+                />
+                <rect
+                  x="0"
+                  y="25"
+                  width="25"
+                  height="4"
+                  transform="matrix(1,0,0,1,0,0)"
+                  fill="rgb(0,0,0)"
+                />
+                <rect
+                  x="0"
+                  y="33"
+                  width="21"
+                  height="4"
+                  transform="matrix(1,0,0,1,0,0)"
+                  fill="rgb(0,0,0)"
+                />
+              </svg>
+              <span>
+                <div className="numDif"> 1</div>
+                <i className="far fa-comment icComent"></i>
+                <div className="numCmt"> 1</div>
+              </span> 
+              <span className="task-contributors">
                   <img
                     alt={task.assignee.username}
                     title={task.assignee.username}
@@ -87,8 +143,6 @@ class Task extends Component {
                     }
                   />
                 </span>
-              </div>
-              <div className={"colorGreen"} />
               {/* <ModalExampleDimmer propContent={task} classType="btnDashboard" /> */}
             </li>
           );
