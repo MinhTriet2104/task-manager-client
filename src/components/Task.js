@@ -7,7 +7,7 @@ import "jquery-ui-dist/jquery-ui";
 
 import Loader from "./Loader";
 
-import { deleteTaskRequest } from "../actions/index";
+import { deleteTaskRequest, updateStatusTaskRequest } from "../actions/index";
 
 class Task extends Component {
   constructor(props, context) {
@@ -18,6 +18,8 @@ class Task extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.tasks !== prevProps.tasks) {
+      const me = this;
+
       $(".mcell-task").draggable({
         appendTo: "body",
         cursor: "move",
@@ -32,7 +34,11 @@ class Task extends Component {
         hoverClass: "ui-state-hover",
         drop: function (event, ui) {
           $(this).append($(ui.draggable));
-          console.log($(this).find("li").attr("id"));
+          const status = +this.getAttribute("status");
+          const taskId = [...this.childNodes].find(
+            (child) => child.tagName === "LI"
+          ).id;
+          me.props.updateStatusTaskRequest(taskId, status);
         },
       });
     }
@@ -61,7 +67,7 @@ class Task extends Component {
             <li id={task._id} className="mcell-task" key={index}>
               <span className="task-name">
                 <div className={"colorGreen"} id="icTitle" />
-                <span >{task.name}</span>
+                <span>{task.name}</span>
                 <i
                   id="delete"
                   className="far fa-trash-alt icDelete"
@@ -75,9 +81,8 @@ class Task extends Component {
               </span>
               <div>
                 <span className="task-due">
-                  {moment(task.dueDate).format("DD.MM.YYYY")}
+                  {moment(task.dueDate).format("DD/MM/YYYY")}
                 </span>
-                
               </div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -131,18 +136,18 @@ class Task extends Component {
                 <div className="numDif"> 1</div>
                 <i className="far fa-comment icComent"></i>
                 <div className="numCmt"> 1</div>
-              </span> 
+              </span>
               <span className="task-contributors">
-                  <img
-                    alt={task.assignee.username}
-                    title={task.assignee.username}
-                    src={
-                      task.assignee.avatar
-                        ? task.assignee.avatar
-                        : "https://i.imgur.com/5bh5qpe.jpg"
-                    }
-                  />
-                </span>
+                <img
+                  alt={task.assignee.username}
+                  title={task.assignee.username}
+                  src={
+                    task.assignee.avatar
+                      ? task.assignee.avatar
+                      : "https://i.imgur.com/5bh5qpe.jpg"
+                  }
+                />
+              </span>
               {/* <ModalExampleDimmer propContent={task} classType="btnDashboard" /> */}
             </li>
           );
@@ -158,6 +163,8 @@ class Task extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   deleteTaskRequest: (id) => dispatch(deleteTaskRequest(id)),
+  updateStatusTaskRequest: (id, status) =>
+    dispatch(updateStatusTaskRequest(id, status)),
 });
 
 export default connect(null, mapDispatchToProps)(Task);

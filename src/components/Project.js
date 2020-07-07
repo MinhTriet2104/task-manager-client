@@ -12,7 +12,7 @@ class Project extends Component {
     super(props);
     this.state = {
       // project: {},
-      err: "",
+      // err: "",
       loading: true,
     };
 
@@ -36,36 +36,6 @@ class Project extends Component {
     this.setState({
       loading: false,
     });
-    // axios
-    //   .get(`http://localhost:2104/project/${this.props.projectId}`)
-    //   .then((r) => {
-    //     console.log("getProjectAndTasks:", r.data);
-    //     this.setState({
-    //       project: r.data,
-    //       err: "",
-    //     });
-    //     this.props.setTasks(r.data.tasks);
-    //     return r.data;
-    //   })
-    //   .then(({ tasks }) => {
-    //     this.setState({
-    //       tasks: this.props.tasks,
-    //       loading: false,
-    //     });
-    //   })
-    //   .catch((e) => {
-    //     console.log(e);
-    //     if (!e.response) {
-    //       this.setState({
-    //         loading: true,
-    //         err: e,
-    //       });
-    //     } else
-    //       this.setState({
-    //         loading: true,
-    //         err: e,
-    //       });
-    //   });
   };
 
   render() {
@@ -79,7 +49,7 @@ class Project extends Component {
           </h2>
         </div>
         <div className="row">
-          <div className="col-sm mcell mcolor1">
+          <div className="col-sm mcell mcolor1" status="1">
             <div className="mcell-title story">
               <b className="fas fa-lightbulb" /> Backlog
               <Tooltips
@@ -95,7 +65,7 @@ class Project extends Component {
               Add a task{" "}
             </button>
           </div>
-          <div className="col-sm mcell mcolor2">
+          <div className="col-sm mcell mcolor2" status="2">
             <div className="mcell-title story">
               <b className="fas fa-bars" /> TODO
               <Tooltips
@@ -112,7 +82,7 @@ class Project extends Component {
             </button>
           </div>
 
-          <div className="col-sm mcell mcolor3">
+          <div className="col-sm mcell mcolor3" status="3">
             <div className="mcell-title story">
               <b className="fas fa-spinner"></b> In Progress
               <Tooltips
@@ -128,7 +98,7 @@ class Project extends Component {
               Add a task{" "}
             </button>
           </div>
-          <div className="col-sm mcell mcolor4">
+          <div className="col-sm mcell mcolor4" status="4">
             <div className="mcell-title story">
               <b className="fas fa-check" /> Done
               <Tooltips

@@ -37,3 +37,15 @@ export const deleteTask = (id) => ({
   type: types.DELETE_TASK,
   id,
 });
+
+export const updateStatusTaskRequest = (id, status) => async (dispatch) => {
+  const res = await axios.patch("http://localhost:2104/task/" + id, {
+    status: status,
+  });
+  dispatch(updateStatusTask(res.data));
+};
+
+export const updateStatusTask = (task) => ({
+  type: types.UPDATE_STATUS_TASK,
+  task,
+});
