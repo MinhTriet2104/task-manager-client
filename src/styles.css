@@ -241,21 +241,21 @@ li .active:before {
   font-weight: bold !important;
   font-size: larger !important;
 }
-#icTitle {
+#icon-title {
   transform: rotate(90deg);
   position: absolute;
   top: 76px;
   height: 45px;
   left: 35px;
 }
-.icDelete {
+.icon-delete {
   padding-right: 6px !important;
 }
-.icComent {
+.icon-coment {
   padding-left: 10px;
   cursor: pointer;
 }
-.icDif {
+.icon-dificult {
   float: left;
   cursor: pointer;
   width: 15px;
@@ -264,7 +264,7 @@ li .active:before {
   bottom: -7px;
   height: 14px;
 }
-.numCmt, .numDif {
+.number-comment, .number-dificult {
   display: inline-flex;
   padding-left: 10px;
 }
@@ -272,7 +272,7 @@ li .active:before {
   top: 0px;
   padding: 10px 5px;
 }
-.btnAdd {
+.btn-add {
   background-color: transparent;
   color: gray;
   border: none;
@@ -284,7 +284,7 @@ li .active:before {
   margin: 10px auto;
   cursor: pointer;
 }
-.btnAdd:hover {
+.btn-add:hover {
   background-color: rgb(132, 128, 128);
   color: #e2dfdf;
 }
@@ -336,7 +336,7 @@ li .active:before {
   text-align: right;
   width: 50%;
   display: inline-block;
-  right: -61px;
+  right: -65px;
   position: relative;
   bottom: 6px;
 }
