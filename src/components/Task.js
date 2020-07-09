@@ -104,11 +104,11 @@ class Task extends Component {
           return (
             <li id={task._id} className="mcell-task" key={index}>
               <span className="task-name">
-                <div className={"colorGreen"} id="icTitle" />
-                <span>{task.name}</span>
+                <div className={"colorGreen"} id="icon-title" />
+                <span >{task.name}</span>
                 <i
                   id="delete"
-                  className="far fa-trash-alt icDelete"
+                  className="far fa-trash-alt icon-delete"
                   onClick={() => this.handleDelete(task._id)}
                 ></i>
               </span>
@@ -127,7 +127,7 @@ class Task extends Component {
                 viewBox="0 0 40 40"
                 width="40pt"
                 height="40pt"
-                className="icDif"
+                className="icon-dificult"
               >
                 <rect
                   x="0"
@@ -171,9 +171,9 @@ class Task extends Component {
                 />
               </svg>
               <span>
-                <div className="numDif"> 1</div>
-                <i className="far fa-comment icComent"></i>
-                <div className="numCmt"> 1</div>
+                <div className="number-dificult"> 1</div>
+                <i className="far fa-comment icon-coment"></i>
+                <div className="number-comment"> 1</div>
               </span>
               <span className="task-contributors">
                 <img
