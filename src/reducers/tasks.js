@@ -14,7 +14,7 @@ const tasks = (state = initialState, action) => {
       return [...state.slice(0, index), ...state.slice(index + 1)];
     }
     case types.UPDATE_STATUS_TASK: {
-      const { id, status } = action.task;
+      const { id, status } = action;
       const findItem = state.find((item) => item._id === id);
       const index = state.indexOf(findItem);
       return [

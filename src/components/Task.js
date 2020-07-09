@@ -12,13 +12,26 @@ import { deleteTaskRequest, updateStatusTaskRequest } from "../actions/index";
 class Task extends Component {
   constructor(props, context) {
     super(props, context);
+    this.state = {
+      tasks: [],
+    };
 
     this.handleDelete = this.handleDelete.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.tasks !== prevProps.tasks) {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.tasks !== prevState.tasks) {
+      return { tasks: nextProps.tasks };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.tasks !== this.state.tasks) {
       const me = this;
+      this.setState({
+        tasks: me.props.tasks,
+      });
 
       $(".mcell-task").draggable({
         appendTo: "body",
@@ -34,23 +47,48 @@ class Task extends Component {
         hoverClass: "ui-state-hover",
         drop: function (event, ui) {
           $(this).append($(ui.draggable));
+
+          const { tasks } = me.state;
           const status = +this.getAttribute("status");
           const taskId = [...this.childNodes].find(
             (child) => child.tagName === "LI"
           ).id;
+
           me.props.updateStatusTaskRequest(taskId, status);
+
+          const findItem = tasks.find((item) => item._id === taskId);
+          const index = tasks.indexOf(findItem);
+          me.setState({
+            tasks: [
+              ...tasks.slice(0, index),
+              {
+                ...findItem,
+                status: status,
+              },
+              ...tasks.slice(index + 1),
+            ],
+          });
         },
       });
     }
   }
 
-  handleDelete = (id) => {
+  handleDelete = async (id) => {
     this.props.deleteTaskRequest(id);
-    alert("Deleted");
+    const { tasks } = this.state;
+    const findItem = tasks.find((item) => item._id === id);
+    const index = tasks.indexOf(findItem);
+    this.setState(
+      {
+        tasks: [...tasks.slice(0, index), ...tasks.slice(index + 1)],
+      },
+      () => alert("Deleted")
+    );
   };
 
   render() {
-    const { tasks, loading, filter } = this.props;
+    const { loading, filter } = this.props;
+    const { tasks } = this.state;
     let content;
 
     if (loading) {

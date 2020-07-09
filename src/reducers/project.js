@@ -2,7 +2,7 @@ import * as types from "../constants/ActionTypes";
 
 const initialState = {};
 
-const tasks = (state = initialState, action) => {
+const project = (state = initialState, action) => {
   switch (action.type) {
     case types.SET_PROJECT:
       return { ...action.project };
@@ -11,4 +11,4 @@ const tasks = (state = initialState, action) => {
   }
 };
 
-export default tasks;
+export default project;

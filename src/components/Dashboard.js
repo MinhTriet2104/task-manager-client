@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
@@ -7,6 +8,8 @@ import Project from "./Project";
 import AddStory from "./forms/addStory";
 import Loader from "./Loader";
 import Header from "./common/Header";
+
+import { setLoadingProject } from "../actions/index";
 
 class Dashboard extends Component {
   constructor(props, context) {
@@ -18,7 +21,7 @@ class Dashboard extends Component {
       err: "",
       // err2: "",
       // loading: true,
-      loadingProject: true,
+      // loadingProject: true,
     };
 
     this.getProjects = this.getProjects.bind(this);
@@ -43,21 +46,16 @@ class Dashboard extends Component {
         });
       })
       .then(() => {
-        this.setState({
-          loadingProject: false,
-        });
+        this.props.setLoadingProject(false);
       })
       .catch((e) => {
-        this.setState({
-          loadingProject: false,
-          err: e,
-        });
+        this.props.setLoadingProject(true);
       });
   };
 
   render() {
-    let { projects, loadingProject } = this.state;
-    const { match } = this.props;
+    let { projects } = this.state;
+    const { match, loadingProject } = this.props;
     let storyTable, projectRender;
 
     if (!loadingProject) {
@@ -122,4 +120,13 @@ class Dashboard extends Component {
     );
   }
 }
-export default Dashboard;
+
+const mapStateToProps = (state) => ({
+  loadingProject: state.loading.loadingProject,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setLoadingProject: (status) => dispatch(setLoadingProject(status)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

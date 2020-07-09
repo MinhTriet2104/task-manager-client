@@ -5,16 +5,16 @@ import { connect } from "react-redux";
 import Task from "./Task";
 import Tooltips from "./Tooltip";
 
-import { getProject } from "../actions/index";
+import { getProject, setLoadingTask } from "../actions/index";
 
 class Project extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      // project: {},
-      // err: "",
-      loading: true,
-    };
+    // this.state = {
+    //   // project: {},
+    //   // err: "",
+    //   loading: true,
+    // };
 
     this.getProjectAndTasks = this.getProjectAndTasks.bind(this);
   }
@@ -33,13 +33,11 @@ class Project extends Component {
 
   getProjectAndTasks = () => {
     this.props.getProject(this.props.projectId);
-    this.setState({
-      loading: false,
-    });
+    this.props.setLoadingTask(false);
   };
 
   render() {
-    const { tasks } = this.props;
+    const { tasks, loadingTask } = this.props;
 
     return (
       <div className="container">
@@ -59,7 +57,7 @@ class Project extends Component {
                 projectId={this.props.projectId}
               />
             </div>
-            <Task tasks={tasks} loading={this.state.loading} filter="1" />
+            <Task tasks={tasks} loading={loadingTask} filter="1" />
             <button className="btnAdd">
               <i className="fas fa-plus customAddTask btn-icon"></i>
               Add a task{" "}
@@ -75,7 +73,7 @@ class Project extends Component {
                 projectId={this.props.projectId}
               />
             </div>
-            <Task tasks={tasks} loading={this.state.loading} filter="2" />
+            <Task tasks={tasks} loading={loadingTask} filter="2" />
             <button className="btnAdd">
               <i className="fas fa-plus customAddTask btn-icon"></i>
               Add a task{" "}
@@ -92,7 +90,7 @@ class Project extends Component {
                 projectId={this.props.projectId}
               />{" "}
             </div>
-            <Task tasks={tasks} loading={this.state.loading} filter="3" />
+            <Task tasks={tasks} loading={loadingTask} filter="3" />
             <button className="btnAdd">
               <i className="fas fa-plus customAddTask btn-icon"></i>
               Add a task{" "}
@@ -108,7 +106,7 @@ class Project extends Component {
                 projectId={this.props.projectId}
               />{" "}
             </div>
-            <Task tasks={tasks} loading={this.state.loading} filter="4" />
+            <Task tasks={tasks} loading={loadingTask} filter="4" />
             <button className="btnAdd">
               <i className="fas fa-plus customAddTask btn-icon"></i>
               Add a task{" "}
@@ -123,10 +121,12 @@ class Project extends Component {
 const mapStateToProps = (state) => ({
   project: state.project,
   tasks: state.tasks,
+  loadingTask: state.loading.loadingTask,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getProject: (id) => dispatch(getProject(id)),
+  setLoadingTask: (status) => dispatch(setLoadingTask(status)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Project);
