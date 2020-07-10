@@ -58,7 +58,7 @@ class Project extends Component {
               />
             </div>
 
-            <Task tasks={tasks} loading={this.state.loading} filter="1" />
+            <Task tasks={tasks} loading={loadingTask} filter="1" />
             <button className="btn-add">
               <i className="fas fa-plus customAddTask btn-icon"></i>
               Add a task{" "}
@@ -74,7 +74,7 @@ class Project extends Component {
                 projectId={this.props.projectId}
               />
             </div>
-            <Task tasks={tasks} loading={this.state.loading} filter="2" />
+            <Task tasks={tasks} loading={loadingTask} filter="2" />
             <button className="btn-add">
               <i className="fas fa-plus customAddTask btn-icon"></i>
               Add a task{" "}
@@ -91,7 +91,7 @@ class Project extends Component {
                 projectId={this.props.projectId}
               />{" "}
             </div>
-            <Task tasks={tasks} loading={this.state.loading} filter="3" />
+            <Task tasks={tasks} loading={loadingTask} filter="3" />
             <button className="btn-add">
               <i className="fas fa-plus customAddTask btn-icon"></i>
               Add a task{" "}
@@ -107,7 +107,7 @@ class Project extends Component {
                 projectId={this.props.projectId}
               />{" "}
             </div>
-            <Task tasks={tasks} loading={this.state.loading} filter="4" />
+            <Task tasks={tasks} loading={loadingTask} filter="4" />
             <button className="btn-add">
               <i className="fas fa-plus customAddTask btn-icon"></i>
               Add a task{" "}
