@@ -105,7 +105,7 @@ class Task extends Component {
             <li id={task._id} className="mcell-task" key={index}>
               <span className="task-name">
                 <div className={"colorGreen"} id="icon-title" />
-                <span >{task.name}</span>
+                <span>{task.name}</span>
                 <i
                   id="delete"
                   className="far fa-trash-alt icon-delete"
@@ -186,7 +186,6 @@ class Task extends Component {
                   }
                 />
               </span>
-              {/* <ModalExampleDimmer propContent={task} classType="btnDashboard" /> */}
             </li>
           );
         });

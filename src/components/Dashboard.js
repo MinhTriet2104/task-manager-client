@@ -4,24 +4,35 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 
-import Project from "./Project";
+import Board from "react-trello";
+// import Project from "./Project";
+import CustomCard from "./CustomCard";
 import AddStory from "./forms/addStory";
 import Loader from "./Loader";
 import Header from "./common/Header";
 
-import { setLoadingProject } from "../actions/index";
+import { getProject, setLoadingProject } from "../actions/index";
+
+const handleDragStart = (cardId, laneId) => {
+  console.log("drag started");
+  console.log(`cardId: ${cardId}`);
+  console.log(`laneId: ${laneId}`);
+};
+
+const handleDragEnd = (cardId, sourceLaneId, targetLaneId) => {
+  console.log("drag ended");
+  console.log(`cardId: ${cardId}`);
+  console.log(`sourceLaneId: ${sourceLaneId}`);
+  console.log(`targetLaneId: ${targetLaneId}`);
+};
 
 class Dashboard extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      open: false,
-      show: true,
       projects: [],
+      project: this.props.project,
       err: "",
-      // err2: "",
-      // loading: true,
-      // loadingProject: true,
     };
 
     this.getProjects = this.getProjects.bind(this);
@@ -30,9 +41,28 @@ class Dashboard extends Component {
   componentDidMount = () => {
     // this.getStoryDetails();
     this.getProjects();
+    this.props.getProject(this.props.match.params.id);
     // setInterval(() => {
     //   this.getData();
     // }, 2000);
+  };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.project !== prevState.project) {
+      return { project: nextProps.project };
+    }
+    return null;
+  }
+
+  componentDidUpdate = (prevProps) => {
+    if (this.props.match.params.id !== prevProps.match.params.id) {
+      this.props.getProject(this.props.match.params.id);
+    }
+    if (this.props.project !== prevProps.project) {
+      this.setState({
+        project: this.props.project,
+      });
+    }
   };
 
   getProjects = () => {
@@ -45,25 +75,60 @@ class Dashboard extends Component {
           err: "",
         });
       })
-      .then(() => {
-        this.props.setLoadingProject(false);
-      })
       .catch((e) => {
         this.props.setLoadingProject(true);
       });
   };
 
   render() {
-    let { projects } = this.state;
-    const { match, loadingProject } = this.props;
-    let storyTable, projectRender;
+    const { projects } = this.state;
+    const { match, project, loadingProject } = this.props;
+    let projectList, boardRender;
 
     if (!loadingProject) {
-      const projectId = projects.find(
-        (project) => project._id === match.params.id
-      )._id;
+      const projectId = match.params.id;
+      const { tasks } = project;
 
-      storyTable = projects.map((project, index) => {
+      tasks.map((task) => (task.id = task._id));
+
+      const data = {
+        lanes: [
+          {
+            id: "lane-1",
+            title: "Pending",
+            style: {
+              width: 280,
+            },
+            cards: tasks.filter((task) => task.status === 1),
+          },
+          {
+            id: "lane-2",
+            title: "TODO",
+            style: {
+              width: 280,
+            },
+            cards: tasks.filter((task) => task.status === 2),
+          },
+          {
+            id: "lane-3",
+            title: "IN PROGRESS",
+            style: {
+              width: 280,
+            },
+            cards: tasks.filter((task) => task.status === 3),
+          },
+          {
+            id: "lane-4",
+            title: "Done",
+            style: {
+              width: 280,
+            },
+            cards: tasks.filter((task) => task.status === 4),
+          },
+        ],
+      };
+
+      projectList = projects.map((project, index) => {
         return (
           <li key={index}>
             <Link
@@ -77,16 +142,18 @@ class Dashboard extends Component {
         );
       });
 
-      projectRender = (
-        <Project
-          projectId={projectId}
-          // storyType={this.props.params.id}
-          // tasks={this.state.tasks}
-          // loading={this.state.loading}
+      boardRender = (
+        <Board
+          data={data}
+          draggable
+          // laneDraggable={false}
+          handleDragStart={handleDragStart}
+          handleDragEnd={handleDragEnd}
+          components={{ Card: CustomCard }}
         />
       );
     } else {
-      storyTable = (
+      projectList = (
         <li>
           <div className="loader">
             <Loader />
@@ -94,7 +161,7 @@ class Dashboard extends Component {
         </li>
       );
 
-      projectRender = (
+      boardRender = (
         <li>
           <div className="loader">
             <Loader />
@@ -107,14 +174,14 @@ class Dashboard extends Component {
       <div>
         <div className="side">
           <span className="logo">Task Manager</span>
-          <ul className="side-menu">{storyTable}</ul>
+          <ul className="side-menu">{projectList}</ul>
           <div className="otherMenu">
             <AddStory />
           </div>
         </div>
         <div className="con">
           <Header />
-          <aside>{projectRender}</aside>
+          <aside>{boardRender}</aside>
         </div>
       </div>
     );
@@ -123,10 +190,12 @@ class Dashboard extends Component {
 
 const mapStateToProps = (state) => ({
   loadingProject: state.loading.loadingProject,
+  project: state.project,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setLoadingProject: (status) => dispatch(setLoadingProject(status)),
+  getProject: (id) => dispatch(getProject(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
