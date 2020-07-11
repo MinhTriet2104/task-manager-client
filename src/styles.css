@@ -1,6 +1,7 @@
 body {
   background-color: #eef2f9;
   font-family: "PT Sans", sans-serif;
+  overflow-y: hidden;
 }
 header {
   background-color: #ffffff;
@@ -237,7 +238,7 @@ li .active:before {
 }
 
 /* code Văn thêm */
-.task-name{
+.task-name {
   font-weight: bold !important;
   font-size: larger !important;
 }
@@ -264,7 +265,8 @@ li .active:before {
   bottom: -7px;
   height: 14px;
 }
-.number-comment, .number-dificult {
+.number-comment,
+.number-dificult {
   display: inline-flex;
   padding-left: 10px;
 }
