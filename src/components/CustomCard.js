@@ -7,7 +7,7 @@ const CustomCard = ({
   description,
   dueDate,
   assignee,
-  onCardDelete,
+  onDelete,
 }) => {
   return (
     <div id={_id} className="mcell-task">
@@ -17,7 +17,7 @@ const CustomCard = ({
         <i
           id="delete"
           className="far fa-trash-alt icon-delete"
-          onClick={onCardDelete}
+          onClick={onDelete}
         ></i>
       </span>
       <span className="task-details">
