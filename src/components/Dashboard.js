@@ -4,6 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 
+// components
 import Board from "react-trello";
 // import Project from "./Project";
 import CustomCard from "./CustomCard";
@@ -11,9 +12,11 @@ import AddStory from "./forms/addStory";
 import Loader from "./Loader";
 import Header from "./common/Header";
 
+// action
 import {
   getProject,
   setLoadingProject,
+  deleteTaskRequest,
   updateStatusTaskRequest,
 } from "../actions/index";
 
@@ -81,7 +84,7 @@ class Dashboard extends Component {
   };
 
   onCardDelete = (cardId, laneId) => {
-    console.log("delete");
+    this.props.deleteTaskRequest(cardId);
   };
 
   render() {
@@ -102,6 +105,7 @@ class Dashboard extends Component {
             title: "Pending",
             style: {
               width: 280,
+              backgroundColor: "#ebecf0",
             },
             cards: tasks.filter((task) => task.status === 1),
           },
@@ -110,6 +114,7 @@ class Dashboard extends Component {
             title: "TODO",
             style: {
               width: 280,
+              backgroundColor: "#ebecf0",
             },
             cards: tasks.filter((task) => task.status === 2),
           },
@@ -118,6 +123,7 @@ class Dashboard extends Component {
             title: "IN PROGRESS",
             style: {
               width: 280,
+              backgroundColor: "#ebecf0",
             },
             cards: tasks.filter((task) => task.status === 3),
           },
@@ -126,6 +132,7 @@ class Dashboard extends Component {
             title: "Done",
             style: {
               width: 280,
+              backgroundColor: "#ebecf0",
             },
             cards: tasks.filter((task) => task.status === 4),
           },
@@ -205,6 +212,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setLoadingProject: (status) => dispatch(setLoadingProject(status)),
   getProject: (id) => dispatch(getProject(id)),
+  deleteTaskRequest: (id) => dispatch(deleteTaskRequest(id)),
   updateStatusTaskRequest: (id, status) =>
     dispatch(updateStatusTaskRequest(id, status)),
 });

@@ -253,9 +253,9 @@ li .active:before {
 .icon-delete {
   padding-right: 6px !important;
 }
-.icon-coment {
+.icon-comment {
   padding-left: 10px;
-  cursor: pointer;
+  /* cursor: pointer; */
 }
 .icon-dificult {
   float: left;
