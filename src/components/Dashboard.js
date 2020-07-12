@@ -91,8 +91,8 @@ class Dashboard extends Component {
           <aside>
             <Switch>
               <Route
-                path="/project"
                 exact
+                path="/project"
                 component={() => <h2>Select a Project</h2>}
               />
               <Route path="/project/:id" component={Board} />
