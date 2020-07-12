@@ -1,10 +1,10 @@
 import React from "react";
 import Dashboard from "./components/Dashboard";
 
-function App({ match }) {
+function App({ history }) {
   return (
     <div className="App">
-      <Dashboard match={match} />
+      <Dashboard history={history} />
     </div>
   );
 }

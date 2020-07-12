@@ -44,10 +44,10 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Switch>
-        <Route path="/project/:id" exact component={App} />
+        <Route path="/project" component={App} />
         <Route path="/about" exact component={About} />
         <Route path="/" exact component={IndexPage} />
-        <Route path="*" exact component={NotFoundPage} />
+        <Route path="*" component={NotFoundPage} />
       </Switch>
     </Router>
   </Provider>,

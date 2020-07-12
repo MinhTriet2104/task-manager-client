@@ -1,6 +1,6 @@
 import * as types from "../constants/ActionTypes";
 
-const initialState = {};
+const initialState = null;
 
 const project = (state = initialState, action) => {
   switch (action.type) {

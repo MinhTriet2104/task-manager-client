@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Route, Switch, Link } from "react-router-dom";
 import classNames from "classnames";
 
 // components
-import Board from "react-trello";
+import Board from "./Board";
 // import Project from "./Project";
-import CustomCard from "./CustomCard";
 import AddStory from "./forms/addStory";
 import Loader from "./Loader";
 import Header from "./common/Header";
@@ -20,18 +19,12 @@ import {
   updateStatusTaskRequest,
 } from "../actions/index";
 
-const handleDragStart = (cardId, laneId) => {
-  // console.log("drag started");
-  // console.log(`cardId: ${cardId}`);
-  // console.log(`laneId: ${laneId}`);
-};
-
 class Dashboard extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
       projects: [],
-      project: this.props.project,
+      loading: true,
       err: "",
     };
   }
@@ -39,29 +32,20 @@ class Dashboard extends Component {
   componentDidMount = () => {
     // this.getStoryDetails();
     this.getProjects();
-    this.props.getProject(this.props.match.params.id);
     // setInterval(() => {
     //   this.getData();
     // }, 2000);
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    // console.log("------------MATCH------------");
+    // console.log(nextProps.match.params.id);
+    // console.log(prevState.match.params.id);
     if (nextProps.project !== prevState.project) {
       return { project: nextProps.project };
     }
     return null;
   }
-
-  componentDidUpdate = (prevProps) => {
-    if (this.props.match.params.id !== prevProps.match.params.id) {
-      this.props.getProject(this.props.match.params.id);
-    }
-    if (this.props.project !== prevProps.project) {
-      this.setState({
-        project: this.props.project,
-      });
-    }
-  };
 
   getProjects = () => {
     axios
@@ -70,6 +54,7 @@ class Dashboard extends Component {
         console.log("getProjects", r.data);
         this.setState({
           projects: r.data,
+          loading: false,
           err: "",
         });
       })
@@ -88,63 +73,22 @@ class Dashboard extends Component {
   };
 
   render() {
-    const { projects } = this.state;
-    const { match, project, loadingProject } = this.props;
-    let projectList, boardRender;
+    const { projects, loading } = this.state;
+    const { project } = this.props;
+    let projectList;
 
-    if (!loadingProject) {
-      const projectId = match.params.id;
-      const { tasks } = project;
-
-      tasks.map((task) => (task.id = task._id));
-
-      const data = {
-        lanes: [
-          {
-            id: "lane-1",
-            title: "Pending",
-            style: {
-              width: 280,
-              backgroundColor: "#ebecf0",
-            },
-            cards: tasks.filter((task) => task.status === 1),
-          },
-          {
-            id: "lane-2",
-            title: "TODO",
-            style: {
-              width: 280,
-              backgroundColor: "#ebecf0",
-            },
-            cards: tasks.filter((task) => task.status === 2),
-          },
-          {
-            id: "lane-3",
-            title: "IN PROGRESS",
-            style: {
-              width: 280,
-              backgroundColor: "#ebecf0",
-            },
-            cards: tasks.filter((task) => task.status === 3),
-          },
-          {
-            id: "lane-4",
-            title: "Done",
-            style: {
-              width: 280,
-              backgroundColor: "#ebecf0",
-            },
-            cards: tasks.filter((task) => task.status === 4),
-          },
-        ],
-      };
+    if (!loading) {
+      let projectId;
+      if (project) projectId = project._id;
 
       projectList = projects.map((project, index) => {
         return (
           <li key={index}>
             <Link
-              to={`/project/${projectId}`}
-              className={classNames({ active: projectId === match.params.id })}
+              to={`/project/${project._id}`}
+              className={classNames({
+                active: project._id === projectId,
+              })}
             >
               <i className="fas fa-list-alt"></i>
               <span className="menu-text">{project.name}</span>
@@ -152,32 +96,8 @@ class Dashboard extends Component {
           </li>
         );
       });
-
-      boardRender = (
-        <Board
-          data={data}
-          style={{
-            backgroundColor: "transparent",
-            height: "calc(100vh - 58px)",
-          }}
-          draggable
-          // laneDraggable={false}
-          onCardDelete={this.onCardDelete}
-          handleDragStart={handleDragStart}
-          handleDragEnd={this.handleDragEnd}
-          components={{ Card: CustomCard }}
-        />
-      );
     } else {
       projectList = (
-        <li>
-          <div className="loader">
-            <Loader />
-          </div>
-        </li>
-      );
-
-      boardRender = (
         <li>
           <div className="loader">
             <Loader />
@@ -197,7 +117,16 @@ class Dashboard extends Component {
         </div>
         <div className="con">
           <Header />
-          <aside>{boardRender}</aside>
+          <aside>
+            <Switch>
+              <Route
+                path="/project"
+                exact
+                component={() => <h2>Select a Project</h2>}
+              />
+              <Route path="/project/:id" component={Board} />
+            </Switch>
+          </aside>
         </div>
       </div>
     );
