@@ -31,10 +31,10 @@ export const addTask = (task) => ({
 });
 
 export const deleteTaskRequest = (id) => async (dispatch) => {
-  dispatch(setLoadingProject(true));
+  // dispatch(setLoadingProject(true));
   const res = await axios.delete("http://localhost:2104/task/" + id);
   dispatch(deleteTask(res.data));
-  dispatch(setLoadingProject(false));
+  // dispatch(setLoadingProject(false));
 };
 
 export const deleteTask = (id) => ({
@@ -44,13 +44,13 @@ export const deleteTask = (id) => ({
 
 export const updateStatusTaskRequest = (id, status) => async (dispatch) => {
   // dispatch(setLoadingProject(true));
-  // const res = await axios.patch("http://localhost:2104/task/" + id, {
-  //   status: status,
-  // });
-  await axios.patch("http://localhost:2104/task/" + id, {
+  const res = await axios.patch("http://localhost:2104/task/" + id, {
     status: status,
   });
-  // dispatch(updateStatusTask(res.data));
+  // await axios.patch("http://localhost:2104/task/" + id, {
+  //   status: status,
+  // });
+  dispatch(updateStatusTask(res.data));
   // dispatch(setLoadingProject(false));
 };
 

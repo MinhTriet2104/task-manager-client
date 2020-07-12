@@ -12,7 +12,7 @@ const CustomCard = ({
   return (
     <div id={_id} className="mcell-task">
       <span className="task-name">
-        <div className={"colorGreen"} id="icon-title" />
+        {/* <div className={"colorGreen"} id="icon-title" /> */}
         <span>{name}</span>
         <i
           id="delete"

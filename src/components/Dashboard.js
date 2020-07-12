@@ -11,19 +11,16 @@ import AddStory from "./forms/addStory";
 import Loader from "./Loader";
 import Header from "./common/Header";
 
-import { getProject, setLoadingProject } from "../actions/index";
+import {
+  getProject,
+  setLoadingProject,
+  updateStatusTaskRequest,
+} from "../actions/index";
 
 const handleDragStart = (cardId, laneId) => {
-  console.log("drag started");
-  console.log(`cardId: ${cardId}`);
-  console.log(`laneId: ${laneId}`);
-};
-
-const handleDragEnd = (cardId, sourceLaneId, targetLaneId) => {
-  console.log("drag ended");
-  console.log(`cardId: ${cardId}`);
-  console.log(`sourceLaneId: ${sourceLaneId}`);
-  console.log(`targetLaneId: ${targetLaneId}`);
+  // console.log("drag started");
+  // console.log(`cardId: ${cardId}`);
+  // console.log(`laneId: ${laneId}`);
 };
 
 class Dashboard extends Component {
@@ -34,8 +31,6 @@ class Dashboard extends Component {
       project: this.props.project,
       err: "",
     };
-
-    this.getProjects = this.getProjects.bind(this);
   }
 
   componentDidMount = () => {
@@ -78,6 +73,15 @@ class Dashboard extends Component {
       .catch((e) => {
         this.props.setLoadingProject(true);
       });
+  };
+
+  handleDragEnd = (cardId, sourceLaneId, targetLaneId) => {
+    const status = targetLaneId.split("-")[1];
+    this.props.updateStatusTaskRequest(cardId, status);
+  };
+
+  onCardDelete = (cardId, laneId) => {
+    console.log("delete");
   };
 
   render() {
@@ -145,10 +149,15 @@ class Dashboard extends Component {
       boardRender = (
         <Board
           data={data}
+          style={{
+            backgroundColor: "transparent",
+            height: "calc(100vh - 58px)",
+          }}
           draggable
           // laneDraggable={false}
+          onCardDelete={this.onCardDelete}
           handleDragStart={handleDragStart}
-          handleDragEnd={handleDragEnd}
+          handleDragEnd={this.handleDragEnd}
           components={{ Card: CustomCard }}
         />
       );
@@ -171,7 +180,7 @@ class Dashboard extends Component {
     }
 
     return (
-      <div>
+      <div style={{ position: "relative" }}>
         <div className="side">
           <span className="logo">Task Manager</span>
           <ul className="side-menu">{projectList}</ul>
@@ -196,6 +205,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setLoadingProject: (status) => dispatch(setLoadingProject(status)),
   getProject: (id) => dispatch(getProject(id)),
+  updateStatusTaskRequest: (id, status) =>
+    dispatch(updateStatusTaskRequest(id, status)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
