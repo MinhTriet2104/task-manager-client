@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import axios from "axios";
 import { Route, Switch, Link } from "react-router-dom";
 import classNames from "classnames";
@@ -37,6 +38,7 @@ class Dashboard extends Component {
       .catch((e) => {
         this.setState({
           loading: true,
+          err: e,
         });
       });
   };
@@ -102,4 +104,8 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+const mapStateToProps = (state) => ({
+  project: state.project,
+});
+
+export default connect(mapStateToProps, null)(Dashboard);
