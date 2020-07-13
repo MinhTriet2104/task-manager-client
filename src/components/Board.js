@@ -14,8 +14,8 @@ import {
 
 export default ({ match }) => {
   const [data, setData] = useState({});
-  // const project = useSelector((state) => state.project);
-  const tasks = useSelector((state) => state.tasks);
+  const project = useSelector((state) => state.project);
+  // const tasks = useSelector((state) => state.tasks);
   const loading = useSelector((state) => state.loading.loadingProject);
   const dispatch = useDispatch();
 
@@ -24,9 +24,9 @@ export default ({ match }) => {
   }, [dispatch, match.params.id]);
 
   useEffect(() => {
-    if (tasks) {
-      tasks.map((task) => (task.id = task._id));
-      // const tasks = project.tasks;
+    if (project.tasks) {
+      project.tasks.map((task) => (task.id = task._id));
+      const tasks = project.tasks;
       setData({
         lanes: [
           {
@@ -68,7 +68,7 @@ export default ({ match }) => {
         ],
       });
     }
-  }, [tasks]);
+  }, [project]);
 
   useEffect(() => {
     console.log(data.lanes);
