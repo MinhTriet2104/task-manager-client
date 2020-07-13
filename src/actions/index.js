@@ -5,7 +5,7 @@ import * as types from "../constants/ActionTypes";
 export const getProject = (id) => async (dispatch) => {
   const res = await axios.get(`http://localhost:2104/project/${id}`);
   dispatch(setProject(res.data));
-  // dispatch(setTasks(res.data.tasks));
+  dispatch(setTasks(res.data.tasks));
   dispatch(setLoadingProject(false));
   // dispatch(setLoadingTask(false));
 };
@@ -54,9 +54,10 @@ export const updateStatusTaskRequest = (id, status) => async (dispatch) => {
   // dispatch(setLoadingProject(false));
 };
 
-export const updateStatusTask = (id) => ({
+export const updateStatusTask = ({ id, status }) => ({
   type: types.UPDATE_STATUS_TASK,
   id,
+  status,
 });
 
 export const setLoadingTask = (status) => ({
