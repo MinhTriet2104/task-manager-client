@@ -54,9 +54,10 @@ export const updateStatusTaskRequest = (id, status) => async (dispatch) => {
   // dispatch(setLoadingProject(false));
 };
 
-export const updateStatusTask = (id) => ({
+export const updateStatusTask = ({ id, status }) => ({
   type: types.UPDATE_STATUS_TASK,
   id,
+  status,
 });
 
 export const setLoadingTask = (status) => ({
