@@ -24,48 +24,21 @@ export default ({ match }) => {
   }, [dispatch, match.params.id]);
 
   useEffect(() => {
-    if (project.tasks) {
-      project.tasks.map((task) => (task.id = task._id));
-      const tasks = project.tasks;
+    if (project) {
+      const lanes = [];
+      project.lanes.forEach((lane) => {
+        lanes.push({
+          ...lane,
+          title: lane.name,
+          style: {
+            width: 280,
+            backgroundColor: "#ebecf0",
+          },
+          cards: lane.tasks,
+        });
+      });
       setData({
-        lanes: [
-          {
-            id: "lane-1",
-            title: "Pending",
-            style: {
-              width: 280,
-              backgroundColor: "#ebecf0",
-            },
-            cards: tasks.filter((task) => task.status === 1),
-          },
-          {
-            id: "lane-2",
-            title: "TODO",
-            style: {
-              width: 280,
-              backgroundColor: "#ebecf0",
-            },
-            cards: tasks.filter((task) => task.status === 2),
-          },
-          {
-            id: "lane-3",
-            title: "IN PROGRESS",
-            style: {
-              width: 280,
-              backgroundColor: "#ebecf0",
-            },
-            cards: tasks.filter((task) => task.status === 3),
-          },
-          {
-            id: "lane-4",
-            title: "Done",
-            style: {
-              width: 280,
-              backgroundColor: "#ebecf0",
-            },
-            cards: tasks.filter((task) => task.status === 4),
-          },
-        ],
+        lanes: lanes,
       });
     }
   }, [project]);
