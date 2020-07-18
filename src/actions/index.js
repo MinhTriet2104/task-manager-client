@@ -51,14 +51,14 @@ export const updateStatusTaskRequest = (
   sourceLaneId,
   targetLaneId
 ) => async (dispatch) => {
-  // const res = await axios.patch("http://localhost:2104/task/" + id, {
-  //   lane: lane,
-  //   sourceLaneId: sourceLaneId,
-  //   targetLaneId: targetLaneId,
-  // });
+  const res = await axios.patch("http://localhost:2104/task/" + id, {
+    tasks: lane.tasks.map((task) => task.id),
+    sourceLaneId: sourceLaneId,
+    targetLaneId: targetLaneId,
+  });
 
-  // dispatch(updateStatusTask(res.data, lane, sourceLaneId, targetLaneId));
-  dispatch(updateStatusTask(id, lane, sourceLaneId, targetLaneId));
+  dispatch(updateStatusTask(res.data, lane, sourceLaneId, targetLaneId));
+  // dispatch(updateStatusTask(id, lane, sourceLaneId, targetLaneId));
 };
 
 export const updateStatusTask = (id, lane, sourceLaneId, targetLaneId) => ({

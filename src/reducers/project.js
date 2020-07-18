@@ -44,7 +44,6 @@ const project = (state = initialState, action) => {
       const indexTargetLane = lanes.indexOf(findTargetLaneItem);
 
       if (sourceLaneId === targetLaneId) {
-        console.log("same");
         return {
           ...state,
           lanes: [
@@ -65,7 +64,6 @@ const project = (state = initialState, action) => {
       const indexTask = tasks.indexOf(findTaskItem);
 
       if (indexSrcLane < indexTargetLane) {
-        console.log("lower than");
         return {
           ...state,
           lanes: [
