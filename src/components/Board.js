@@ -13,7 +13,10 @@ import {
 } from "../actions/index";
 
 export default ({ match }) => {
-  const [data, setData] = useState({});
+  const [data, setData] = useState(null);
+  const [cardId, setCardId] = useState("");
+  const [sourceLaneId, setSourceLaneId] = useState("");
+  const [targetLaneId, setTargetLaneId] = useState("");
   const project = useSelector((state) => state.project);
   // const tasks = useSelector((state) => state.tasks);
   const loading = useSelector((state) => state.loading.loadingProject);
@@ -24,7 +27,7 @@ export default ({ match }) => {
   }, [dispatch, match.params.id]);
 
   useEffect(() => {
-    if (project) {
+    if (project && !data) {
       const lanes = [];
       project.lanes.forEach((lane) => {
         lanes.push({
@@ -44,11 +47,18 @@ export default ({ match }) => {
   }, [project]);
 
   useEffect(() => {
-    console.log(data.lanes);
+    if (data && cardId && sourceLaneId && targetLaneId) {
+      console.log(data);
+      const lane = data.lanes.find((lane) => lane.id === targetLaneId);
+      lane.tasks = lane.cards;
+      dispatch(
+        updateStatusTaskRequest(cardId, lane, sourceLaneId, targetLaneId)
+      );
+    }
   }, [data]);
 
   const onCardDelete = (cardId, laneId) => {
-    dispatch(deleteTaskRequest(cardId));
+    dispatch(deleteTaskRequest(cardId, laneId));
   };
 
   const handleDragStart = (cardId, laneId) => {
@@ -58,8 +68,15 @@ export default ({ match }) => {
   };
 
   const handleDragEnd = (cardId, sourceLaneId, targetLaneId) => {
-    const status = targetLaneId.split("-")[1];
-    dispatch(updateStatusTaskRequest(cardId, status));
+    setCardId(cardId);
+    setSourceLaneId(sourceLaneId);
+    setTargetLaneId(targetLaneId);
+    // dispatch(updateStatusTaskRequest(cardId, sourceLaneId, targetLaneId));
+  };
+
+  const onDataChange = (newData) => {
+    console.log("onDataChange");
+    setData(newData);
   };
 
   return loading ? (
@@ -80,6 +97,7 @@ export default ({ match }) => {
       onCardDelete={onCardDelete}
       handleDragStart={handleDragStart}
       handleDragEnd={handleDragEnd}
+      onDataChange={onDataChange}
       components={{ Card: CustomCard }}
     />
   );
