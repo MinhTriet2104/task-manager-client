@@ -6,7 +6,7 @@ import loading from "./loading";
 
 const reducer = combineReducers({
   project,
-  tasks,
+  // tasks,
   loading,
 });
 
