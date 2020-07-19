@@ -1,0 +1,44 @@
+@import "./Var.scss";
+
+.side {
+  position: $side-position;
+  left: $side-left;
+  top: $side-top;
+  bottom: $side-bottom;
+  min-height: $side-min-height;
+  background: $side-background;
+  min-width: $side-min-width;
+  box-shadow: $side-box-shadow;
+  .logo {
+    background-color: $logo-background-color;
+    display: $dashboard-logo-display;
+    text-align: $dashboard-logo-text-align;
+    font-size: $dashboard-logo-font-size;
+    line-height: $dashboard-logo-line-height;
+    color: $dashboard-logo-color;
+    font-weight: $dashboard-logo-font-weight;
+  }
+  .side-menu {
+    list-style-type: $side-menu-list-style-type;
+    padding: $side-menu-padding;
+    margin: $side-menu-margin;
+    li {
+      a {
+        color: $side-menu-li-a-color;
+        display: $side-menu-li-a-display;
+        padding: $side-menu-li-a-padding;
+      }
+      a:active {
+        color: $side-menu-li-a-active-color;
+      }
+    }
+  }
+  .other-Menu {
+    display: $otherMenu-display;
+    margin: $otherMenu-margin;
+    .btn-secondary {
+      background-color: $btn-secondary-background-color;
+      color: $btn-secondary-color;
+    }
+  }
+}

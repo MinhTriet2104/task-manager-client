@@ -22,7 +22,7 @@ class Tooltips extends Component {
     return (
       <span>
         <i
-          className="fas fa-question-circle"
+          className="fas fa-question-circle icon-question customAddTask"
           id={"Tooltip-" + this.props.id}
           data-toggle="tooltip"
         ></i>

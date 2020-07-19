@@ -1,0 +1,7 @@
+@import "./Var.scss";
+.modal-header {
+  .close {
+    font-size: $modal-header-close-font-size;
+    padding: $modal-header-close-padding;
+  }
+}

@@ -1,12 +1,14 @@
+@import "./styles/Var.scss";
 body {
-  background-color: #eef2f9;
+  background-color: #eef2f9 !important;
   font-family: "PT Sans", sans-serif;
   /* overflow-y: hidden; */
 }
 header {
-  background-color: #ffffff;
-  height: 58px;
-  box-shadow: 5px -5px 16px 5px #c8c8c8;
+  background-color: #f6f8fc;
+  font-size: 15px;
+  padding: 10px 10px 12px;
+  font-weight: bold;
 }
 ul {
   margin: 0;
@@ -180,8 +182,12 @@ li .active:before {
   margin: 15px 0 20px;
 }
 .customAddTask {
-  top: -22.5px;
-  position: relative;
+  top: 12.5px;
+  position: absolute;
+  right: 26px;
+}
+.icon-question {
+  right: 4px;
 }
 .modal-header .close {
   font-size: 35px;
@@ -193,6 +199,7 @@ li .active:before {
     overflow-x: hidden;
     max-height: 550px;
 }*/
+
 .story {
   color: #4c4d61 !important;
 }
@@ -204,7 +211,6 @@ li .active:before {
   cursor: pointer;
 }
 .mcell {
-  background-color: #f5f8fc;
   margin: 6px;
   border-radius: 0 0 4px 4px;
   display: inline-table;
@@ -239,11 +245,35 @@ li .active:before {
 }
 
 /* code Văn thêm */
+.react-trello-lane {
+  background-color: #ebecf0 !important;
+  margin: 6px;
+  border-radius: 10px;
+  display: inline-table;
+  box-shadow: 0px 3px 5px #bababa7d;
+  margin-top: 3%;
+  position: relative;
+  padding-bottom: 40px;
+}
+.react-trello-lane > header {
+  background: #ebecf0;
+}
+.mcell-title::before {
+  content: "";
+  background: linear-gradient(to right, #c774e9 0%, #dc6a84 100%);
+  position: absolute;
+  top: -13px;
+  width: 109%;
+  height: 4px;
+  left: -12px;
+  border-radius: 2px;
+}
+
 .task-name {
   font-weight: bold !important;
   font-size: larger !important;
 }
-#icon-title {
+.icon-title {
   transform: rotate(90deg);
   position: absolute;
   top: 76px;
@@ -253,23 +283,22 @@ li .active:before {
 .icon-delete {
   padding-right: 6px !important;
 }
-.icon-comment {
+.icon-coment {
   padding-left: 10px;
   /* cursor: pointer; */
 }
 .icon-dificult {
   float: left;
   cursor: pointer;
-  width: 15px;
+  width: 20px;
   position: relative;
-  left: 2px;
-  bottom: -7px;
-  height: 14px;
+  bottom: -9px;
+  height: 18px;
 }
 .number-comment,
 .number-dificult {
   display: inline-flex;
-  padding-left: 10px;
+  padding-left: 2px;
 }
 .btn-icon {
   top: 0px;
@@ -277,34 +306,51 @@ li .active:before {
 }
 .btn-add {
   background-color: transparent;
-  color: gray;
+  color: #5e6c84;
   border: none;
-  width: 91%;
+  width: 96%;
   text-align: left;
   border-radius: 5px;
-  position: absolute;
-  bottom: 0px;
   margin: 10px auto;
   cursor: pointer;
+  padding: 5px 10px;
+  user-select: none;
+  display: block;
 }
 .btn-add:hover {
-  background-color: rgb(132, 128, 128);
-  color: #e2dfdf;
+  background-color: rgba(9, 30, 66, 0.08);
+  color: #172b4d;
+}
+.mcell-task::before {
+  content: "";
+  background-color: #ff9f1a;
+  width: 40px;
+  height: 8px;
+  position: absolute;
+  top: 20px;
+  left: 4px;
+  border-radius: 20px;
+  padding: 0;
+}
+.icon-plus {
+  position: relative;
+  bottom: 3px;
+  float: left;
+  padding: 2px;
 }
 /* code Văn thêm ở trên */
 .mcell-title {
-  background-color: #f6f8fc;
   font-size: 15px;
-  margin: 0 -14px;
-  padding: 10px 10px 12px;
+  padding: 10px 10px 5px;
   font-weight: bold;
+  position: relative;
 }
 .mcell-task {
   background-color: #fff;
   padding: 4px 8px;
   margin: 10px -6px;
-  border-radius: 4px;
-  box-shadow: 2px 2px 8px #8080800d;
+  border-radius: 9px;
+  box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
   list-style-type: none;
 }
 .otherMenu div {
@@ -327,6 +373,7 @@ li .active:before {
 .task-contributors {
   display: block;
   font-weight: normal;
+  margin: 3px;
 }
 .task-name {
   font-size: 19px;
@@ -339,7 +386,7 @@ li .active:before {
   text-align: right;
   width: 50%;
   display: inline-block;
-  right: -65px;
+  right: -40px;
   position: relative;
   bottom: 6px;
 }
@@ -348,11 +395,12 @@ li .active:before {
   width: 48%;
   font-weight: normal;
   font-size: 13px;
+  margin: 3px;
 }
 .task-contributors img {
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
 }
 .task-contributors span {
   text-align: left;

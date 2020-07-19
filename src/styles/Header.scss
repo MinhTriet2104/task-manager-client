@@ -1,0 +1,44 @@
+@import "./Var.scss";
+header {
+  background-color: $header-background-color;
+  font-weight: $header-font-weight;
+  padding: $header-padding;
+  .containerDashboard {
+    padding-top: $containerDashboard-padding-top;
+
+    .mainMenu {
+      display: $mainMenu-display;
+      font-size: $mainMenu-font-size;
+      ul {
+        list-style-type: $mainMenu-ul-list-style-type;
+        border-bottom: $mainMenu-active-border-bottom;
+        padding-bottom: $mainMenu-active-padding-bottom;
+        li {
+          padding: $mainMenu-ul-li-padding;
+          display: $mainMenu-ul-li-display;
+          height: $mainMenu-ul-li-height;
+          margin: $mainMenu-ul-li-margin;
+          top: $mainMenu-ul-li-top;
+          position: $mainMenu-ul-li-position;
+          transition: $mainMenu-ul-li-transition;
+          .mainmenutext {
+            padding-left: $mainmenutext-ul-li-padding-left;
+          }
+        }
+      }
+    }
+    .profilewidget {
+      display: $profilewidget-display;
+      width: $profilewidget-width;
+      text-align: $profilewidget-text-align;
+      div {
+        i {
+          cursor: $profilewidget-div-i-cursor;
+          font-size: $profilewidget-div-i-font-size;
+          color: $profilewidget-div-i-color;
+          position: $profilewidget-div-i-position;
+        }
+      }
+    }
+  }
+}

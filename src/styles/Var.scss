@@ -1,0 +1,251 @@
+/* Variables Body */
+$body-background-color: #eef2f9 !important;
+$body-font-family: "PT Sans", sans-serif;
+
+/* Variables Con */
+$con-position: relative;
+$con-left: 184px;
+$con-width: calc(100% - 184px);
+
+/* Variables Header */
+$header-background-color: #f6f8fc;
+$header-font-weight: bold;
+$header-padding: 10px 10px 12px;
+
+/* Variales Header Main Menu*/
+$mainMenu-display: "inline-block";
+$mainMenu-font-size: 16px;
+$containerDashboard-padding-top: 10px;
+
+/* Variales Header Main Menu ul*/
+$mainMenu-ul-list-style-type: none;
+$mainMenu-active-border-bottom: 3px solid #007bff;
+$mainMenu-active-padding-bottom: 13px;
+
+/* Variales Header Main Menu ul li*/
+$mainMenu-ul-li-padding: 17px 13px 9px;
+$mainMenu-ul-li-display: inline-block;
+$mainMenu-ul-li-height: 58px;
+$mainMenu-ul-li-margin: -7px 5px;
+$mainMenu-ul-li-top: -3px;
+$mainMenu-ul-li-position: relative;
+$mainMenu-ul-li-transition: all 0.3s;
+
+/* Variales Header Main Menu ul li mainmenutext*/
+$mainmenutext-ul-li-padding-left: 10px;
+
+/* Variales Header profilewidget*/
+$profilewidget-display: inline-block;
+$profilewidget-width: 6%;
+$profilewidget-text-align: right;
+
+/* Variales Header profilewidget div i*/
+$profilewidget-div-i-cursor: pointer;
+$profilewidget-div-i-font-size: 24px;
+$profilewidget-div-i-color: #b8c9d3;
+$profilewidget-div-i-position: relative;
+
+/* Variables Dashboard */
+$side-position: absolute;
+$side-left: 0;
+$side-top: 0;
+$side-bottom: 0;
+$side-min-height: 100%;
+$side-background: #fff;
+$side-min-width: 184px;
+$side-box-shadow: -3px 0px 7px #535353;
+
+/* Variables Dashboard Side-menu*/
+$side-menu-list-style-type: none;
+$side-menu-padding: 0;
+$side-menu-margin: 0;
+
+/* Variables Dashboard Side-menu > li > a */
+$side-menu-li-a-display: block;
+$side-menu-li-a-padding: 15px;
+$side-menu-li-a-color: #7a7a7a;
+
+/* Variables Dashboard Side-menu > li > a::active */
+$side-menu-li-a-active-color: #007bff;
+
+/* Variables Dashboard otherMenu*/
+$otherMenu-display: grid;
+$otherMenu-margin: 13px;
+
+/* Variables Dashboard otherMenu btn-secondary*/
+$btn-secondary-background-color: #6c757d;
+$btn-secondary-color: #fff;
+$btn-secondary-border-color: #6c757d;
+
+/* Variables Dashboard logo*/
+$dashboard-logo-background-color: #007bff;
+$dashboard-logo-display: block;
+$dashboard-logo-text-align: center;
+$dashboard-logo-font-size: 22px;
+$dashboard-logo-line-height: 58px;
+$dashboard-logo-color: #fff;
+$dashboard-logo-font-weight: bold;
+
+/* Variables Board */
+$react-trello-board-background-color: transparent;
+$react-trello-board-color: #393939;
+$react-trello-board-height: calc(100vh - 58px);
+
+/* Variables React Trello Lane */
+$react-trello-lane-background-color: #f5f8fc !important;
+$react-trello-lane-box-shadow: 0px 3px 5px #bababa7d;
+$react-trello-lane-display: inline-table;
+$react-trello-lane-border-radius: 10px;
+$react-trello-lane-margin: 6px;
+$react-trello-lane-margin-top: 3%;
+$react-trello-lane-position: relative;
+$react-trello-lane-padding-bottom: 40px;
+
+/* Variables React Trello Lane > mcell-title */
+$react-trello-lane-header-background: #ebecf0;
+
+/* Variables React Trello Lane > mcell-title > Before*/
+$react-trello-lane-header-before-content: "";
+$react-trello-lane-header-before-background: linear-gradient(
+  to right,
+  #c774e9 0%,
+  #dc6a84 100%
+);
+$react-trello-lane-header-before-position: absolute;
+$react-trello-lane-header-before-top: 0;
+$react-trello-lane-header-before-width: 100%;
+$react-trello-lane-header-before-height: 4px;
+$react-trello-lane-header-before-left: 0px;
+$react-trello-lane-header-before-border-radius: 2px;
+
+/* Variables mcell-task */
+$mcell-task-background-color: #fff;
+$mcell-task-padding: 4px 8px;
+$mcell-task-margin: 10px -6px;
+$mcell-task-border-radius: 9px;
+$mcell-task-box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
+$mcell-task-list-style-type: none;
+
+/* Variables mcell-task::before */
+$mcell-task-before-content: "";
+$mcell-task-before-background-color: #ff9f1a;
+$mcell-task-before-width: 40px;
+$mcell-task-before-height: 8px;
+$mcell-task-before-position: absolute;
+$mcell-task-before-top: 20px;
+$mcell-task-before-left: 4px;
+$mcell-task-before-border-radius: 20px;
+$mcell-task-before-padding: 0;
+
+/* Variables task name */
+$task-name-padding-top: 15px;
+$task-name-display: block;
+$task-name-margin: 3px;
+$task-name-font-weight: bold !important;
+$task-name-font-size: larger !important;
+
+/* Variables task name > icon delete*/
+$icon-delete-padding-right: 6px !important;
+
+/* Variables task detail */
+$task-detail-display: block;
+$task-detail-margin: 3px;
+$task-detail-font-weight: normal;
+$task-detail-font-size: 13px;
+
+/* Variables task due */
+$task-due-margin: 3px;
+$task-due-display: inline-block;
+$task-due-font-weight: normal;
+$task-due-font-size: 13px;
+$task-due-width: 48%;
+
+/* Variables task contributors */
+$task-contributors-text-align: right;
+$task-contributors-display: inline-block;
+$task-contributors-right: -40px;
+$task-contributors-bottom: 6px;
+$task-contributors-position: relative;
+$task-contributors-width: 50%;
+
+/* Variables task contributors img */
+$task-contributors-img-border-radius: 50%;
+$task-contributors-img-width: 32px;
+$task-contributors-img-height: 32px;
+/* Variables task contributors span */
+
+$task-contributors-span-text-align: left;
+
+/* Variables icon-dificult  */
+$icon-dificult-float: left;
+$icon-dificult-cursor: pointer;
+$icon-dificult-width: 20px;
+$icon-dificult-position: relative;
+$icon-dificult-bottom: -9px;
+$icon-dificult-height: 18px;
+
+/* Variables number-dificult  */
+$number-dificult-display: inline-flex;
+$number-dificult-padding-left: 2px;
+
+/* Variables number-comment  */
+$number-comment-display: inline-flex;
+$number-comment-padding-left: 2px;
+
+/* Variables icon-comment  */
+$icon-comment-padding-left: 2px;
+
+/* Variables React Trello Lane > footer */
+$react-trello-lane-footer-background-color: transparent;
+$react-trello-lane-footer-color: #5e6c84;
+$react-trello-lane-footer-border: none;
+$react-trello-lane-footer-width: 91%;
+$react-trello-lane-footer-text-align: left;
+$react-trello-lane-footer-border-radius: 5px;
+$react-trello-lane-footer-margin: 10px auto;
+$react-trello-lane-footer-cursor: pointer;
+$react-trello-lane-footer-padding: 5px 10px;
+$react-trello-lane-footer-user-select: none;
+$react-trello-lane-footer-display: block;
+
+/* Variables Modal */
+$modal-header-close-font-size: 35px;
+$modal-header-close-padding: 9px 15px;
+
+/* Variables loader */
+$loader-position: relative;
+$loader-margin: 12px auto 20px;
+$loader-width: 40px;
+
+/* Variables loader::before */
+$loader-before-content: "";
+$loader-before-display: block;
+$loader-before-padding-top: 100%;
+
+/* Variables loader > svg */
+
+$loader-svg-webkit-animation: rotate 2s linear infinite;
+$loader-svg-animation: rotate 2s linear infinite;
+$loader-svg-height: 100%;
+$loader-svg-webkit-transform-origin: center center;
+$loader-svg-ms-transform-origin: center center;
+$loader-svg-transform-origin: center center;
+$loader-svg-width: 100%;
+$loader-svg-position: absolute;
+$loader-svg-top: 0;
+$loader-svg-bottom: 0;
+$loader-svg-left: 0;
+$loader-svg-right: 0;
+$loader-svg-margin: auto;
+
+/* Variables loader > svg > circle */
+
+$loader-svg-circle-stroke-dasharray: 1, 200;
+$loader-svg-circle-stroke-dashoffset: 0;
+$loader-svg-circle-webkit-animation: dash 1.5s ease-in-out infinite,
+  color 6s ease-in-out infinite;
+$loader-svg-circle-animation: dash 1.5s ease-in-out infinite,
+  color 6s ease-in-out infinite;
+$loader-svg-circle-stroke-linecap: round;
+$loader-svg-circle-stroke-width: 4;
+$loader-svg-circle-stroke-miterlimit: 10;

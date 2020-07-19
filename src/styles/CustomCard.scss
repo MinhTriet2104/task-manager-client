@@ -1,0 +1,89 @@
+@import "./Var.scss";
+.react-trello-lane {
+  background-color: $react-trello-lane-background-color;
+  box-shadow: $react-trello-lane-box-shadow;
+  display: $react-trello-lane-display;
+  border-radius: $react-trello-lane-border-radius;
+  margin: $react-trello-lane-margin;
+  margin-top: $react-trello-lane-margin-top;
+  position: $react-trello-lane-position;
+  padding-bottom: $react-trello-lane-padding-bottom;
+
+  .mcell-task {
+    background-color: $mcell-task-background-color;
+    padding: $mcell-task-padding;
+    margin: $mcell-task-margin;
+    border-radius: $mcell-task-border-radius;
+    box-shadow: $mcell-task-box-shadow;
+    list-style-type: $mcell-task-list-style-type;
+  }
+  .mcell-task::before {
+    content: $mcell-task-before-content;
+    background-color: $mcell-task-before-background-color;
+    width: $mcell-task-before-width;
+    height: $mcell-task-before-height;
+    position: $mcell-task-before-position;
+    top: $mcell-task-before-top;
+    left: $mcell-task-before-left;
+    border-radius: $mcell-task-before-border-radius;
+    padding: $mcell-task-before-padding;
+    .task-name {
+      padding-top: $task-name-padding-top;
+      display: $task-name-display;
+      margin: $task-name-margin;
+      font-weight: $task-name-font-weight;
+      font-size: $task-name-font-size;
+      .icon-delete {
+        padding-right: $icon-delete-padding-right;
+      }
+    }
+    .task-detail {
+      display: $task-detail-display;
+      margin: $task-detail-margin;
+      font-weight: $task-detail-font-weight;
+      font-size: $task-detail-font-size;
+    }
+    .task-due {
+      margin: $task-due-margin;
+      display: $task-due-display;
+      font-weight: $task-due-font-weight;
+      font-size: $task-due-font-size;
+      width: $task-due-width;
+    }
+    .icon-dificult {
+      float: $icon-dificult-float;
+      cursor: $icon-dificult-cursor;
+      width: $icon-dificult-width;
+      position: $icon-dificult-position;
+      bottom: $icon-dificult-bottom;
+      height: $icon-dificult-height;
+    }
+    .number-dificult {
+      display: $number-dificult-display;
+      padding-left: $number-dificult-padding-left;
+    }
+    .number-comment {
+      display: $number-comment-display;
+      padding-left: $number-comment-padding-left;
+    }
+    .icon-comment {
+      padding-left: $icon-comment-padding-left;
+    }
+    .task-contributors {
+      text-align: $task-contributors-text-align;
+      display: $task-contributors-display;
+      right: $task-contributors-right;
+      bottom: $task-contributors-bottom;
+      position: $task-contributors-position;
+      width: $task-contributors-width;
+      img {
+        border-radius: $task-contributors-img-border-radius;
+        width: $task-contributors-img-width;
+        height: $task-contributors-img-height;
+      }
+      span {
+        text-align: $task-contributors-span-text-align;
+      }
+    }
+  }
+}

@@ -2,8 +2,8 @@ import React from "react";
 import moment from "moment";
 
 // icon
-import FireIcon from "mdi-react/FireIcon";
-import CloseIcon from "mdi-react/CloseIcon";
+import DeleteIcon from "mdi-react/DeleteOutlineIcon";
+import SortVariant from "mdi-react/SortVariantIcon";
 
 const CustomCard = ({
   _id,
@@ -26,7 +26,8 @@ const CustomCard = ({
         {/* <div className={"colorGreen"} id="icon-title" /> */}
         <span>{name}</span>
         <i className="icon-delete">
-          <CloseIcon id="delete" onClick={onDelete}></CloseIcon>
+          <DeleteIcon id="delete" onClick={onDelete}></DeleteIcon>
+          {/* <CloseIcon id="delete" onClick={onDelete}></CloseIcon> */}
         </i>
       </span>
       <span className="task-details">{description}</span>
@@ -34,7 +35,7 @@ const CustomCard = ({
         <span className="task-due">{moment(dueDate).format("DD/MM/YYYY")}</span>
       </div>
       <span>
-        <FireIcon className="icon-dificult" />
+        <SortVariant className="icon-dificult" />
         <div className="number-dificult">1</div>
         <i className="far fa-comment icon-coment"></i>
         <div className="number-comment">1</div>

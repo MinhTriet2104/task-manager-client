@@ -104,7 +104,7 @@ class Task extends Component {
           return (
             <li id={task._id} className="mcell-task" key={index}>
               <span className="task-name">
-                <div className={"colorGreen"} id="icon-title" />
+                <div className={"colorGreen icon-title"} />
                 <span>{task.name}</span>
                 <i
                   id="delete"

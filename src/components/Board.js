@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import Board from "react-trello";
 import CustomCard from "./CustomCard";
 import Loader from "./Loader";
+import CustomFooter from "./CustomFooter";
+import CustomHeader from "./CustomHeader";
 
 // action
 import {
@@ -97,12 +99,16 @@ export default ({ match }) => {
         backgroundColor: "transparent",
         height: "calc(100vh - 58px)",
       }}
+      collapsibleLanes
       draggable
-      // laneDraggable={false}
       onCardDelete={onCardDelete}
       handleDragStart={handleDragStart}
       handleDragEnd={handleDragEnd}
-      components={{ Card: CustomCard }}
+      components={{
+        LaneHeader: CustomHeader,
+        Card: CustomCard,
+        LaneFooter: CustomFooter,
+      }}
     />
   );
 };

@@ -1,0 +1,16 @@
+@import "./Var.scss";
+.react-trello-lane {
+  footer {
+    background-color: $react-trello-lane-footer-background-color;
+    color: $react-trello-lane-footer-color;
+    border: $react-trello-lane-footer-color;
+    width: $react-trello-lane-footer-width;
+    text-align: $react-trello-lane-footer-text-align;
+    border-radius: $react-trello-lane-footer-border-radius;
+    margin: $react-trello-lane-footer-margin;
+    cursor: $react-trello-lane-footer-cursor;
+    padding: $react-trello-lane-footer-padding;
+    user-select: $react-trello-lane-footer-user-select;
+    display: $react-trello-lane-footer-display;
+  }
+}
