@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 
 import Board from "react-trello";
 import CustomCard from "./CustomCard";
-import Loader from "./Loader";
 import CustomFooter from "./CustomFooter";
 import CustomHeader from "./CustomHeader";
+import Loader from "./Loader";
 
 // action
 import {
@@ -77,8 +77,12 @@ export default ({ match }) => {
   };
 
   const onDataChange = (newData) => {
-    console.log("onDataChange");
+    // console.log("onDataChange");
     setData(newData);
+  };
+
+  const onCardClick = (cardId, metadata, laneId) => {
+    console.log("Task Clicked");
   };
 
   return loading ? (
@@ -100,9 +104,12 @@ export default ({ match }) => {
       handleDragStart={handleDragStart}
       handleDragEnd={handleDragEnd}
       onDataChange={onDataChange}
-      components={{ LaneHeader: CustomHeader,
+      onCardClick={onCardClick}
+      components={{
+        LaneHeader: CustomHeader,
         Card: CustomCard,
-        LaneFooter: CustomFooter, }}
+        LaneFooter: CustomFooter,
+      }}
     />
   );
 };
