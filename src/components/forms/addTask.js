@@ -76,7 +76,11 @@ class AddModal extends React.Component {
       creator: this.state.creator,
     };
 
-    this.props.addTask(task);
+    // this.props.addTask(task);
+    this.props.addCard({
+      laneId: this.props.laneId,
+      card: task,
+    });
 
     alert("Created");
     this.toggle();
@@ -119,7 +123,7 @@ class AddModal extends React.Component {
           className={this.props.className}
         >
           <ModalHeader toggle={this.toggle}>
-            Create a New Task to {this.props.laneTitle}
+            Create a New Task into {this.props.laneTitle}
           </ModalHeader>
           <ModalBody>
             <FormGroup>
@@ -200,7 +204,7 @@ class AddModal extends React.Component {
 }
 
 const mapDispathToProps = (dispatch) => ({
-  addTask: (task) => dispatch(addTaskRequest(task)),
+  addTask: (task, laneId) => dispatch(addTaskRequest(task, laneId)),
 });
 
 export default connect(null, mapDispathToProps)(AddModal);

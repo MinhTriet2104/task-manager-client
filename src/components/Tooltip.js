@@ -35,7 +35,11 @@ class Tooltips extends Component {
           {this.props.content}
         </Tooltip>
 
-        <AddTask laneId={this.props.id} laneTitle={this.props.laneTitle} />
+        <AddTask
+          laneId={this.props.id}
+          laneTitle={this.props.title}
+          addCard={this.props.addCard}
+        />
       </span>
     );
   }

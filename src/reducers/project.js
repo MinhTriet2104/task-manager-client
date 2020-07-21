@@ -7,7 +7,22 @@ const project = (state = initialState, action) => {
     case types.SET_PROJECT:
       return { ...action.project };
     case types.ADD_TASK:
-      return [...state, action.task];
+      const { lanes } = state;
+      const { lane } = action;
+
+      const findLaneItem = lanes.find((item) => item._id === lane.id);
+      const indexLane = lanes.indexOf(findLaneItem);
+
+      return {
+        ...state,
+        lanes: [
+          ...lanes.slice(0, indexLane),
+          {
+            ...lane,
+          },
+          ...lanes.slice(indexLane + 1),
+        ],
+      };
     case types.DELETE_TASK: {
       const { id, laneId } = action;
 
