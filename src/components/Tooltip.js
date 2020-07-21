@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Tooltip } from "reactstrap";
-import AddTask from "./forms/addTask";
+import AddTask from "./forms/AddTask";
 
 class Tooltips extends Component {
   constructor(props) {
@@ -35,7 +35,7 @@ class Tooltips extends Component {
           {this.props.content}
         </Tooltip>
 
-        <AddTask projectId={this.props.projectId} status={this.props.id} />
+        <AddTask laneId={this.props.id} laneTitle={this.props.laneTitle} />
       </span>
     );
   }

@@ -12,6 +12,7 @@ const CustomCard = ({
   dueDate,
   assignee,
   onDelete,
+  onClick,
 }) => {
   if (description) {
     description =
@@ -21,7 +22,7 @@ const CustomCard = ({
   }
 
   return (
-    <div id={_id} className="mcell-task">
+    <div id={_id} className="mcell-task" onClick={onClick}>
       <span className="task-name">
         {/* <div className={"colorGreen"} id="icon-title" /> */}
         <span>{name}</span>
