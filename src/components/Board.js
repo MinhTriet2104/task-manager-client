@@ -82,7 +82,7 @@ export default ({ match }) => {
   };
 
   const onCardClick = (cardId, metadata, laneId) => {
-    console.log("Task Clicked");
+    console.log("Task Clicked:", cardId);
   };
 
   return loading ? (
