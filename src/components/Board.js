@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 
 import Board from "react-trello";
 import CustomCard from "./CustomCard";
-import Loader from "./Loader";
 import CustomFooter from "./CustomFooter";
 import CustomHeader from "./CustomHeader";
+import Loader from "./Loader";
 
 //import style
 import "../styles/Board.scss";
@@ -19,6 +19,7 @@ import {
 
 export default ({ match }) => {
   const [data, setData] = useState(null);
+  const [isUpdate, setIsUpdate] = useState(false);
   const [cardId, setCardId] = useState("");
   const [sourceLaneId, setSourceLaneId] = useState("");
   const [targetLaneId, setTargetLaneId] = useState("");
@@ -51,16 +52,17 @@ export default ({ match }) => {
     }
   }, [project]);
 
-  useEffect(() => {
-    if (data && cardId && sourceLaneId && targetLaneId) {
-      console.log(data);
-      const lane = data.lanes.find((lane) => lane.id === targetLaneId);
-      lane.tasks = lane.cards;
-      dispatch(
-        updateStatusTaskRequest(cardId, lane, sourceLaneId, targetLaneId)
-      );
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (isUpdate) {
+  //     console.log(data);
+  //     const lane = data.lanes.find((lane) => lane.id === targetLaneId);
+  //     lane.tasks = lane.cards;
+  //     dispatch(
+  //       updateStatusTaskRequest(cardId, lane, sourceLaneId, targetLaneId)
+  //     );
+  //     isUpdate = false;
+  //   }
+  // }, [data]);
 
   const onCardDelete = (cardId, laneId) => {
     dispatch(deleteTaskRequest(cardId, laneId));
@@ -76,12 +78,24 @@ export default ({ match }) => {
     setCardId(cardId);
     setSourceLaneId(sourceLaneId);
     setTargetLaneId(targetLaneId);
+    setIsUpdate(true);
     // dispatch(updateStatusTaskRequest(cardId, sourceLaneId, targetLaneId));
   };
 
   const onDataChange = (newData) => {
-    console.log("onDataChange");
-    setData(newData);
+    if (isUpdate) {
+      console.log(newData);
+      const lane = newData.lanes.find((lane) => lane.id === targetLaneId);
+      lane.tasks = lane.cards;
+      dispatch(
+        updateStatusTaskRequest(cardId, lane, sourceLaneId, targetLaneId)
+      );
+      setIsUpdate(false);
+    }
+  };
+
+  const onCardClick = (cardId, metadata, laneId) => {
+    console.log("Task Clicked:", cardId);
   };
 
   return loading ? (
@@ -103,9 +117,12 @@ export default ({ match }) => {
       handleDragStart={handleDragStart}
       handleDragEnd={handleDragEnd}
       onDataChange={onDataChange}
-      components={{ LaneHeader: CustomHeader,
+      onCardClick={onCardClick}
+      components={{
+        LaneHeader: CustomHeader,
         Card: CustomCard,
-        LaneFooter: CustomFooter, }}
+        LaneFooter: CustomFooter,
+      }}
     />
   );
 };

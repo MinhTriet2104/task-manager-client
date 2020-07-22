@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Tooltip } from "reactstrap";
-import AddTask from "./forms/addTask";
+import AddTask from "./forms/AddTask";
 
 //style
 import "../styles/Tooltip.scss";
@@ -38,7 +38,11 @@ class Tooltips extends Component {
           {this.props.content}
         </Tooltip>
 
-        <AddTask projectId={this.props.projectId} status={this.props.id} />
+        <AddTask
+          laneId={this.props.id}
+          laneTitle={this.props.title}
+          addCard={this.props.addCard}
+        />
       </span>
     );
   }

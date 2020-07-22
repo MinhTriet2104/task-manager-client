@@ -20,14 +20,17 @@ export const setTasks = (tasks) => ({
   tasks,
 });
 
-export const addTaskRequest = (task) => async (dispatch) => {
-  const res = await axios.post("http://localhost:2104/task", task);
+export const addTaskRequest = (task, laneId) => async (dispatch) => {
+  const res = await axios.post("http://localhost:2104/task", {
+    task: task,
+    laneId: laneId,
+  });
   dispatch(addTask(res.data));
 };
 
-export const addTask = (task) => ({
+export const addTask = (lane) => ({
   type: types.ADD_TASK,
-  task,
+  lane,
 });
 
 export const deleteTaskRequest = (id, laneId) => async (dispatch) => {

@@ -28,7 +28,8 @@ class AddModal extends React.Component {
       dueDate: "",
       status: this.props.status,
       difficult: 1,
-      projectId: this.props.projectId,
+      laneId: this.props.laneId,
+      laneTitle: this.props.laneTitle,
       loading: false,
       users: [],
     };
@@ -39,18 +40,7 @@ class AddModal extends React.Component {
   componentDidMount() {
     moment.locale("tr");
     this.getUsers();
-    this.changeColumnTitle();
   }
-
-  changeColumnTitle = (number) => {
-    let newTitle;
-    if (number === "1") newTitle = "Backlog";
-    else if (number === "2") newTitle = "ToDo";
-    else if (number === "3") newTitle = "In Progress";
-    else newTitle = "Done";
-
-    return newTitle;
-  };
 
   handleInput(e) {
     this.setState({
@@ -86,7 +76,11 @@ class AddModal extends React.Component {
       creator: this.state.creator,
     };
 
-    this.props.addTask(task);
+    // this.props.addTask(task);
+    this.props.addCard({
+      laneId: this.props.laneId,
+      card: task,
+    });
 
     alert("Created");
     this.toggle();
@@ -129,7 +123,7 @@ class AddModal extends React.Component {
           className={this.props.className}
         >
           <ModalHeader toggle={this.toggle}>
-            Create a New Task to {this.changeColumnTitle(this.props.status)}
+            Create a New Task into {this.props.laneTitle}
           </ModalHeader>
           <ModalBody>
             <FormGroup>
@@ -210,7 +204,7 @@ class AddModal extends React.Component {
 }
 
 const mapDispathToProps = (dispatch) => ({
-  addTask: (task) => dispatch(addTaskRequest(task)),
+  addTask: (task, laneId) => dispatch(addTaskRequest(task, laneId)),
 });
 
 export default connect(null, mapDispathToProps)(AddModal);
