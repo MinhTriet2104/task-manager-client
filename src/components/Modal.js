@@ -11,6 +11,8 @@ import {
 } from "reactstrap";
 import moment from "moment";
 import axios from "axios";
+//style
+import "../styles/Modal.scss"
 
 class ModalExample extends React.Component {
   constructor(props) {

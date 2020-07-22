@@ -1,7 +1,10 @@
 import React from "react";
 import PlusIcon from "mdi-react/PlusIcon";
 
-// icon
+//style
+import "../styles/CustomFooter.scss";
+
+
 export default () => (
   <button className="btn-add">
     <span>

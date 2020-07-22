@@ -9,6 +9,8 @@ import Board from "./Board";
 import AddStory from "./forms/addStory";
 import Loader from "./Loader";
 import Header from "./common/Header";
+//style
+import "../styles/Dashboard.scss";
 
 class Dashboard extends Component {
   constructor(props, context) {

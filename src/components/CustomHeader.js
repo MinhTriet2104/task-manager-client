@@ -1,5 +1,7 @@
 import React from "react";
 import Tooltip from "./Tooltip";
+//style
+import "../styles/CustomHeader.scss";
 
 export default ({ id, title }) => (
   <div className="mcell-title">

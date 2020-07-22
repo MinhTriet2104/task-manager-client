@@ -1,29 +1,35 @@
-@import "./Var.scss";
+@import "./var";
 header {
   background-color: $header-background-color;
   font-weight: $header-font-weight;
   padding: $header-padding;
+  box-shadow: $header-box-shadow;
   .containerDashboard {
     padding-top: $containerDashboard-padding-top;
-
     .mainMenu {
       display: $mainMenu-display;
       font-size: $mainMenu-font-size;
-      ul {
-        list-style-type: $mainMenu-ul-list-style-type;
+      .active{
         border-bottom: $mainMenu-active-border-bottom;
         padding-bottom: $mainMenu-active-padding-bottom;
+      }
+      ul {
         li {
-          padding: $mainMenu-ul-li-padding;
           display: $mainMenu-ul-li-display;
+          padding: $mainMenu-ul-li-padding;  
+          margin: $mainMenu-ul-li-margin;       
           height: $mainMenu-ul-li-height;
-          margin: $mainMenu-ul-li-margin;
-          top: $mainMenu-ul-li-top;
+          
+          
           position: $mainMenu-ul-li-position;
+          top: $mainMenu-ul-li-top;
           transition: $mainMenu-ul-li-transition;
           .mainmenutext {
             padding-left: $mainmenutext-ul-li-padding-left;
           }
+        }
+        li:hover{
+          border-bottom: $mainMenu-ul-li-hover-border-bottom;
         }
       }
     }

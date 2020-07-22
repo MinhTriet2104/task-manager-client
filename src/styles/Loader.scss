@@ -1,26 +1,30 @@
-@import "./Var.scss";
+@import "./var";
 .loader {
   position: $loader-position;
   margin: $loader-margin;
   width: $loader-width;
   svg {
     animation: $loader-svg-animation;
-    height: $loader-svg-height;
     transform-origin: $loader-svg-transform-origin;
+
+    height: $loader-svg-height;
     width: $loader-svg-width;
+    margin: $loader-svg-margin;
+
     position: $loader-svg-position;
     top: $loader-svg-top;
     bottom: $loader-svg-bottom;
     left: $loader-svg-left;
     right: $loader-svg-right;
-    margin: $loader-svg-margin;
+
     circle {
       stroke-dasharray: $loader-svg-circle-stroke-dasharray;
       stroke-dashoffset: $loader-svg-circle-stroke-dashoffset;
-      animation: $loader-svg-circle-animation;
       stroke-linecap: $loader-svg-circle-stroke-linecap;
       stroke-width: $loader-svg-circle-stroke-width;
       stroke-miterlimit: $loader-svg-circle-stroke-miterlimit;
+
+      animation: $loader-svg-circle-animation;
     }
   }
 }

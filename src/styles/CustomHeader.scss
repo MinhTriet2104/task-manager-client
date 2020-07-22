@@ -1,4 +1,4 @@
-@import "./Var.scss";
+@import "./var";
 .react-trello-lane {
   .mcell-title {
     background: $react-trello-lane-header-background;
@@ -6,11 +6,13 @@
   .mcell-title::before {
     content: $react-trello-lane-header-before-content;
     background: $react-trello-lane-header-before-background;
+
     position: $react-trello-lane-header-before-position;
     top: $react-trello-lane-header-before-top;
+    left: $react-trello-lane-header-before-left;
+
     width: $react-trello-lane-header-before-width;
     height: $react-trello-lane-header-before-height;
-    left: $react-trello-lane-header-before-left;
     border-radius: $react-trello-lane-header-before-border-radius;
   }
 }

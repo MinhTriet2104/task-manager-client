@@ -7,6 +7,9 @@ import Loader from "./Loader";
 import CustomFooter from "./CustomFooter";
 import CustomHeader from "./CustomHeader";
 
+//import style
+import "../styles/Board.scss";
+
 // action
 import {
   getProject,

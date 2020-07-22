@@ -11,6 +11,7 @@ $con-width: calc(100% - 184px);
 $header-background-color: #f6f8fc;
 $header-font-weight: bold;
 $header-padding: 10px 10px 12px;
+$header-box-shadow: 0px 0px 3px #535353;
 
 /* Variales Header Main Menu*/
 $mainMenu-display: "inline-block";
@@ -19,8 +20,6 @@ $containerDashboard-padding-top: 10px;
 
 /* Variales Header Main Menu ul*/
 $mainMenu-ul-list-style-type: none;
-$mainMenu-active-border-bottom: 3px solid #007bff;
-$mainMenu-active-padding-bottom: 13px;
 
 /* Variales Header Main Menu ul li*/
 $mainMenu-ul-li-padding: 17px 13px 9px;
@@ -30,6 +29,13 @@ $mainMenu-ul-li-margin: -7px 5px;
 $mainMenu-ul-li-top: -3px;
 $mainMenu-ul-li-position: relative;
 $mainMenu-ul-li-transition: all 0.3s;
+
+/* Variales Header Main Menu ul li:hover*/
+$mainMenu-ul-li-hover-border-bottom: 3px solid #007bff;
+
+/* Variales Header .mainMenu >.active*/
+$mainMenu-active-border-bottom: 3px solid #007bff;
+$mainMenu-active-padding-bottom: 13px;
 
 /* Variales Header Main Menu ul li mainmenutext*/
 $mainmenutext-ul-li-padding-left: 10px;
@@ -60,13 +66,57 @@ $side-menu-list-style-type: none;
 $side-menu-padding: 0;
 $side-menu-margin: 0;
 
+/* Variables Dashboard Side-menu > i*/
+$side-menu-i-font-size: 23px;
+$side-menu-i-display: inline-block;
+
+/* Variables Dashboard Side-menu > li > active */
+$side-menu-li-active-background: #fafbfc;
+$side-menu-li-active-color: #007bff !important;
+
+/* Variables Dashboard Side-menu > li > before */
+$side-menu-li-before-webkit-transition: all 0.3s ease-out;
+$side-menu-li-before-moz-transition: all 0.3s ease-out;
+$side-menu-li-before-ms-transition: all 0.3s ease-out;
+$side-menu-li-before-o-transition: all 0.3s ease-out;
+$side-menu-li-before-transition: all 0.3s ease-out;
+
+/* Variables Dashboard Side-menu > li > active:hover */
+$side-menu-li-active-hover-background: #fafbfc;
+
 /* Variables Dashboard Side-menu > li > a */
 $side-menu-li-a-display: block;
 $side-menu-li-a-padding: 15px;
 $side-menu-li-a-color: #7a7a7a;
 
-/* Variables Dashboard Side-menu > li > a::active */
-$side-menu-li-a-active-color: #007bff;
+$side-menu-li-a-transition: all 0.2s ease-in-out;
+$side-menu-li-a-moz-transition: all 0.2s ease-in-out;
+$side-menu-li-a-webkit-transition: all 0.2s ease-in-out;
+
+/* Variables Dashboard Side-menu > li > a:hover */
+$side-menu-li-a-hover-color: #7a7a7a;
+$side-menu-li-a-hover-text-decoration: none;
+$side-menu-li-a-hover-background: #fafbfc;
+
+/* Variables Dashboard Side-menu > li:hover:before */
+$side-menu-li-hover-before-webkit-transition: all 0.3s ease-out;
+$side-menu-li-hover-before-moz-transition: all 0.3s ease-out;
+$side-menu-li-hover-before-ms-transition: all 0.3s ease-out;
+$side-menu-li-hover-before-o-transition: all 0.3s ease-out;
+$side-menu-li-hover-before-transition: all 0.3s ease-out;
+
+/* Variables Dashboard .side-menu li:hover:before , li > .active:before*/
+$li-hover-active-before-content: "";
+$li-hover-active-before-width: 4px;
+$li-hover-active-before-background: #007bff;
+$li-hover-active-before-height: 46px;
+$li-hover-active-before-margin-top: 5px;
+$li-hover-active-before-position: absolute;
+$li-hover-active-before-box-shadow: 1px 0px 6px #0000002e;
+
+
+/* Variables Dashboard li > .active*/
+$li-active-before-margin: -10px -15px !important;
 
 /* Variables Dashboard otherMenu*/
 $otherMenu-display: grid;
@@ -85,6 +135,7 @@ $dashboard-logo-font-size: 22px;
 $dashboard-logo-line-height: 58px;
 $dashboard-logo-color: #fff;
 $dashboard-logo-font-weight: bold;
+$dashboard-logo-padding: 9px 0px;
 
 /* Variables Board */
 $react-trello-board-background-color: transparent;
@@ -112,10 +163,10 @@ $react-trello-lane-header-before-background: linear-gradient(
   #dc6a84 100%
 );
 $react-trello-lane-header-before-position: absolute;
-$react-trello-lane-header-before-top: 0;
-$react-trello-lane-header-before-width: 100%;
+$react-trello-lane-header-before-top: -10px;
+$react-trello-lane-header-before-width: 109%;
 $react-trello-lane-header-before-height: 4px;
-$react-trello-lane-header-before-left: 0px;
+$react-trello-lane-header-before-left: -13px;
 $react-trello-lane-header-before-border-radius: 2px;
 
 /* Variables mcell-task */
@@ -195,18 +246,26 @@ $number-comment-padding-left: 2px;
 /* Variables icon-comment  */
 $icon-comment-padding-left: 2px;
 
-/* Variables React Trello Lane > footer */
-$react-trello-lane-footer-background-color: transparent;
-$react-trello-lane-footer-color: #5e6c84;
-$react-trello-lane-footer-border: none;
-$react-trello-lane-footer-width: 91%;
-$react-trello-lane-footer-text-align: left;
-$react-trello-lane-footer-border-radius: 5px;
-$react-trello-lane-footer-margin: 10px auto;
-$react-trello-lane-footer-cursor: pointer;
-$react-trello-lane-footer-padding: 5px 10px;
-$react-trello-lane-footer-user-select: none;
-$react-trello-lane-footer-display: block;
+/* Variables React Trello Lane > footer > btn-add */
+$footer-btn-add-background-color: transparent;
+$footer-btn-add-color: #5e6c84;
+$footer-btn-add-border: none;
+$footer-btn-add-width: 91%;
+$footer-btn-add-text-align: left;
+$footer-btn-add-border-radius: 5px;
+$footer-btn-add-margin: 10px auto;
+$footer-btn-add-cursor: pointer;
+$footer-btn-add-padding: 5px 10px;
+$footer-btn-add-user-select: none;
+$footer-btn-add-display: block;
+
+/* Variables Footer > icon-plus */
+$footer-icon-dificult-float: left;
+$footer-icon-dificult-cursor: pointer;
+$footer-icon-dificult-width: 20px;
+$footer-icon-dificult-position: relative;
+$footer-icon-dificult-bottom: -9px;
+$footer-icon-dificult-height: 18px;
 
 /* Variables Modal */
 $modal-header-close-font-size: 35px;
@@ -249,3 +308,91 @@ $loader-svg-circle-animation: dash 1.5s ease-in-out infinite,
 $loader-svg-circle-stroke-linecap: round;
 $loader-svg-circle-stroke-width: 4;
 $loader-svg-circle-stroke-miterlimit: 10;
+
+
+/* Variable Tooltip > customAddTask*/
+$tooltip-customAddTask-top: 12.5px;
+$tooltip-customAddTask-position: absolute;
+$tooltip-customAddTask-right: 26px;
+
+/* Variable Tooltip > customAddTask*/
+$tooltip-icon-question-right: 4px;
+
+/* set animation  */
+@-webkit-keyframes rotate {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124;
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124;
+  }
+}
+
+@-webkit-keyframes color {
+  100%,
+  0% {
+    stroke: #d62d20;
+  }
+  40% {
+    stroke: #0057e7;
+  }
+  66% {
+    stroke: #008744;
+  }
+  80%,
+  90% {
+    stroke: #ffa700;
+  }
+}
+
+@keyframes color {
+  100%,
+  0% {
+    stroke: #d62d20;
+  }
+  40% {
+    stroke: #0057e7;
+  }
+  66% {
+    stroke: #008744;
+  }
+  80%,
+  90% {
+    stroke: #ffa700;
+  }
+}

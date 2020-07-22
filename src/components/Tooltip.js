@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { Tooltip } from "reactstrap";
 import AddTask from "./forms/addTask";
 
+//style
+import "../styles/Tooltip.scss";
+
 class Tooltips extends Component {
   constructor(props) {
     super(props);

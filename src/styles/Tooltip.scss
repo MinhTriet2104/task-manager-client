@@ -1,0 +1,9 @@
+@import "./var";
+.customAddTask {
+  top: $tooltip-customAddTask-top;
+  position: $tooltip-customAddTask-position;
+  right: $tooltip-customAddTask-position;
+}
+.icon-question {
+  right: $tooltip-icon-question-right;
+}

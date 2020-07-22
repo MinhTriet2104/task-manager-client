@@ -1,38 +1,45 @@
-@import "./Var.scss";
+@import "./var";
 .react-trello-lane {
   background-color: $react-trello-lane-background-color;
+  position: $react-trello-lane-position;
   box-shadow: $react-trello-lane-box-shadow;
   display: $react-trello-lane-display;
+  
   border-radius: $react-trello-lane-border-radius;
   margin: $react-trello-lane-margin;
   margin-top: $react-trello-lane-margin-top;
-  position: $react-trello-lane-position;
   padding-bottom: $react-trello-lane-padding-bottom;
 
   .mcell-task {
     background-color: $mcell-task-background-color;
+
     padding: $mcell-task-padding;
     margin: $mcell-task-margin;
     border-radius: $mcell-task-border-radius;
     box-shadow: $mcell-task-box-shadow;
+
     list-style-type: $mcell-task-list-style-type;
   }
   .mcell-task::before {
     content: $mcell-task-before-content;
     background-color: $mcell-task-before-background-color;
+
     width: $mcell-task-before-width;
     height: $mcell-task-before-height;
     position: $mcell-task-before-position;
     top: $mcell-task-before-top;
     left: $mcell-task-before-left;
+
     border-radius: $mcell-task-before-border-radius;
     padding: $mcell-task-before-padding;
     .task-name {
       padding-top: $task-name-padding-top;
-      display: $task-name-display;
       margin: $task-name-margin;
+      display: $task-name-display;
+
       font-weight: $task-name-font-weight;
       font-size: $task-name-font-size;
+
       .icon-delete {
         padding-right: $icon-delete-padding-right;
       }
@@ -46,17 +53,20 @@
     .task-due {
       margin: $task-due-margin;
       display: $task-due-display;
-      font-weight: $task-due-font-weight;
-      font-size: $task-due-font-size;
       width: $task-due-width;
+      
+      font-weight: $task-due-font-weight;
+      font-size: $task-due-font-size;    
     }
     .icon-dificult {
-      float: $icon-dificult-float;
-      cursor: $icon-dificult-cursor;
       width: $icon-dificult-width;
+      height: $icon-dificult-height;
+      
+      cursor: $icon-dificult-cursor;
+
       position: $icon-dificult-position;
       bottom: $icon-dificult-bottom;
-      height: $icon-dificult-height;
+      float: $icon-dificult-float;
     }
     .number-dificult {
       display: $number-dificult-display;
@@ -72,10 +82,11 @@
     .task-contributors {
       text-align: $task-contributors-text-align;
       display: $task-contributors-display;
+      width: $task-contributors-width;
+
       right: $task-contributors-right;
       bottom: $task-contributors-bottom;
-      position: $task-contributors-position;
-      width: $task-contributors-width;
+      position: $task-contributors-position;      
       img {
         border-radius: $task-contributors-img-border-radius;
         width: $task-contributors-img-width;

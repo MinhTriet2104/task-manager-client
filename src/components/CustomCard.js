@@ -5,6 +5,10 @@ import moment from "moment";
 import DeleteIcon from "mdi-react/DeleteOutlineIcon";
 import SortVariant from "mdi-react/SortVariantIcon";
 
+//style
+import "../styles/CustomCard.scss";
+
+
 const CustomCard = ({
   _id,
   name,

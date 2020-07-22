@@ -10,7 +10,7 @@ import App from "./App";
 import About from "./components/About";
 
 import reducer from "./reducers/index";
-import "./styles.css";
+import "./styles.scss";
 
 const history = createBrowserHistory();
 

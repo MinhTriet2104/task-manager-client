@@ -1,36 +1,79 @@
-@import "./Var.scss";
+@import "./var";
 
 .side {
   position: $side-position;
   left: $side-left;
   top: $side-top;
   bottom: $side-bottom;
+
   min-height: $side-min-height;
-  background: $side-background;
   min-width: $side-min-width;
+
+  background: $side-background;
   box-shadow: $side-box-shadow;
   .logo {
-    background-color: $logo-background-color;
+    background-color: $dashboard-logo-background-color;
+    color: $dashboard-logo-color;
+
     display: $dashboard-logo-display;
+    padding: $dashboard-logo-padding;
+
     text-align: $dashboard-logo-text-align;
     font-size: $dashboard-logo-font-size;
     line-height: $dashboard-logo-line-height;
-    color: $dashboard-logo-color;
     font-weight: $dashboard-logo-font-weight;
+    
   }
   .side-menu {
     list-style-type: $side-menu-list-style-type;
     padding: $side-menu-padding;
     margin: $side-menu-margin;
+    i {
+      font-size: $side-menu-i-font-size;
+      display: $side-menu-i-display;
+    }
     li {
+      .active {
+        background: $side-menu-li-active-background;
+        color: $side-menu-li-active-color;
+      }
+      .active:hover {
+        background: $side-menu-li-active-hover-background;
+      }
+      .active::before{
+        margin: $li-active-before-margin;
+      }
       a {
         color: $side-menu-li-a-color;
         display: $side-menu-li-a-display;
         padding: $side-menu-li-a-padding;
+
+        transition: $side-menu-li-a-transition;
+        -moz-transition: $side-menu-li-a-moz-transition;
+        -webkit-transition: $side-menu-li-a-webkit-transition;
       }
-      a:active {
-        color: $side-menu-li-a-active-color;
+      a:hover {
+        color: $side-menu-li-a-hover-color;
+        text-decoration: $side-menu-li-a-hover-text-decoration;
+        background: $side-menu-li-a-hover-background;
       }
+      li:hover:before {
+        -webkit-transition: $side-menu-li-before-webkit-transition;
+        -moz-transition: $side-menu-li-before-moz-transition;
+        -ms-transition: $side-menu-li-before-ms-transition;
+        -o-transition: $side-menu-li-before-o-transition;
+        transition: $side-menu-li-before-transition;
+      }
+      li:hover:before, .active:before {
+          content: $li-hover-active-before-content;
+          width: $li-hover-active-before-width;
+          background: $li-hover-active-before-background;
+          height: $li-hover-active-before-height;
+          margin-top: $li-hover-active-before-margin-top;
+          position: $li-hover-active-before-position;
+          box-shadow: $li-hover-active-before-box-shadow;
+        }
+
     }
   }
   .other-Menu {

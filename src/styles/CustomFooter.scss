@@ -1,16 +1,30 @@
-@import "./Var.scss";
+@import "./var";
 .react-trello-lane {
   footer {
-    background-color: $react-trello-lane-footer-background-color;
-    color: $react-trello-lane-footer-color;
-    border: $react-trello-lane-footer-color;
-    width: $react-trello-lane-footer-width;
-    text-align: $react-trello-lane-footer-text-align;
-    border-radius: $react-trello-lane-footer-border-radius;
-    margin: $react-trello-lane-footer-margin;
-    cursor: $react-trello-lane-footer-cursor;
-    padding: $react-trello-lane-footer-padding;
-    user-select: $react-trello-lane-footer-user-select;
-    display: $react-trello-lane-footer-display;
+    .btn-add{
+      background-color: $footer-btn-add-background-color;
+      color: $footer-btn-add-color;
+  
+      border: $footer-btn-add-color;
+      border-radius: $footer-btn-add-border-radius;
+      display: $footer-btn-add-display;
+  
+      width: $footer-btn-add-width;
+      margin: $footer-btn-add-margin;
+      padding: $footer-btn-add-padding;
+      text-align: $footer-btn-add-text-align;
+  
+      cursor: $footer-btn-add-cursor;
+      user-select: $footer-btn-add-user-select;
+    } 
+    .icon-dificult{
+      float: $icon-dificult-float;
+      width: $icon-dificult-width;
+      height: $icon-dificult-height;
+      
+      position: $icon-dificult-position;
+      bottom: $icon-dificult-bottom;
+      cursor: $icon-dificult-cursor;
+    }
   }
 }
