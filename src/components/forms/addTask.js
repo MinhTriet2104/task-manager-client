@@ -2,6 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import moment from "moment";
 import axios from "axios";
+import Snackbar from "@material-ui/core/Snackbar";
+import Slide from '@material-ui/core/Slide';
+import iconSucess from "mdi-react/CheckOutlineIcon";
 
 import {
   Button,
@@ -15,6 +18,11 @@ import {
 } from "reactstrap";
 
 import { addTaskRequest } from "../../actions/index";
+
+//set transition
+function TransitionDown(props) {
+  return <Slide {...props} direction="down" className="msg-sucess" />;
+}
 
 class AddModal extends React.Component {
   constructor(props) {
@@ -32,10 +40,15 @@ class AddModal extends React.Component {
       laneTitle: this.props.laneTitle,
       loading: false,
       users: [],
+      snackbaropen: false,
+      snackbarmsg: "",
     };
-
     this.toggle = this.toggle.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
+  snackbarclose = (event) => {
+    this.setState({ snackbaropen: false });
+  };
 
   componentDidMount() {
     moment.locale("tr");
@@ -64,7 +77,7 @@ class AddModal extends React.Component {
       });
   }
 
-  handleClick = (event) => {
+  handleClick = (event) => () => {
     const task = {
       name: this.state.name,
       description: this.state.description,
@@ -75,14 +88,12 @@ class AddModal extends React.Component {
       projectId: this.state.projectId,
       creator: this.state.creator,
     };
-
     // this.props.addTask(task);
     this.props.addCard({
       laneId: this.props.laneId,
       card: task,
     });
-
-    alert("Created");
+    this.setState({ snackbaropen: true });
     this.toggle();
     this.setState({
       name: "",
@@ -113,6 +124,20 @@ class AddModal extends React.Component {
     }
     return (
       <div>
+        <Snackbar
+          className="msg-sucess"
+          anchorOrigin={{ vertical: "bottom", horizontal:"center"}}
+          open={this.state.snackbaropen}
+          autoHideDuration={4000}
+          message="add task sucessed!"
+          TransitionComponent = {TransitionDown}
+          onClose={this.snackbarclose}
+          key="snackbar-message"
+          action= {[
+            <iconSucess />
+          ]}
+        >
+        </Snackbar>
         <i
           className="fas fa-plus-circle customAddTask"
           onClick={this.toggle}
@@ -190,7 +215,7 @@ class AddModal extends React.Component {
             />
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.handleClick.bind(this)}>
+            <Button color="primary" onClick={this.handleClick(TransitionDown)}>
               <i className="fas fa-plus-circle"></i> Add
             </Button>
             <Button color="secondary" onClick={this.toggle}>
