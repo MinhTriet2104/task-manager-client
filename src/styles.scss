@@ -185,6 +185,7 @@ li .active:before {
   top: 12.5px;
   position: absolute;
   right: 26px;
+  cursor: pointer;
 }
 .icon-question {
   right: 4px;
@@ -245,8 +246,46 @@ li .active:before {
 }
 
 /* code Văn thêm */
-.msg-sucess, #message-sucess{
+.img-member{
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  background: #dfe1e6;
+  font-size: medium;
+  overflow: hidden;
+  text-align: center;
+}
+.card-detail > tr >th{
+  padding: 10px;
+  color: #5e6c84;
+}
+.modal-content{
+  display: flex;
+ 
+  justify-content: center;
+  background: whitesmoke;
+  box-shadow: 0 0 3px gray;
+  width: 50%;
+  margin: 48px auto;
+  padding: 15px;
+} 
+.paper{
+  border: 2px solid #000;
+  background-color: transparent;
+  box-shadow: 0 0 3px green;
+  padding: 5px;
+}
+.msg-sucess, .iconSucessed{
 background: #4caf50 !important;
+}
+.iconSucessed{
+  position: absolute;
+  top: 10px;
+  right: 0px;
+  width: 20px;
+  height: 20px;
+  color: white;
+  border-radius: 50%;
 }
 .react-trello-lane {
   background-color: #ebecf0 !important;

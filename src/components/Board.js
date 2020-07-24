@@ -6,6 +6,10 @@ import CustomCard from "./CustomCard";
 import CustomFooter from "./CustomFooter";
 import CustomHeader from "./CustomHeader";
 import Loader from "./Loader";
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import IconDetailTitle from "mdi-react/CardBulletedOutlineIcon";
 
 //import style
 import "../styles/Board.scss";
@@ -17,6 +21,7 @@ import {
   updateStatusTaskRequest,
 } from "../actions/index";
 
+
 export default ({ match }) => {
   const [data, setData] = useState(null);
   const [isUpdate, setIsUpdate] = useState(false);
@@ -27,6 +32,7 @@ export default ({ match }) => {
   // const tasks = useSelector((state) => state.tasks);
   const loading = useSelector((state) => state.loading.loadingProject);
   const dispatch = useDispatch();
+ 
 
   useEffect(() => {
     dispatch(getProject(match.params.id));
@@ -93,9 +99,16 @@ export default ({ match }) => {
       setIsUpdate(false);
     }
   };
+  //set open function for Modal
+  const [open, setOpen] = React.useState(false);
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+  
   const onCardClick = (cardId, metadata, laneId) => {
     console.log("Task Clicked:", cardId);
+    setOpen(true);
   };
 
   return loading ? (
@@ -105,24 +118,62 @@ export default ({ match }) => {
       </div>
     </li>
   ) : (
-    <Board
-      data={data}
-      style={{
-        backgroundColor: "transparent",
-        height: "calc(100vh - 58px)",
-      }}
-      collapsibleLanes
-      draggable
-      onCardDelete={onCardDelete}
-      handleDragStart={handleDragStart}
-      handleDragEnd={handleDragEnd}
-      onDataChange={onDataChange}
-      onCardClick={onCardClick}
-      components={{
-        LaneHeader: CustomHeader,
-        Card: CustomCard,
-        LaneFooter: CustomFooter,
-      }}
-    />
+    <div>
+      <Board
+            data={data}
+            style={{
+              backgroundColor: "transparent",
+              height: "calc(100vh - 58px)",
+            }}
+            collapsibleLanes
+            draggable
+            onCardDelete={onCardDelete}
+            handleDragStart={handleDragStart}
+            handleDragEnd={handleDragEnd}
+            onDataChange={onDataChange}
+            onCardClick={onCardClick}
+            components={{
+              LaneHeader: CustomHeader,
+              Card: CustomCard,
+              LaneFooter: CustomFooter,
+            }}
+          />
+          <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className="modal-comment"
+            
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+          <Fade in={open}>
+            <div className="modal-content">
+                <h2 id="transition-modal-title">
+                  <span><IconDetailTitle className="icon-task"></IconDetailTitle></span>
+                  Task Detail
+                  </h2>
+                <table className="card-detail">
+                  <tr>
+                    <th>Members</th>
+                    <th>Lables</th>
+                    <th>Due Date</th>
+                  </tr>
+                  <tr>
+                    <th><span className="img-member">XV</span></th>
+                    <th>test 2</th>
+                    <th>test 2</th>
+                  </tr>
+                </table>
+              <p id="transition-modal-description">react-transition-group animates me.</p>
+            </div>
+          </Fade>
+      </Modal>
+    </div>
+    
   );
 };

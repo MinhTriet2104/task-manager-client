@@ -4,7 +4,7 @@ import moment from "moment";
 import axios from "axios";
 import Snackbar from "@material-ui/core/Snackbar";
 import Slide from '@material-ui/core/Slide';
-import iconSucess from "mdi-react/CheckOutlineIcon";
+import IconSucess from "mdi-react/CheckCircleOutlineIcon";
 
 import {
   Button,
@@ -134,7 +134,7 @@ class AddModal extends React.Component {
           onClose={this.snackbarclose}
           key="snackbar-message"
           action= {[
-            <iconSucess />
+            <IconSucess className="iconSucessed"/>
           ]}
         >
         </Snackbar>
