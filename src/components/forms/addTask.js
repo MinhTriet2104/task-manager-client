@@ -86,9 +86,8 @@ class AddModal extends React.Component {
     this.setState({ showSuccess: false });
   };
 
-  handleClick = () => {
+  handleClick = async () => {
     const task = {
-      id: "test",
       name: this.state.name,
       description: this.state.description,
       status: this.props.status,
@@ -98,7 +97,13 @@ class AddModal extends React.Component {
       projectId: this.state.projectId,
       creator: this.state.creator,
     };
-    // this.props.addTask(task);
+
+    const res = await axios.post("http://localhost:2104/task", {
+      ...task,
+      laneId: this.props.laneId,
+    });
+    task.id = res;
+
     this.props.addCard({
       laneId: this.props.laneId,
       card: task,

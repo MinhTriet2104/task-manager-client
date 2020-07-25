@@ -104,10 +104,6 @@ export default ({ match }) => {
     }
   };
 
-  const onCardAdd = (card, laneId) => {
-    console.log(card);
-  };
-
   const onCardClick = (cardId, metadata, laneId) => {
     console.log("Task Clicked:", cardId);
     setOpen(true);
