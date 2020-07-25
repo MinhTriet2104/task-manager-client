@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, compose, applyMiddleware } from "redux";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { createBrowserHistory } from "history";
+// import { createBrowserHistory } from "history";
 import thunk from "redux-thunk";
 
 import App from "./App";
@@ -12,7 +12,7 @@ import About from "./components/About";
 import reducer from "./reducers/index";
 import "./styles.scss";
 
-const history = createBrowserHistory();
+// const history = createBrowserHistory();
 
 const composeEnhancers =
   (typeof window !== "undefined" &&
@@ -42,7 +42,7 @@ const NotFoundPage = () => {
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
+    <Router>
       <Switch>
         <Route exact path="/" component={IndexPage} />
         <Route exact path="/about" component={About} />

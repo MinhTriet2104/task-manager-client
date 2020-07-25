@@ -2,9 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import moment from "moment";
 import axios from "axios";
+
+// Component
 import Snackbar from "@material-ui/core/Snackbar";
-import Slide from "@material-ui/core/Slide";
-import IconSucess from "mdi-react/CheckCircleOutlineIcon";
+import Alert from "@material-ui/lab/Alert";
 
 import {
   Button,
@@ -17,12 +18,13 @@ import {
   Label,
 } from "reactstrap";
 
-import { addTaskRequest } from "../../actions/index";
+// Message
+import {
+  MSG_ADD_TASK_SUCCESS,
+  MSG_ADD_TASK_FAIL,
+} from "../../constants/Message";
 
-//set transition
-function TransitionDown(props) {
-  return <Slide {...props} direction="down" className="msg-sucess" />;
-}
+import { addTaskRequest } from "../../actions/index";
 
 class AddModal extends React.Component {
   constructor(props) {
@@ -40,25 +42,16 @@ class AddModal extends React.Component {
       laneTitle: this.props.laneTitle,
       loading: false,
       users: [],
-      snackbaropen: false,
-      snackbarmsg: "",
+      showSuccess: false,
     };
+
     this.toggle = this.toggle.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.getUsers = this.getUsers.bind(this);
   }
-  snackbarclose = (event) => {
-    this.setState({ snackbaropen: false });
-  };
 
   componentDidMount() {
     moment.locale("tr");
     this.getUsers();
-  }
-
-  handleInput(e) {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
   }
 
   getUsers() {
@@ -77,7 +70,23 @@ class AddModal extends React.Component {
       });
   }
 
-  handleClick = (event) => () => {
+  toggle() {
+    this.setState({
+      modal: !this.state.modal,
+    });
+  }
+
+  handleInput = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  handleClose = () => {
+    this.setState({ showSuccess: false });
+  };
+
+  handleClick = () => {
     const task = {
       id: "test",
       name: this.state.name,
@@ -94,7 +103,7 @@ class AddModal extends React.Component {
       laneId: this.props.laneId,
       card: task,
     });
-    this.setState({ snackbaropen: true });
+
     this.toggle();
     this.setState({
       name: "",
@@ -103,14 +112,9 @@ class AddModal extends React.Component {
       dueDate: "",
       difficult: 1,
       loading: false,
+      showSuccess: true,
     });
   };
-
-  toggle() {
-    this.setState({
-      modal: !this.state.modal,
-    });
-  }
 
   render() {
     const { users } = this.state;
@@ -126,16 +130,15 @@ class AddModal extends React.Component {
     return (
       <div>
         <Snackbar
-          className="msg-sucess"
-          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-          open={this.state.snackbaropen}
-          autoHideDuration={4000}
-          message="add task sucessed!"
-          TransitionComponent={TransitionDown}
-          onClose={this.snackbarclose}
-          key="snackbar-message"
-          action={[<IconSucess className="iconSucessed" />]}
-        ></Snackbar>
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={this.state.showSuccess}
+          autoHideDuration={3000}
+          onClose={this.handleClose}
+        >
+          <Alert variant="filled" severity="success">
+            {MSG_ADD_TASK_SUCCESS}
+          </Alert>
+        </Snackbar>
         <i
           className="fas fa-plus-circle customAddTask"
           onClick={this.toggle}
@@ -155,7 +158,7 @@ class AddModal extends React.Component {
                 type="text"
                 name="name"
                 id="name"
-                onChange={this.handleInput.bind(this)}
+                onChange={(e) => this.handleInput(e)}
               />
             </FormGroup>
             <FormGroup>
@@ -164,7 +167,7 @@ class AddModal extends React.Component {
                 type="textarea"
                 name="description"
                 id="description"
-                onChange={this.handleInput.bind(this)}
+                onChange={(e) => this.handleInput(e)}
               />
             </FormGroup>
             <FormGroup>
@@ -174,7 +177,7 @@ class AddModal extends React.Component {
                 name="assignee"
                 id="assignee"
                 defaultValue={this.state.assignee}
-                onChange={this.handleInput.bind(this)}
+                onChange={(e) => this.handleInput(e)}
               >
                 <option value="" disabled>
                   Choose:
@@ -189,7 +192,7 @@ class AddModal extends React.Component {
                 name="color"
                 id="color"
                 defaultValue={this.state.difficult}
-                onChange={this.handleInput.bind(this)}
+                onChange={(e) => this.handleInput(e)}
               >
                 <option value="" disabled>
                   Choose:
@@ -209,11 +212,11 @@ class AddModal extends React.Component {
               name="dueDate"
               id="dueDate"
               type="datetime-local"
-              onChange={this.handleInput.bind(this)}
+              onChange={(e) => this.handleInput(e)}
             />
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.handleClick(TransitionDown)}>
+            <Button color="primary" onClick={this.handleClick}>
               <i className="fas fa-plus-circle"></i> Add
             </Button>
             <Button color="secondary" onClick={this.toggle}>
