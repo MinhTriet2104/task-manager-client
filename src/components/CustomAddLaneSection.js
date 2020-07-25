@@ -5,10 +5,10 @@ import PlusIcon from "mdi-react/PlusIcon";
 import "../styles/CustomAddLink.scss";
 
 export default () => (
-  <button className="btn-add">
+  <button className="btn-add" style={{ width: "240px", marginRight: "10px" }}>
     <span>
       <PlusIcon className="icon-plus" />
     </span>{" "}
-    Add a Card
+    Add a Lane
   </button>
 );

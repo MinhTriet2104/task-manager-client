@@ -5,6 +5,7 @@ import Board from "react-trello";
 import CustomCard from "./CustomCard";
 import CustomFooter from "./CustomFooter";
 import CustomHeader from "./CustomHeader";
+import CustomAddLaneSection from "./CustomAddLaneSection";
 import Loader from "./Loader";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -50,7 +51,6 @@ export default ({ match }) => {
           title: lane.name,
           style: {
             width: 280,
-            backgroundColor: "#ebecf0",
           },
           cards: lane.tasks,
         });
@@ -127,8 +127,10 @@ export default ({ match }) => {
           backgroundColor: "transparent",
           height: "calc(100vh - 58px)",
         }}
-        collapsibleLanes
+        // collapsibleLanes
         draggable
+        canAddLanes
+        editable
         onCardDelete={onCardDelete}
         handleDragStart={handleDragStart}
         handleDragEnd={handleDragEnd}
@@ -137,7 +139,8 @@ export default ({ match }) => {
         components={{
           LaneHeader: CustomHeader,
           Card: CustomCard,
-          LaneFooter: CustomFooter,
+          AddCardLink: CustomFooter,
+          NewLaneSection: CustomAddLaneSection,
         }}
       />
       <Modal
