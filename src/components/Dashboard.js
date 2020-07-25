@@ -90,7 +90,7 @@ class Dashboard extends Component {
         </div>
         <div className="con">
           <Header />
-          <aside>
+          <aside style={{ height: "calc(100vh - 58px)" }}>
             <Switch>
               <Route
                 exact
