@@ -12,13 +12,15 @@
   padding-bottom: $react-trello-lane-padding-bottom;
 
   .mcell-task {
+    width: $card-width;
+
     background-color: $item-color;
 
     padding: $mcell-task-padding;
     margin: $mcell-task-margin;
+
     border-radius: $mcell-task-border-radius;
     box-shadow: $box-shadow;
-
     list-style-type: $mcell-task-list-style-type;
   }
   .mcell-task::before {
