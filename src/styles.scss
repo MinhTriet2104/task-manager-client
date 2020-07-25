@@ -290,27 +290,27 @@ li .active:before {
   border-radius: 50%;
 }
 .react-trello-lane {
-  background-color: #ebecf0 !important;
-  margin: 12px !important;
-  border-radius: 10px;
+  // background-color: #ebecf0 !important;
+  margin: 10px !important;
+  border-radius: 15px;
   display: inline-table;
   box-shadow: 0px 3px 5px #bababa7d;
   margin-top: 3%;
   position: relative;
   padding-bottom: 40px;
 }
-.react-trello-lane > header {
-  background: #ebecf0;
-}
+// .react-trello-lane > header {
+//   background: #ebecf0;
+// }
 .mcell-title::before {
   content: "";
   background: linear-gradient(to right, #c774e9 0%, #dc6a84 100%);
   position: absolute;
   top: -13px;
-  width: 109%;
+  width: 280px;
   height: 4px;
-  left: -12px;
-  border-radius: 2px;
+  left: -11px;
+  border-radius: 10px;
 }
 
 .task-name {
