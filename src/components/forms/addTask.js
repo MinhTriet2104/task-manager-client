@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import moment from "moment";
 import axios from "axios";
 import Snackbar from "@material-ui/core/Snackbar";
-import Slide from '@material-ui/core/Slide';
+import Slide from "@material-ui/core/Slide";
 import IconSucess from "mdi-react/CheckCircleOutlineIcon";
 
 import {
@@ -79,6 +79,7 @@ class AddModal extends React.Component {
 
   handleClick = (event) => () => {
     const task = {
+      id: "test",
       name: this.state.name,
       description: this.state.description,
       status: this.props.status,
@@ -126,18 +127,15 @@ class AddModal extends React.Component {
       <div>
         <Snackbar
           className="msg-sucess"
-          anchorOrigin={{ vertical: "bottom", horizontal:"center"}}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           open={this.state.snackbaropen}
           autoHideDuration={4000}
           message="add task sucessed!"
-          TransitionComponent = {TransitionDown}
+          TransitionComponent={TransitionDown}
           onClose={this.snackbarclose}
           key="snackbar-message"
-          action= {[
-            <IconSucess className="iconSucessed"/>
-          ]}
-        >
-        </Snackbar>
+          action={[<IconSucess className="iconSucessed" />]}
+        ></Snackbar>
         <i
           className="fas fa-plus-circle customAddTask"
           onClick={this.toggle}
