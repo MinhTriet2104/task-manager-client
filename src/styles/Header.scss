@@ -2,48 +2,43 @@
 header {
   background-color: $header-background-color;
   font-weight: $header-font-weight;
-  padding: $header-padding;
   box-shadow: $header-box-shadow;
-  .containerDashboard {
-    padding-top: $containerDashboard-padding-top;
-    .mainMenu {
-      display: $mainMenu-display;
-      font-size: $mainMenu-font-size;
-      .active{
-        border-bottom: $mainMenu-active-border-bottom;
-        padding-bottom: $mainMenu-active-padding-bottom;
+  .mainMenu {
+    display: $mainMenu-display;
+    font-size: $mainMenu-font-size;
+    .active {
+      border-bottom: $mainMenu-active-border-bottom;
+      padding-bottom: $mainMenu-active-padding-bottom;
+    }
+    ul {
+      li {
+        display: $mainMenu-ul-li-display;
+        padding: $mainMenu-ul-li-padding;
+        margin: $mainMenu-ul-li-margin;
+        height: $mainMenu-ul-li-height;
+
+        position: $mainMenu-ul-li-position;
+        top: $mainMenu-ul-li-top;
+        transition: $mainMenu-ul-li-transition;
+        .mainmenutext {
+          padding-left: $mainmenutext-ul-li-padding-left;
+        }
       }
-      ul {
-        li {
-          display: $mainMenu-ul-li-display;
-          padding: $mainMenu-ul-li-padding;  
-          margin: $mainMenu-ul-li-margin;       
-          height: $mainMenu-ul-li-height;
-          
-          
-          position: $mainMenu-ul-li-position;
-          top: $mainMenu-ul-li-top;
-          transition: $mainMenu-ul-li-transition;
-          .mainmenutext {
-            padding-left: $mainmenutext-ul-li-padding-left;
-          }
-        }
-        li:hover{
-          border-bottom: $mainMenu-ul-li-hover-border-bottom;
-        }
+      li:hover {
+        border-bottom: $mainMenu-ul-li-hover-border-bottom;
       }
     }
-    .profilewidget {
-      display: $profilewidget-display;
-      width: $profilewidget-width;
-      text-align: $profilewidget-text-align;
-      div {
-        i {
-          cursor: $profilewidget-div-i-cursor;
-          font-size: $profilewidget-div-i-font-size;
-          color: $profilewidget-div-i-color;
-          position: $profilewidget-div-i-position;
-        }
+  }
+  .profilewidget {
+    display: $profilewidget-display;
+    width: $profilewidget-width;
+    text-align: $profilewidget-text-align;
+    div {
+      i {
+        cursor: $profilewidget-div-i-cursor;
+        font-size: $profilewidget-div-i-font-size;
+        color: $profilewidget-div-i-color;
+        position: $profilewidget-div-i-position;
       }
     }
   }

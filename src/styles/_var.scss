@@ -16,7 +16,6 @@ $header-box-shadow: 0px 0px 3px #535353;
 /* Variales Header Main Menu*/
 $mainMenu-display: "inline-block";
 $mainMenu-font-size: 16px;
-$containerDashboard-padding-top: 10px;
 
 /* Variales Header Main Menu ul*/
 $mainMenu-ul-list-style-type: none;
@@ -113,7 +112,6 @@ $li-hover-active-before-height: 46px;
 $li-hover-active-before-margin-top: 5px;
 $li-hover-active-before-position: absolute;
 $li-hover-active-before-box-shadow: 1px 0px 6px #0000002e;
-
 
 /* Variables Dashboard li > .active*/
 $li-active-before-margin: -10px -15px !important;
@@ -308,7 +306,6 @@ $loader-svg-circle-animation: dash 1.5s ease-in-out infinite,
 $loader-svg-circle-stroke-linecap: round;
 $loader-svg-circle-stroke-width: 4;
 $loader-svg-circle-stroke-miterlimit: 10;
-
 
 /* Variable Tooltip > customAddTask*/
 $tooltip-customAddTask-top: 12.5px;

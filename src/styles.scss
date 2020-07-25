@@ -9,6 +9,7 @@ header {
   font-size: 15px;
   padding: 10px 10px 12px;
   font-weight: bold;
+  height: 57px;
 }
 ul {
   margin: 0;
@@ -246,7 +247,7 @@ li .active:before {
 }
 
 /* code Văn thêm */
-.img-member{
+.img-member {
   border-radius: 50%;
   width: 32px;
   height: 32px;
@@ -255,30 +256,31 @@ li .active:before {
   overflow: hidden;
   text-align: center;
 }
-.card-detail > tr >th{
+.card-detail > tr > th {
   padding: 10px;
   color: #5e6c84;
 }
-.modal-content{
+.modal-content {
   display: flex;
- 
+
   justify-content: center;
   background: whitesmoke;
   box-shadow: 0 0 3px gray;
   width: 50%;
   margin: 48px auto;
   padding: 15px;
-} 
-.paper{
+}
+.paper {
   border: 2px solid #000;
   background-color: transparent;
   box-shadow: 0 0 3px green;
   padding: 5px;
 }
-.msg-sucess, .iconSucessed{
-background: #4caf50 !important;
+.msg-sucess,
+.iconSucessed {
+  background: #4caf50 !important;
 }
-.iconSucessed{
+.iconSucessed {
   position: absolute;
   top: 10px;
   right: 0px;

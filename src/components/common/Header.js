@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 
 import AddUser from "../forms/addUser";
 //style
-import "../../styles/Header.scss"
+import "../../styles/Header.scss";
+
 const Header = () => (
   <header>
-    <div className="container containerDashboard">
+    <div className="container">
       <div className="mainMenu">
         <ul>
           <Link to="/story/1" className="active">
