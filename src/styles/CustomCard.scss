@@ -1,6 +1,9 @@
 @import "./var";
 
 .react-trello-lane {
+  width: $lane-width;
+  max-height: $lane-max-height !important;
+
   background-color: $wrapper-color !important;
   position: $react-trello-lane-position;
   box-shadow: $box-shadow;

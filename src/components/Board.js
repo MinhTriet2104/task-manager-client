@@ -49,9 +49,10 @@ export default ({ match }) => {
         lanes.push({
           ...lane,
           title: lane.name,
-          style: {
-            width: 280,
-          },
+          // style: {
+          //   width: 280,
+          //   maxHeight: "85vh",
+          // },
           cards: lane.tasks,
         });
       });

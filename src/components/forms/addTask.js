@@ -102,7 +102,7 @@ class AddModal extends React.Component {
       ...task,
       laneId: this.props.laneId,
     });
-    task.id = res;
+    task.id = res.data;
 
     this.props.addCard({
       laneId: this.props.laneId,
