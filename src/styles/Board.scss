@@ -1,6 +1,6 @@
 @import "./var";
 .react-trello-board {
-  background-color: $react-trello-board-color;
+  background-image: $board-color;
   color: $react-trello-board-color;
-  height: $react-trello-board-height;
+  height: $board-height;
 }

@@ -124,10 +124,6 @@ export default ({ match }) => {
     <div>
       <Board
         data={data}
-        style={{
-          backgroundColor: "transparent",
-          height: "calc(100vh - 58px)",
-        }}
         // collapsibleLanes
         draggable
         canAddLanes
