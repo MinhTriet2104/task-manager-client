@@ -35,7 +35,7 @@ export const addTask = (lane) => ({
 
 export const deleteTaskRequest = (id, laneId) => async (dispatch) => {
   // dispatch(setLoadingProject(true));
-  const res = await axios.delete("http://localhost:2104/task/" + id, {
+  await axios.delete("http://localhost:2104/task/" + id, {
     laneId: laneId,
   });
   // dispatch(deleteTask(res.data, laneId));
@@ -54,7 +54,7 @@ export const updateStatusTaskRequest = (
   sourceLaneId,
   targetLaneId
 ) => async (dispatch) => {
-  const res = await axios.patch("http://localhost:2104/task/" + id, {
+  await axios.patch("http://localhost:2104/task/" + id, {
     tasks: lane.tasks.map((task) => task.id),
     sourceLaneId: sourceLaneId,
     targetLaneId: targetLaneId,
