@@ -38,7 +38,7 @@ export const deleteTaskRequest = (id, laneId) => async (dispatch) => {
   const res = await axios.delete("http://localhost:2104/task/" + id, {
     laneId: laneId,
   });
-  dispatch(deleteTask(res.data, laneId));
+  // dispatch(deleteTask(res.data, laneId));
   // dispatch(setLoadingProject(false));
 };
 
@@ -60,7 +60,7 @@ export const updateStatusTaskRequest = (
     targetLaneId: targetLaneId,
   });
 
-  dispatch(updateStatusTask(res.data, lane, sourceLaneId, targetLaneId));
+  // dispatch(updateStatusTask(res.data, lane, sourceLaneId, targetLaneId));
   // dispatch(updateStatusTask(id, lane, sourceLaneId, targetLaneId));
 };
 
