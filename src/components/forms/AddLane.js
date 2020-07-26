@@ -144,7 +144,9 @@ export default ({ open, handleClose }) => {
           label="Header Color"
           type="text"
           variant="outlined"
-          // disabled
+          inputProps={{
+            readOnly: true,
+          }}
           value={color}
           style={{
             marginTop: "15px",
