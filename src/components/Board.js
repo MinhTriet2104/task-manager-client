@@ -29,8 +29,7 @@ export default ({ match }) => {
   const [sourceLaneId, setSourceLaneId] = useState("");
   const [targetLaneId, setTargetLaneId] = useState("");
   const [loading, setLoading] = useState(true);
-  //set open function for Modal
-  const [open, setOpen] = useState(false);
+  
 
   const project = useSelector((state) => state.project);
   // const tasks = useSelector((state) => state.tasks);
@@ -107,12 +106,9 @@ export default ({ match }) => {
 
   const onCardClick = (cardId, metadata, laneId) => {
     console.log("Task Clicked:", cardId);
-    setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+ 
 
   return loading ? (
     <li>
@@ -140,46 +136,6 @@ export default ({ match }) => {
           NewLaneSection: CustomAddLaneSection,
         }}
       />
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className="modal-comment"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <div className="modal-content">
-            <h2 id="transition-modal-title">
-              <span>
-                <IconDetailTitle className="icon-task"></IconDetailTitle>
-              </span>
-              Task Detail
-            </h2>
-            <table className="card-detail">
-              <tr>
-                <th>Members</th>
-                <th>Lables</th>
-                <th>Due Date</th>
-              </tr>
-              <tr>
-                <th>
-                  <span className="img-member">XV</span>
-                </th>
-                <th>test 2</th>
-                <th>test 2</th>
-              </tr>
-            </table>
-            <p id="transition-modal-description">
-              react-transition-group animates me.
-            </p>
-          </div>
-        </Fade>
-      </Modal>
     </div>
   );
 };

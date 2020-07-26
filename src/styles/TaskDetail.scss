@@ -1,0 +1,79 @@
+.icon-plus,
+.icon-plus-names {
+  position: relative;
+  bottom: 3px;
+  float: left;
+  padding: 2px;
+}
+.icon-plus-names,
+.icon-plus-member {
+  float: right;
+  background-color: rgba(9, 30, 66, 0.04);
+  color: #42526e;
+}
+.icon-plus-member {
+  border-radius: 50%;
+  margin-left: 3px;
+}
+.icon-plus-names:hover,
+.icon-plus-member:hover {
+  background-color: #eaecf0;
+}
+.icon-description, .icon-title-task {
+  display: inline-flex;
+  position: relative;
+  bottom: -6px;
+  margin-right: 5px;
+  width: 20px;
+  height: 20px;
+  left: 0px;
+}
+.icon-title-task{
+  left: 16px;
+}
+.MuiDialog-paperWidthLg {
+  width: 60%;
+}
+.lbl-description {
+  padding: 15px 10px;
+}
+.detail-desription , .detail-comment{
+  overflow: hidden;
+  overflow-wrap: break-word;
+  resize: none;
+  width: 92%;
+  margin-left: 5%;
+  padding: 5px;
+}
+.detail-comment{
+  margin: 0;
+}
+.name-members {
+  background-color: #ff9f1a;
+  margin: 4px;
+  padding: 5px;
+  color: whitesmoke;
+}
+.name-members:hover {
+  opacity: 0.8;
+}
+.img-members {
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  background: #dfe1e6;
+  font-size: medium;
+  overflow: hidden;
+  text-align: center;
+  margin-right: 5px;
+}
+.item-activity {
+  display: flex;
+}
+.title-task{
+  display: flex;
+}
+.title-field{
+  margin-left: 3% !important;
+  width: 89%;
+}
