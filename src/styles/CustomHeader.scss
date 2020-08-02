@@ -2,7 +2,7 @@
 .react-trello-lane {
   .mcell-title::before {
     content: "";
-    background: linear-gradient(to right, #c774e9 0%, #dc6a84 100%);
+    background: attr(data-color);
     position: absolute;
 
     top: -13px;

@@ -15,7 +15,7 @@ export const CircleSwatch = ({
   const backgroundColor = color;
 
   const index = color.indexOf("#");
-  const shadowColor = color.slice(index, index + 7);
+  // const shadowColor = color.slice(index, index + 7);
 
   const styles = reactCSS(
     {

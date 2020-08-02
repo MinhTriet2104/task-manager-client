@@ -302,16 +302,16 @@ li .active:before {
 // .react-trello-lane > header {
 //   background: #ebecf0;
 // }
-.mcell-title::before {
-  content: "";
-  background: linear-gradient(to right, #c774e9 0%, #dc6a84 100%);
-  position: absolute;
-  top: -13px;
-  width: 280px;
-  height: 4px;
-  left: -11px;
-  border-radius: 10px;
-}
+// .mcell-title::before {
+//   content: "";
+//   background: linear-gradient(to right, #c774e9 0%, #dc6a84 100%);
+//   position: absolute;
+//   top: -13px;
+//   width: 280px;
+//   height: 4px;
+//   left: -11px;
+//   border-radius: 10px;
+// }
 
 .task-name {
   font-weight: bold !important;
@@ -383,12 +383,12 @@ li .active:before {
   padding: 2px;
 }
 /* code Văn thêm ở trên */
-.mcell-title {
-  font-size: 15px;
-  padding: 10px 10px 5px;
-  font-weight: bold;
-  position: relative;
-}
+// .mcell-title {
+//   font-size: 15px;
+//   padding: 10px 10px 5px;
+//   font-weight: bold;
+//   position: relative;
+// }
 .mcell-task {
   background-color: #fff;
   padding: 4px 8px;

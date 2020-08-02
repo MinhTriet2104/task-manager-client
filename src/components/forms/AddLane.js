@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import axios from "axios";
 import { withStyles } from "@material-ui/core/styles";
 
 import Button from "@material-ui/core/Button";
@@ -44,8 +46,10 @@ const colors = [
   "linear-gradient(to right, #ed6ea0 0%, #ec8c69 100%)",
 ];
 
-export default ({ open, handleClose }) => {
+export default ({ onAdd, onCancel }) => {
+  const project = useSelector((state) => state.project);
   const [color, setColor] = useState(colors[12]);
+  const [title, setTitle] = useState("");
   const index = color.indexOf("#");
   const [outlineColor, setOutlineColor] = useState(
     color.slice(index, index + 7)
@@ -55,6 +59,18 @@ export default ({ open, handleClose }) => {
     setColor(color);
     const index = color.indexOf("#");
     setOutlineColor(color.slice(index, index + 7));
+  };
+
+  const handleAddLane = async () => {
+    const res = await axios.post("http://localhost:2104/lane", {
+      title: title,
+      color: color,
+      projectId: project.id,
+    });
+
+    const lane = await res.data;
+
+    onAdd(lane);
   };
 
   const styles = (theme) => ({
@@ -118,21 +134,19 @@ export default ({ open, handleClose }) => {
   })(TextField);
 
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="form-dialog-title"
-    >
-      <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+    <Dialog open={true} onClose={onCancel} aria-labelledby="form-dialog-title">
+      <DialogTitle id="customized-dialog-title" onClose={onCancel}>
         Add New Lane
       </DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
           margin="dense"
-          id="name"
-          name="name"
-          label="Name"
+          id="title"
+          name="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          label="Title"
           type="text"
           fullWidth
           required
@@ -163,18 +177,14 @@ export default ({ open, handleClose }) => {
       </DialogContent>
       <DialogActions>
         <Button
-          onClick={handleClose}
+          onClick={handleAddLane}
           variant="contained"
           color="primary"
           startIcon={<PlusIcon />}
         >
           Add
         </Button>
-        <Button
-          onClick={handleClose}
-          color="secondary"
-          startIcon={<CloseIcon />}
-        >
+        <Button onClick={onCancel} color="secondary" startIcon={<CloseIcon />}>
           Cancel
         </Button>
       </DialogActions>

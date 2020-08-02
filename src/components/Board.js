@@ -6,6 +6,7 @@ import CustomCard from "./CustomCard";
 import CustomFooter from "./CustomFooter";
 import CustomHeader from "./CustomHeader";
 import CustomAddLaneSection from "./CustomAddLaneSection";
+import AddLane from "./forms/AddLane";
 import Loader from "./Loader";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -45,10 +46,11 @@ export default ({ match }) => {
   useEffect(() => {
     if (project && !data) {
       const lanes = [];
+      console.log("Project:", project);
       project.lanes.forEach((lane) => {
         lanes.push({
           ...lane,
-          title: lane.name,
+          // title: lane.name,
           // style: {
           //   width: 280,
           //   maxHeight: "85vh",
@@ -127,7 +129,9 @@ export default ({ match }) => {
         // collapsibleLanes
         draggable
         canAddLanes
+        showEditableLane
         editable
+        addLaneMode={true}
         onCardDelete={onCardDelete}
         handleDragStart={handleDragStart}
         handleDragEnd={handleDragEnd}
@@ -138,6 +142,7 @@ export default ({ match }) => {
           Card: CustomCard,
           AddCardLink: CustomFooter,
           NewLaneSection: CustomAddLaneSection,
+          NewLaneForm: AddLane,
         }}
       />
       <Modal

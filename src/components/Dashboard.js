@@ -13,6 +13,8 @@ import Header from "./common/Header";
 import "../styles/Dashboard.scss";
 
 class Dashboard extends Component {
+  _isMounted = false;
+
   constructor(props, context) {
     super(props, context);
     this.state = {

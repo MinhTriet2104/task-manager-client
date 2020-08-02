@@ -1,12 +1,34 @@
 import React from "react";
-import Tooltip from "./Tooltip";
-//style
-import "../styles/CustomHeader.scss";
+import styled from "styled-components";
 
-export default ({ id, title, actions }) => {
-  // console.log(actions.addCard);
+import Tooltip from "./Tooltip";
+
+export default ({ id, title, actions, color }) => {
+  const CustomHeader = styled.div`
+    font-size: 15px;
+    font-weight: bold;
+
+    padding: 10px 10px 5px;
+
+    position: relative;
+
+    &::before {
+      content: "";
+      background: ${color};
+
+      position: absolute;
+
+      top: -13px;
+      width: 280px;
+      height: 5px;
+      left: -10.5px;
+
+      border-radius: 10px;
+    }
+  `;
+
   return (
-    <div className="mcell-title">
+    <CustomHeader>
       {title}
       <Tooltip
         id={id}
@@ -15,6 +37,6 @@ export default ({ id, title, actions }) => {
         content="You can do what you want to do with this column"
         placement="top"
       />
-    </div>
+    </CustomHeader>
   );
 };
