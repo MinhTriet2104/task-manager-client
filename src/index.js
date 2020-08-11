@@ -8,6 +8,7 @@ import thunk from "redux-thunk";
 
 import App from "./App";
 import About from "./components/About";
+import ChatBox from "./components/ChatBox";
 
 import reducer from "./reducers/index";
 import "./styles.scss";
@@ -47,6 +48,7 @@ ReactDOM.render(
         <Route exact path="/" component={IndexPage} />
         <Route exact path="/about" component={About} />
         <Route path="/project" component={App} />
+        <Route path="/chatbox" component={ChatBox} />
         <Route component={NotFoundPage} />
       </Switch>
     </Router>
