@@ -8,7 +8,7 @@ import thunk from "redux-thunk";
 
 import App from "./App";
 import About from "./components/About";
-import ChatBox from "./components/ChatBox";
+import ChatBox from "./components/ChatBox/ChatBox";
 
 import reducer from "./reducers/index";
 import "./styles.scss";
