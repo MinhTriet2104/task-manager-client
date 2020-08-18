@@ -9,7 +9,7 @@ const ChatMessagesContainer = styled.div`
   padding: 15px 0;
 `;
 
-const ChatMessages = () => {
+const ChatMessages = ({ messageList }) => {
   return (
     <ChatMessagesContainer>
       <ChatMessageElement
@@ -19,15 +19,24 @@ const ChatMessages = () => {
         hasAvatar={true}
       />
       <ChatMessageElement
-        sername={"Minh Triet"}
+        username={"Minh Triet"}
         time={"Yesterday at 19:54"}
         content={"Hello World 2"}
       />
       <ChatMessageElement
-        sername={"Minh Triet"}
+        username={"Minh Triet"}
         time={"Yesterday at 19:54"}
         content={"Hello, World!!!!!!"}
       />
+      {messageList.map((msg, index) => (
+        <ChatMessageElement
+          key={index}
+          username={"Minh Triet"}
+          time={"Yesterday at 19:54"}
+          content={msg.content}
+          hasAvatar={true}
+        />
+      ))}
     </ChatMessagesContainer>
   );
 };

@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import io from "socket.io-client";
 
 import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
-
-const socket = io("localhost:5000");
 
 const Container = styled.div`
   background-image: linear-gradient(
@@ -23,13 +21,28 @@ const Container = styled.div`
 `;
 
 const ChatBox = () => {
+  const socket = io("localhost:5000");
+
   const [message, setMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
+
+  useEffect(() => {
+    socket.on("server message", (msg) => {
+      console.log("server: ", msg);
+      setMessageList([...messageList, msg]);
+      console.log([...messageList, msg]);
+    });
+  }, [socket]);
 
   const handleKeyDown = (keyCode) => {
     if (keyCode === 13) {
       console.log("enter:", message);
-      socket.emit("chat message", message);
+      const msg = {
+        content: message,
+        time: Date.now(),
+      };
+      socket.emit("chat message", msg);
+      setMessage("");
     }
   };
 
@@ -39,7 +52,7 @@ const ChatBox = () => {
 
   return (
     <Container className="container">
-      <ChatMessages />
+      <ChatMessages messageList={messageList} />
       <ChatInput
         addEmoji={addEmoji}
         value={message}

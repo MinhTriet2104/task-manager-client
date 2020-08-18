@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 const MessageElementWrapper = styled.div`
   display: flex;
+
   max-height: 48px;
 `;
 
@@ -47,7 +48,7 @@ const MessageContent = styled.div``;
 
 const ChatMessageElement = ({ username, time, content, hasAvatar }) => {
   return (
-    <MessageElementWrapper>
+    <MessageElementWrapper style={hasAvatar ? { marginTop: "10px" } : null}>
       {hasAvatar ? (
         <MessageElementAvatar src="https://i.imgur.com/5bh5qpe.jpg" />
       ) : (
