@@ -20,23 +20,21 @@ const Container = styled.div`
   padding-bottom: 20px;
 `;
 
-const ChatBox = () => {
-  const socket = io("localhost:5000");
+const socket = io("localhost:5000");
 
+const ChatBox = () => {
   const [message, setMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
 
   useEffect(() => {
-    socket.on("server message", (msg) => {
-      console.log("server: ", msg);
-      setMessageList([...messageList, msg]);
-      console.log([...messageList, msg]);
+    socket.on("server message", (messages) => {
+      console.log("server: ", messages);
+      setMessageList([...messages]);
     });
   }, [socket]);
 
   const handleKeyDown = (keyCode) => {
     if (keyCode === 13) {
-      console.log("enter:", message);
       const msg = {
         content: message,
         time: Date.now(),

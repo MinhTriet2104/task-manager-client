@@ -48,7 +48,7 @@ const MessageContent = styled.div``;
 
 const ChatMessageElement = ({ username, time, content, hasAvatar }) => {
   return (
-    <MessageElementWrapper style={hasAvatar ? { marginTop: "10px" } : null}>
+    <MessageElementWrapper style={hasAvatar ? { marginTop: "15px" } : null}>
       {hasAvatar ? (
         <MessageElementAvatar src="https://i.imgur.com/5bh5qpe.jpg" />
       ) : (
