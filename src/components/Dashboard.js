@@ -6,6 +6,7 @@ import classNames from "classnames";
 
 // components
 import Board from "./Board";
+import ChatBox from "./ChatBox/ChatBox";
 import AddStory from "./forms/addStory";
 import Loader from "./Loader";
 import Header from "./common/Header";
@@ -51,10 +52,13 @@ class Dashboard extends Component {
     const { projects, loading } = this.state;
     const { project } = this.props;
     let projectList;
+    let header;
 
     if (!loading) {
       let projectId;
       if (project) projectId = project._id;
+
+      header = <Header projectId={projectId} />;
 
       projectList = projects.map((project, index) => {
         return (
@@ -79,6 +83,14 @@ class Dashboard extends Component {
           </div>
         </li>
       );
+
+      header = (
+        <li>
+          <div className="loader">
+            <Loader />
+          </div>
+        </li>
+      );
     }
 
     return (
@@ -91,7 +103,7 @@ class Dashboard extends Component {
           </div>
         </div>
         <div className="con">
-          <Header />
+          {header}
           <aside style={{ height: "calc(100vh - 58px)" }}>
             <Switch>
               <Route
@@ -100,6 +112,7 @@ class Dashboard extends Component {
                 component={() => <h2>Select a Project</h2>}
               />
               <Route path="/project/:id" component={Board} />
+              <Route path="/project/:id/chatbox" component={ChatBox} />
             </Switch>
           </aside>
         </div>

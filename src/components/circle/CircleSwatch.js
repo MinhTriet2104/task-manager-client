@@ -43,7 +43,7 @@ export const CircleSwatch = ({
         },
       },
       active: {
-        Swatch: {
+        swatch: {
           // boxShadow: `inset 0 0 0 5px ${shadowColor}`,
           // transform: "scale(1.2)",
           // borderRadius: `2px solid ${shadowColor}`,

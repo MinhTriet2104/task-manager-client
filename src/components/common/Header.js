@@ -6,28 +6,26 @@ import AddUser from "../forms/addUser";
 //style
 import "../../styles/Header.scss";
 
-const Header = () => (
+const Header = ({ projectId }) => (
   <header>
-    <div className="container">
-      <div className="mainMenu">
-        <ul>
-          <Link to="/story/1" className="active">
-            <li>
-              <i className="fas fa-folder-open"></i>
-              <span className="mainMenuText">Projects</span>
-            </li>
-          </Link>
-          <Link to="/about">
-            <li>
-              <i className="fas fa-thumbs-up" />
-              <span className="mainMenuText">About</span>
-            </li>
-          </Link>
-        </ul>
-      </div>
-      <div className="profilewidget">
-        <AddUser />
-      </div>
+    <div className="mainMenu">
+      <ul>
+        <Link to={`/project/${projectId}`} className="active">
+          <li>
+            <i className="fas fa-folder-open"></i>
+            <span className="mainMenuText">Projects</span>
+          </li>
+        </Link>
+        <Link to={`/project/${projectId}/chatbox`}>
+          <li>
+            <i className="fas fa-comments"></i>
+            <span className="mainMenuText">ChatBox</span>
+          </li>
+        </Link>
+      </ul>
+    </div>
+    <div className="profilewidget">
+      <AddUser />
     </div>
   </header>
 );
