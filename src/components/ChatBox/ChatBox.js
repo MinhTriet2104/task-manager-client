@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import io from "socket.io-client";
+import moment from "moment";
 
 import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
@@ -37,7 +38,7 @@ const ChatBox = () => {
     if (keyCode === 13) {
       const msg = {
         content: message,
-        time: Date.now(),
+        time: moment(),
       };
       socket.emit("chat message", msg);
       setMessage("");
@@ -51,6 +52,7 @@ const ChatBox = () => {
   return (
     <Container className="container">
       <ChatMessages messageList={messageList} />
+
       <ChatInput
         addEmoji={addEmoji}
         value={message}

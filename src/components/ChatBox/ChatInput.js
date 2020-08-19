@@ -14,6 +14,7 @@ const InputWrapper = styled.div`
   height: 40px;
 
   padding: 7px 15px;
+  margin-top: 15px;
 
   border-radius: 5px;
   box-shadow: inset -2px -2px 6px #faffff, inset 2px 2px 6px #adbfd5;

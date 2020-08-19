@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 
 const MessageElementWrapper = styled.div`
@@ -46,9 +46,24 @@ const MessageTime = styled.span`
 
 const MessageContent = styled.div``;
 
-const ChatMessageElement = ({ username, time, content, hasAvatar }) => {
+const ChatMessageElement = ({
+  username,
+  time,
+  content,
+  hasAvatar,
+  onRender,
+}) => {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (onRender) onRender(ref.current);
+  }, []);
+
   return (
-    <MessageElementWrapper style={hasAvatar ? { marginTop: "15px" } : null}>
+    <MessageElementWrapper
+      ref={ref}
+      style={hasAvatar ? { marginTop: "15px" } : null}
+    >
       {hasAvatar ? (
         <MessageElementAvatar src="https://i.imgur.com/5bh5qpe.jpg" />
       ) : (
