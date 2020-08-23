@@ -82,7 +82,7 @@ export const setLoadingProject = (status) => ({
   status,
 });
 
-export const setSubMatch = (subMatch) => ({
-  type: types.SET_SUB_MATCH,
-  subMatch,
+export const setGlobalMatch = (match) => ({
+  type: types.SET_GLOBAL_MATCH,
+  match,
 });

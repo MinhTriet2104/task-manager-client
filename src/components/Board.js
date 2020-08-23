@@ -17,6 +17,7 @@ import {
   getProject,
   deleteTaskRequest,
   updateStatusTaskRequest,
+  setGlobalMatch,
 } from "../actions/index";
 
 export default ({ match }) => {
@@ -28,12 +29,12 @@ export default ({ match }) => {
   const [loading, setLoading] = useState(true);
 
   const project = useSelector((state) => state.project);
-  // const tasks = useSelector((state) => state.tasks);
   const dispatch = useDispatch();
 
   useEffect(() => {
     setData(null);
     setLoading(true);
+    dispatch(setGlobalMatch(match));
     dispatch(getProject(match.params.id));
   }, [dispatch, match.params.id]);
 

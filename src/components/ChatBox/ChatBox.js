@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import io from "socket.io-client";
 import moment from "moment";
@@ -6,12 +7,14 @@ import moment from "moment";
 import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
 
+import { setGlobalMatch } from "../../actions";
+
 const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
 
   height: 100%;
-  width: 80%;
+  width: 85%;
 
   box-shadow: rgb(250, 255, 255) -3px -3px 7px, rgb(173, 191, 213) 3px 3px 7px;
 
@@ -21,9 +24,15 @@ const ChatContainer = styled.div`
 
 const socket = io("localhost:5000");
 
-const ChatBox = () => {
+const ChatBox = ({ match }) => {
   const [message, setMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setGlobalMatch(match));
+  }, [dispatch]);
 
   useEffect(() => {
     socket.on("server message", (messages) => {

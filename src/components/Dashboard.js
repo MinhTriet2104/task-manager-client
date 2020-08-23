@@ -49,13 +49,13 @@ class Dashboard extends Component {
 
   render() {
     const { projects, loading } = this.state;
-    const { project } = this.props;
+    const { globalMatch } = this.props;
+
     let projectList;
     let header;
 
     if (!loading) {
-      let projectId;
-      if (project) projectId = project._id;
+      let projectId = globalMatch.params.id;
 
       header = <Header projectId={projectId} match={this.state.match} />;
 
@@ -122,6 +122,7 @@ class Dashboard extends Component {
 
 const mapStateToProps = (state) => ({
   project: state.project,
+  globalMatch: state.globalMatch,
 });
 
 export default connect(mapStateToProps, null)(Dashboard);

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 
@@ -7,7 +8,9 @@ import AddUser from "../forms/addUser";
 import "../../styles/Header.scss";
 
 const Header = ({ projectId }) => {
-  const [subMatch, setSubMatch] = useState("board");
+  const globalMatch = useSelector((state) => state.globalMatch);
+  let subMatch = globalMatch.path.split("/");
+  subMatch = subMatch[subMatch.length - 1];
 
   return (
     <header>
@@ -18,7 +21,6 @@ const Header = ({ projectId }) => {
             className={classNames({
               active: subMatch === "board",
             })}
-            onClick={() => setSubMatch("board")}
           >
             <li>
               <i className="fas fa-folder-open"></i>
@@ -30,7 +32,6 @@ const Header = ({ projectId }) => {
             className={classNames({
               active: subMatch === "chatbox",
             })}
-            onClick={() => setSubMatch("chatbox")}
           >
             <li>
               <i className="fas fa-comments"></i>
