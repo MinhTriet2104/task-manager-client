@@ -31,15 +31,15 @@ const ChatBox = ({ match }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setGlobalMatch(match));
-  }, [dispatch]);
-
-  useEffect(() => {
     socket.on("server message", (messages) => {
       console.log("server: ", messages);
       setMessageList([...messages]);
     });
   }, []);
+
+  useEffect(() => {
+    dispatch(setGlobalMatch(match));
+  }, [match.params.id]);
 
   const handleKeyDown = (keyCode) => {
     if (keyCode === 13) {

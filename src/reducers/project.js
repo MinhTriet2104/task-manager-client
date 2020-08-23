@@ -5,6 +5,7 @@ const initialState = null;
 const project = (state = initialState, action) => {
   switch (action.type) {
     case types.SET_PROJECT:
+      if (!action.project) return null;
       return { ...action.project };
     case types.ADD_TASK:
       const { lanes } = state;

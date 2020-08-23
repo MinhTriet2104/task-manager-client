@@ -10,6 +10,7 @@ import ChatBox from "./ChatBox/ChatBox";
 import AddStory from "./forms/addStory";
 import Loader from "./Loader";
 import Header from "./common/Header";
+
 //style
 import "../styles/Dashboard.scss";
 
@@ -55,7 +56,13 @@ class Dashboard extends Component {
 
     if (!loading) {
       let projectId;
-      if (globalMatch) projectId = globalMatch.params.id;
+      let subMatch = "board";
+      if (globalMatch) {
+        projectId = globalMatch.params.id;
+
+        subMatch = globalMatch.path.split("/");
+        subMatch = subMatch[subMatch.length - 1];
+      }
 
       header = <Header />;
 
@@ -63,7 +70,7 @@ class Dashboard extends Component {
         return (
           <li key={index}>
             <Link
-              to={`/project/${project._id}/board`}
+              to={`/project/${project._id}/${subMatch}`}
               className={classNames({
                 active: project._id === projectId,
               })}
@@ -124,5 +131,9 @@ const mapStateToProps = (state) => ({
   project: state.project,
   globalMatch: state.globalMatch,
 });
+
+// const mapDispatchToProps = (dispatch) => ({
+//   resetProject: () => dispatch(setProject(null)),
+// });
 
 export default connect(mapStateToProps, null)(Dashboard);

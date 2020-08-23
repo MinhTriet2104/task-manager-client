@@ -4,10 +4,9 @@ import * as types from "../constants/ActionTypes";
 
 export const getProject = (id) => async (dispatch) => {
   const res = await axios.get(`http://localhost:2104/project/${id}`);
-  console.log("action:", res.data);
   dispatch(setProject(res.data));
   // dispatch(setTasks(res.data.tasks));
-  dispatch(setLoadingProject(false));
+  // dispatch(setLoadingProject(false));
   // dispatch(setLoadingTask(false));
 };
 

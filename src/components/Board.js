@@ -15,6 +15,7 @@ import "../styles/Board.scss";
 // action
 import {
   getProject,
+  setProject,
   deleteTaskRequest,
   updateStatusTaskRequest,
   setGlobalMatch,
@@ -33,16 +34,12 @@ export default ({ match }) => {
 
   useEffect(() => {
     dispatch(setGlobalMatch(match));
-  }, []);
 
-  useEffect(() => {
-    setData(null);
-    setLoading(true);
     dispatch(getProject(match.params.id));
-  }, [dispatch, match.params.id]);
+  }, [match.params.id]);
 
   useEffect(() => {
-    if (project) {
+    if (project && project.id === match.params.id) {
       const lanes = [];
       console.log("Project:", project);
       project.lanes.forEach((lane) => {

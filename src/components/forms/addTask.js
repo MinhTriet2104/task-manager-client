@@ -21,7 +21,7 @@ import {
 // Message
 import {
   MSG_ADD_TASK_SUCCESS,
-  MSG_ADD_TASK_FAIL,
+  // MSG_ADD_TASK_FAIL,
 } from "../../constants/Message";
 
 import { addTaskRequest } from "../../actions/index";
