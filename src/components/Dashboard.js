@@ -14,13 +14,12 @@ import Header from "./common/Header";
 import "../styles/Dashboard.scss";
 
 class Dashboard extends Component {
-  _isMounted = false;
-
   constructor(props, context) {
     super(props, context);
     this.state = {
       projects: [],
       loading: true,
+      match: "board",
       err: "",
     };
   }
@@ -58,13 +57,13 @@ class Dashboard extends Component {
       let projectId;
       if (project) projectId = project._id;
 
-      header = <Header projectId={projectId} />;
+      header = <Header projectId={projectId} match={this.state.match} />;
 
       projectList = projects.map((project, index) => {
         return (
           <li key={index}>
             <Link
-              to={`/project/${project._id}`}
+              to={`/project/${project._id}/board`}
               className={classNames({
                 active: project._id === projectId,
               })}
@@ -111,7 +110,7 @@ class Dashboard extends Component {
                 path="/project"
                 component={() => <h2>Select a Project</h2>}
               />
-              <Route path="/project/:id" component={Board} />
+              <Route path="/project/:id/board" component={Board} />
               <Route path="/project/:id/chatbox" component={ChatBox} />
             </Switch>
           </aside>

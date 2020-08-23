@@ -6,19 +6,17 @@ import moment from "moment";
 import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
 
-const Container = styled.div`
-  background-image: linear-gradient(
-    to top,
-    #d5d4d0 0%,
-    #d5d4d0 1%,
-    #eeeeec 31%,
-    #efeeec 75%,
-    #e9e9e7 100%
-  );
+const ChatContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+  width: 80%;
 
   box-shadow: rgb(250, 255, 255) -3px -3px 7px, rgb(173, 191, 213) 3px 3px 7px;
 
-  padding-bottom: 20px;
+  padding: 10px 15px;
+  padding-bottom: 30px;
 `;
 
 const socket = io("localhost:5000");
@@ -32,7 +30,7 @@ const ChatBox = () => {
       console.log("server: ", messages);
       setMessageList([...messages]);
     });
-  }, [socket]);
+  }, []);
 
   const handleKeyDown = (keyCode) => {
     if (keyCode === 13) {
@@ -50,7 +48,7 @@ const ChatBox = () => {
   };
 
   return (
-    <Container className="container">
+    <ChatContainer>
       <ChatMessages messageList={messageList} />
 
       <ChatInput
@@ -59,7 +57,7 @@ const ChatBox = () => {
         onChange={setMessage}
         handleKeyDown={handleKeyDown}
       />
-    </Container>
+    </ChatContainer>
   );
 };
 

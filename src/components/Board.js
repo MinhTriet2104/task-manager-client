@@ -8,10 +8,6 @@ import CustomHeader from "./CustomHeader";
 import CustomAddLaneSection from "./CustomAddLaneSection";
 import AddLane from "./forms/AddLane";
 import Loader from "./Loader";
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
-import IconDetailTitle from "mdi-react/CardBulletedOutlineIcon";
 
 //import style
 import "../styles/Board.scss";
@@ -30,7 +26,6 @@ export default ({ match }) => {
   const [sourceLaneId, setSourceLaneId] = useState("");
   const [targetLaneId, setTargetLaneId] = useState("");
   const [loading, setLoading] = useState(true);
-  
 
   const project = useSelector((state) => state.project);
   // const tasks = useSelector((state) => state.tasks);
@@ -109,8 +104,6 @@ export default ({ match }) => {
   const onCardClick = (cardId, metadata, laneId) => {
     console.log("Task Clicked:", cardId);
   };
-
- 
 
   return loading ? (
     <li>

@@ -81,3 +81,8 @@ export const setLoadingProject = (status) => ({
   type: types.SET_LOADING_PROJECT,
   status,
 });
+
+export const setSubMatch = (subMatch) => ({
+  type: types.SET_SUB_MATCH,
+  subMatch,
+});
