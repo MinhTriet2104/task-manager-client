@@ -19,7 +19,6 @@ class Dashboard extends Component {
     this.state = {
       projects: [],
       loading: true,
-      match: "board",
       err: "",
     };
   }
@@ -55,9 +54,10 @@ class Dashboard extends Component {
     let header;
 
     if (!loading) {
-      let projectId = globalMatch.params.id;
+      let projectId;
+      if (globalMatch) projectId = globalMatch.params.id;
 
-      header = <Header projectId={projectId} match={this.state.match} />;
+      header = <Header />;
 
       projectList = projects.map((project, index) => {
         return (

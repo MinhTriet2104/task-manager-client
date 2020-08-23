@@ -1,4 +1,4 @@
-import React, { ReactDOM } from "react";
+import React from "react";
 import styled from "styled-components";
 import moment from "moment";
 
@@ -15,7 +15,6 @@ const ChatMessagesContainer = styled.div`
 
 const ChatMessages = ({ messageList }) => {
   const onRowRender = (node) => {
-    // var rowDOM = ReactDOM.findDOMNode(row);
     const parent = node.parentNode;
     parent.scrollTop = parent.scrollHeight;
   };

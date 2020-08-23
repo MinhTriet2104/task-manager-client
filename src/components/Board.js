@@ -32,14 +32,17 @@ export default ({ match }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(setGlobalMatch(match));
+  }, []);
+
+  useEffect(() => {
     setData(null);
     setLoading(true);
-    dispatch(setGlobalMatch(match));
     dispatch(getProject(match.params.id));
   }, [dispatch, match.params.id]);
 
   useEffect(() => {
-    if (project && !data) {
+    if (project) {
       const lanes = [];
       console.log("Project:", project);
       project.lanes.forEach((lane) => {
@@ -102,10 +105,6 @@ export default ({ match }) => {
     }
   };
 
-  const onCardClick = (cardId, metadata, laneId) => {
-    console.log("Task Clicked:", cardId);
-  };
-
   return loading ? (
     <li>
       <div className="loader">
@@ -126,7 +125,6 @@ export default ({ match }) => {
         handleDragStart={handleDragStart}
         handleDragEnd={handleDragEnd}
         onDataChange={onDataChange}
-        onCardClick={onCardClick}
         components={{
           LaneHeader: CustomHeader,
           Card: CustomCard,

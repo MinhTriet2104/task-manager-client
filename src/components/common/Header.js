@@ -7,8 +7,10 @@ import AddUser from "../forms/addUser";
 //style
 import "../../styles/Header.scss";
 
-const Header = ({ projectId }) => {
+const Header = () => {
   const globalMatch = useSelector((state) => state.globalMatch);
+  if (!globalMatch) return null;
+
   let subMatch = globalMatch.path.split("/");
   subMatch = subMatch[subMatch.length - 1];
 
@@ -17,18 +19,18 @@ const Header = ({ projectId }) => {
       <div className="mainMenu">
         <ul>
           <Link
-            to={`/project/${projectId}/board`}
+            to={`/project/${globalMatch.params.id}/board`}
             className={classNames({
               active: subMatch === "board",
             })}
           >
             <li>
-              <i className="fas fa-folder-open"></i>
+              <i className="fas fa-clipboard-list"></i>
               <span className="mainMenuText">Board</span>
             </li>
           </Link>
           <Link
-            to={`/project/${projectId}/chatbox`}
+            to={`/project/${globalMatch.params.id}/chatbox`}
             className={classNames({
               active: subMatch === "chatbox",
             })}
