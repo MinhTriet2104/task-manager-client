@@ -2,11 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, compose, applyMiddleware } from "redux";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 // import { createBrowserHistory } from "history";
 import thunk from "redux-thunk";
 
 import App from "./App";
+import Login from "./components/Login/Login";
 import About from "./components/About";
 
 import reducer from "./reducers/index";
@@ -44,7 +50,10 @@ ReactDOM.render(
   <Provider store={store}>
     <Router>
       <Switch>
-        <Route exact path="/" component={IndexPage} />
+        <Route exact path="/" component={IndexPage}>
+          <Redirect to="/login" />
+        </Route>
+        <Route exact path="/login" component={Login} />
         <Route exact path="/about" component={About} />
         <Route path="/project" component={App} />
         <Route component={NotFoundPage} />
