@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import io from "socket.io-client";
 import moment from "moment";
 
+import ChatHeader from "./ChatHeader";
 import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
+import Loader from "../Loader";
 
-import { setGlobalMatch } from "../../actions";
+import { getProject, setGlobalMatch } from "../../actions";
 
 const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  height: 100%;
+  height: calc(100% - 53px);
   width: 85%;
 
   box-shadow: rgb(250, 255, 255) -3px -3px 7px, rgb(173, 191, 213) 3px 3px 7px;
@@ -27,8 +29,15 @@ const socket = io("localhost:5000");
 const ChatBox = ({ match }) => {
   const [message, setMessage] = useState("");
   const [messageList, setMessageList] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const project = useSelector((state) => state.project);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProject(match.params.id));
+  }, [match.params.id]);
 
   useEffect(() => {
     socket.on("server message", (messages) => {
@@ -36,6 +45,10 @@ const ChatBox = ({ match }) => {
       setMessageList([...messages]);
     });
   }, []);
+
+  useEffect(() => {
+    if (project && project.id === match.params.id) setLoading(false);
+  }, [project]);
 
   useEffect(() => {
     dispatch(setGlobalMatch(match));
@@ -56,17 +69,26 @@ const ChatBox = ({ match }) => {
     setMessage(message + emoji);
   };
 
-  return (
-    <ChatContainer>
-      <ChatMessages messageList={messageList} />
+  return loading ? (
+    <li>
+      <div className="loader">
+        <Loader />
+      </div>
+    </li>
+  ) : (
+    <>
+      <ChatHeader projectName={project.name} />
+      <ChatContainer>
+        <ChatMessages messageList={messageList} />
 
-      <ChatInput
-        addEmoji={addEmoji}
-        value={message}
-        onChange={setMessage}
-        handleKeyDown={handleKeyDown}
-      />
-    </ChatContainer>
+        <ChatInput
+          addEmoji={addEmoji}
+          value={message}
+          onChange={setMessage}
+          handleKeyDown={handleKeyDown}
+        />
+      </ChatContainer>
+    </>
   );
 };
 

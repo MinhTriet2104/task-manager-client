@@ -15,7 +15,6 @@ import "../styles/Board.scss";
 // action
 import {
   getProject,
-  setProject,
   deleteTaskRequest,
   updateStatusTaskRequest,
   setGlobalMatch,

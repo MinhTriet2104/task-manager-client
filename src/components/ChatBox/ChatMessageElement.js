@@ -57,7 +57,7 @@ const ChatMessageElement = ({
 
   useEffect(() => {
     if (onRender) onRender(ref.current);
-  }, []);
+  }, [onRender]);
 
   return (
     <MessageElementWrapper

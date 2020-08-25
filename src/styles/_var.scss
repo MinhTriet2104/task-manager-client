@@ -5,7 +5,7 @@ $body-font-family: "PT Sans", sans-serif;
 
 $box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
 
-$wrapper-color: #f7f7f9;
+$wrapper-color: #f9f9fe;
 $item-color: #fff;
 $board-color: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%) !important;
 $board-height: calc(100vh - 58px) !important;
@@ -67,7 +67,7 @@ $side-position: absolute;
 $side-left: 0;
 $side-top: 0;
 $side-bottom: 0;
-$side-min-height: 100%;
+$side-min-height: 100vh;
 $side-background: #fff;
 $side-min-width: 184px;
 $side-box-shadow: -3px 0px 7px #535353;
