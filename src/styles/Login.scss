@@ -1,0 +1,19 @@
+.fb-login-btn,
+.gg-login-btn {
+  width: 140px;
+  height: 46px;
+
+  background: #fff;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 2px 0px,
+    rgba(0, 0, 0, 0.24) 0px 0px 1px 0px;
+
+  border: none;
+  border-radius: 2px;
+
+  cursor: pointer;
+  i {
+    color: #3578e5;
+
+    margin-right: 10px;
+  }
+}
