@@ -56,6 +56,7 @@ const Login = () => {
       <LoginWrapper>
         <LeftSection></LeftSection>
         <RightSection>
+          <h2>Login With</h2>
           <FacebookLogin
             appId="661692841097516"
             textButton="FACEBOOK"
