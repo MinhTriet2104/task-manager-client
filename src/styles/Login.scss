@@ -7,7 +7,7 @@
 
   color: #000 !important;
   background: transparent;
-  box-shadow: -2px -2px 6px #faffff, 2px 2px 6px #adbfd5 !important;
+  box-shadow: -2px -2px 4px #eee, 2px 2px 4px #adbfd5 !important;
 
   border: none;
   border-radius: 2px;
@@ -15,7 +15,7 @@
   cursor: pointer;
 
   &:hover {
-    box-shadow: inset -2px -2px 6px #faffff, inset 2px 2px 6px #adbfd5 !important;
+    box-shadow: inset -2px -2px 4px #eee, inset 2px 2px 4px #adbfd5 !important;
   }
 }
 

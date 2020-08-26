@@ -42,6 +42,12 @@ const RightSection = styled.div`
   align-items: center;
 `;
 
+const LoginTitle = styled.h2`
+  font-size: 2.8rem;
+  font-weight: bolder;
+  line-height: 4rem;
+`;
+
 const Login = () => {
   const responseFacebook = (response) => {
     console.log(response);
@@ -56,7 +62,7 @@ const Login = () => {
       <LoginWrapper>
         <LeftSection></LeftSection>
         <RightSection>
-          <h2>Login With</h2>
+          <LoginTitle>Login With</LoginTitle>
           <FacebookLogin
             appId="661692841097516"
             textButton="FACEBOOK"
