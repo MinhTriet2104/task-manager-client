@@ -1,9 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import FacebookLogin from "react-facebook-login";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import GoogleLogin from "react-google-login";
 
 import "../../styles/Login.scss";
+
+import GoogleIcon from "../../images/google_icon.svg";
+import FacebookIcon from "../../images/facebook_icon.svg";
 
 const LoginContainer = styled.div`
   height: 100vh;
@@ -15,7 +18,7 @@ const LoginContainer = styled.div`
 
 const LoginWrapper = styled.div`
   height: 500px;
-  width: 600px;
+  width: 650px;
 
   display: flex;
 
@@ -68,16 +71,39 @@ const Login = () => {
             textButton="FACEBOOK"
             fields="name,email,picture"
             callback={responseFacebook}
-            cssClass="fb-login-btn"
-            icon="fa-facebook"
+            render={(renderProps) => (
+              <button onClick={renderProps.onClick} className="gg-login-btn">
+                <span
+                  className="icon"
+                  style={{
+                    backgroundImage: `url(${FacebookIcon})`,
+                  }}
+                ></span>
+                <span className="text">Facebook</span>
+              </button>
+            )}
           />
 
           <GoogleLogin
             clientId="738277559607-qmkk4k8rared9tltub646d02oq8bvkuf.apps.googleusercontent.com"
             buttonText="GOOGLE"
+            render={(renderProps) => (
+              <button
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+                className="gg-login-btn"
+              >
+                <span
+                  className="icon"
+                  style={{
+                    backgroundImage: `url(${GoogleIcon})`,
+                  }}
+                ></span>
+                <span className="text">Google</span>
+              </button>
+            )}
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
-            className="gg-login-btn"
           />
         </RightSection>
       </LoginWrapper>
