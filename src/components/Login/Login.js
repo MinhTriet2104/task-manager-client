@@ -1,4 +1,7 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 import styled from "styled-components";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import GoogleLogin from "react-google-login";
@@ -7,6 +10,8 @@ import "../../styles/Login.scss";
 
 import GoogleIcon from "../../images/google_icon.svg";
 import FacebookIcon from "../../images/facebook_icon.svg";
+
+import { createUserRequest, setUser } from "../../actions";
 
 const LoginContainer = styled.div`
   height: 100vh;
@@ -52,12 +57,38 @@ const LoginTitle = styled.h2`
 `;
 
 const Login = () => {
-  const responseFacebook = (response) => {
-    console.log(response);
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const history = useHistory();
+
+  if (user) {
+    history.replace("/project");
+  }
+
+  const responseFacebook = async (res) => {
+    console.log(res);
+    const id = res.id;
+    if (id) {
+      const req = await axios.get(`http://localhost:2104/user/${id}`);
+
+      const user = {
+        oauth2Id: id,
+        username: res.name,
+        email: res.email,
+        avatar: res.picture.data.url,
+      };
+
+      if (!req.data) dispatch(createUserRequest(user));
+      else dispatch(setUser(user));
+
+      // history.replace("/project");
+      history.push("/project");
+    }
   };
 
-  const responseGoogle = (response) => {
-    console.log(response);
+  const responseGoogle = (res) => {
+    console.log(res);
   };
 
   return (

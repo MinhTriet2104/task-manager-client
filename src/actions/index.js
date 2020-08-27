@@ -86,3 +86,14 @@ export const setGlobalMatch = (match) => ({
   type: types.SET_GLOBAL_MATCH,
   match,
 });
+
+export const createUserRequest = (user) => async (dispatch) => {
+  const newUser = await axios.post("http://localhost:2104/task", user);
+
+  dispatch(setUser(newUser));
+};
+
+export const setUser = (user) => ({
+  type: types.SET_USER,
+  user,
+});

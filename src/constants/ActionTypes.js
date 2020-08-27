@@ -10,3 +10,5 @@ export const SET_LOADING_TASK = "SET_LOADING_TASK";
 export const SET_LOADING_PROJECT = "SET_LOADING_PROJECT";
 
 export const SET_GLOBAL_MATCH = "SET_GLOBAL_MATCH";
+
+export const SET_USER = "SET_USER";
