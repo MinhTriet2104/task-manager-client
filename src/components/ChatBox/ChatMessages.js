@@ -14,6 +14,8 @@ const ChatMessagesContainer = styled.div`
 `;
 
 const ChatMessages = ({ messageList }) => {
+  let lastId;
+
   const onRowRender = (node) => {
     const parent = node.parentNode;
     parent.scrollTop = parent.scrollHeight;
@@ -22,31 +24,40 @@ const ChatMessages = ({ messageList }) => {
   return (
     <ChatMessagesContainer>
       <ChatMessageElement
-        username={"Minh Triet"}
+        user={{ username: "Minh Triet" }}
         time={"Yesterday at 19:54"}
         content={"Hello World"}
         hasAvatar={true}
       />
       <ChatMessageElement
-        username={"Minh Triet"}
+        user={{ username: "Minh Triet" }}
         time={"Yesterday at 19:54"}
         content={"Hello World 2"}
       />
       <ChatMessageElement
-        username={"Minh Triet"}
+        user={{ username: "Minh Triet" }}
         time={"Yesterday at 19:54"}
         content={"Hello, World!!!!!!"}
       />
-      {messageList.map((msg, index) => (
-        <ChatMessageElement
-          key={index}
-          username={"Minh Triet"}
-          time={moment(msg.time).fromNow()}
-          content={msg.content}
-          hasAvatar={true}
-          onRender={index === messageList.length - 1 ? onRowRender : null}
-        />
-      ))}
+      {messageList.map((msg, index) => {
+        let hasAvatar = true;
+        console.log(msg);
+        if (index && msg.user.id === lastId) {
+          hasAvatar = false;
+        }
+        lastId = msg.user.id;
+
+        return (
+          <ChatMessageElement
+            key={index}
+            user={msg.user}
+            time={moment(msg.time).fromNow()}
+            content={msg.content}
+            hasAvatar={hasAvatar}
+            onRender={index === messageList.length - 1 ? onRowRender : null}
+          />
+        );
+      })}
     </ChatMessagesContainer>
   );
 };

@@ -32,6 +32,7 @@ const ChatBox = ({ match }) => {
   const [loading, setLoading] = useState(true);
 
   const project = useSelector((state) => state.project);
+  const user = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -57,6 +58,7 @@ const ChatBox = ({ match }) => {
   const handleKeyDown = (keyCode) => {
     if (keyCode === 13) {
       const msg = {
+        user: user,
         content: message,
         time: moment(),
       };

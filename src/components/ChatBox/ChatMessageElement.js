@@ -46,18 +46,14 @@ const MessageTime = styled.span`
 
 const MessageContent = styled.div``;
 
-const ChatMessageElement = ({
-  username,
-  time,
-  content,
-  hasAvatar,
-  onRender,
-}) => {
+const ChatMessageElement = ({ user, time, content, hasAvatar, onRender }) => {
   const ref = useRef(null);
 
   useEffect(() => {
     if (onRender) onRender(ref.current);
   }, [onRender]);
+
+  const { username, avatar } = user;
 
   return (
     <MessageElementWrapper
@@ -65,7 +61,9 @@ const ChatMessageElement = ({
       style={hasAvatar ? { marginTop: "15px" } : null}
     >
       {hasAvatar ? (
-        <MessageElementAvatar src="https://i.imgur.com/5bh5qpe.jpg" />
+        <MessageElementAvatar
+          src={avatar ? avatar : "https://i.imgur.com/5bh5qpe.jpg"}
+        />
       ) : (
         <MessageElementAvatarHolder />
       )}
