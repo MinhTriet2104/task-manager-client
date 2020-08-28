@@ -67,7 +67,7 @@ const Login = () => {
   }
 
   const responseFacebook = async (res) => {
-    console.log(res);
+    console.log("res:", res);
     const id = res.id;
     if (id) {
       const req = await axios.get(`http://localhost:2104/user/${id}`);
@@ -80,15 +80,32 @@ const Login = () => {
       };
 
       if (!req.data) dispatch(createUserRequest(user));
-      else dispatch(setUser(user));
+      else dispatch(setUser(req.data));
 
       // history.replace("/project");
       history.push("/project");
     }
   };
 
-  const responseGoogle = (res) => {
+  const responseGoogle = async (res) => {
     console.log(res);
+    const id = res.googleId;
+    if (id) {
+      const req = await axios.get(`http://localhost:2104/user/${id}`);
+
+      const user = {
+        oauth2Id: id,
+        username: res.profileObj.name,
+        email: res.profileObj.email,
+        avatar: res.profileObj.imageUrl,
+      };
+
+      if (!req.data) dispatch(createUserRequest(user));
+      else dispatch(setUser(req.data));
+
+      // history.replace("/project");
+      history.push("/project");
+    }
   };
 
   return (

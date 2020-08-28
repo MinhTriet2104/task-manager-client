@@ -88,7 +88,8 @@ export const setGlobalMatch = (match) => ({
 });
 
 export const createUserRequest = (user) => async (dispatch) => {
-  const newUser = await axios.post("http://localhost:2104/task", user);
+  const res = await axios.post("http://localhost:2104/user", user);
+  const newUser = await res.data;
 
   dispatch(setUser(newUser));
 };
