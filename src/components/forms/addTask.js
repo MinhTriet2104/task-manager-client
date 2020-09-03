@@ -46,29 +46,29 @@ class AddModal extends React.Component {
     };
 
     this.toggle = this.toggle.bind(this);
-    this.getUsers = this.getUsers.bind(this);
+    // this.getUsers = this.getUsers.bind(this);
   }
 
   componentDidMount() {
     moment.locale("tr");
-    this.getUsers();
+    // this.getUsers();
   }
 
-  getUsers() {
-    axios
-      .get("http://localhost:2104/user")
-      .then((r) => {
-        this.setState({
-          users: r.data,
-          err: "",
-        });
-      })
-      .catch((e) => {
-        this.setState({
-          err: e,
-        });
-      });
-  }
+  // getUsers() {
+  //   axios
+  //     .get("http://localhost:2104/user")
+  //     .then((r) => {
+  //       this.setState({
+  //         users: r.data,
+  //         err: "",
+  //       });
+  //     })
+  //     .catch((e) => {
+  //       this.setState({
+  //         err: e,
+  //       });
+  //     });
+  // }
 
   toggle() {
     this.setState({

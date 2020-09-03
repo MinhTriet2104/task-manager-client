@@ -10,7 +10,7 @@ export default ({ onClick }) => (
     style={{
       width: "240px",
       marginRight: "10px",
-      background: "#f7f7f9",
+      background: "#f9f9fe",
       boxShadow: "0px 3px 5px #bababa7d",
     }}
     onClick={onClick}

@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import Tooltip from "./Tooltip";
 
-export default ({ id, title, actions, color }) => {
+export default ({ id, title, actions, color, onDelete }) => {
   const CustomHeader = styled.div`
     font-size: 15px;
     font-weight: bold;
@@ -16,11 +16,11 @@ export default ({ id, title, actions, color }) => {
       content: "";
       background: ${color};
 
-      position: absolute;
-
-      top: -13px;
       width: 280px;
       height: 5px;
+
+      position: absolute;
+      top: -13px;
       left: -10.5px;
 
       border-radius: 10px;
@@ -34,7 +34,7 @@ export default ({ id, title, actions, color }) => {
         id={id}
         title={title}
         addCard={actions.addCard}
-        content="You can do what you want to do with this column"
+        removeLane={onDelete}
         placement="top"
       />
     </CustomHeader>

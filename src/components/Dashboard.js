@@ -5,6 +5,7 @@ import { Route, Switch, Link } from "react-router-dom";
 import classNames from "classnames";
 
 // components
+import MainSection from "./MainSection";
 import Board from "./Board";
 import ChatBox from "./ChatBox/ChatBox";
 import AddStory from "./forms/addStory";
@@ -112,11 +113,7 @@ class Dashboard extends Component {
           {header}
           <aside style={{ height: "calc(100vh - 58px)" }}>
             <Switch>
-              <Route
-                exact
-                path="/project"
-                component={() => <h2>Select a Project</h2>}
-              />
+              <Route exact path="/project" component={MainSection} />
               <Route exact path="/project/:id/board" component={Board} />
               <Route exact path="/project/:id/chatbox" component={ChatBox} />
             </Switch>

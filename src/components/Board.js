@@ -17,6 +17,7 @@ import {
   getProject,
   deleteTaskRequest,
   updateStatusTaskRequest,
+  removeLaneRequest,
   setGlobalMatch,
 } from "../actions/index";
 
@@ -90,7 +91,7 @@ export default ({ match }) => {
   };
 
   const onDataChange = (newData) => {
-    if (isUpdate) {
+    if (data && isUpdate) {
       console.log(newData);
       const lane = newData.lanes.find((lane) => lane.id === targetLaneId);
       lane.tasks = lane.cards;
@@ -99,6 +100,10 @@ export default ({ match }) => {
       );
       setIsUpdate(false);
     }
+  };
+
+  const handleLandDelete = (laneId) => {
+    dispatch(removeLaneRequest(laneId));
   };
 
   return loading ? (
@@ -121,6 +126,7 @@ export default ({ match }) => {
         handleDragStart={handleDragStart}
         handleDragEnd={handleDragEnd}
         onDataChange={onDataChange}
+        onLaneDelete={handleLandDelete}
         components={{
           LaneHeader: CustomHeader,
           Card: CustomCard,

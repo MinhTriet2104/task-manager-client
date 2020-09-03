@@ -72,6 +72,17 @@ export const updateStatusTask = (id, lane, sourceLaneId, targetLaneId) => ({
   targetLaneId,
 });
 
+export const removeLaneRequest = (id) => async (dispatch) => {
+  const deletedLane = await axios.delete("http://localhost:2104/lane/" + id);
+  console.log(deletedLane.data);
+  // dispatch(removeLane(deletedLane.id));
+};
+
+export const removeLane = (id) => ({
+  type: types.DELETE_LANE,
+  id,
+});
+
 export const setLoadingTask = (status) => ({
   type: types.SET_LOADING_TASK,
   status,
