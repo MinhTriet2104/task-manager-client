@@ -30,7 +30,7 @@ const MainSection = () => {
         <div className="profilewidget">
           <i
             style={{ fontSize: 35, color: "#888", cursor: "pointer" }}
-            class="fas fa-sign-out-alt"
+            className="fas fa-sign-out-alt"
           ></i>
         </div>
       </header>

@@ -17,6 +17,8 @@ const CustomCard = ({
   onDelete,
   onClick,
 }) => {
+  console.log(assignee);
+
   if (description) {
     description =
       description.length > 32 ? description.slice(0, 32) + "..." : description;

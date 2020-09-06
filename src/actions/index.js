@@ -74,8 +74,22 @@ export const updateStatusTask = (id, lane, sourceLaneId, targetLaneId) => ({
 
 export const removeLaneRequest = (id) => async (dispatch) => {
   const deletedLane = await axios.delete("http://localhost:2104/lane/" + id);
-  console.log(deletedLane.data);
-  // dispatch(removeLane(deletedLane.id));
+  // console.log(deletedLane.data);
+  dispatch(removeLane(deletedLane.id));
+};
+
+export const updatePositonLaneRequest = (
+  projectId,
+  lastIndex,
+  newIndex
+) => async (dispatch) => {
+  await axios.patch("http://localhost:2104/project/" + projectId, {
+    lastIndex,
+    newIndex,
+  });
+
+  // dispatch(updateStatusTask(res.data, lane, sourceLaneId, targetLaneId));
+  // dispatch(updateStatusTask(id, lane, sourceLaneId, targetLaneId));
 };
 
 export const removeLane = (id) => ({

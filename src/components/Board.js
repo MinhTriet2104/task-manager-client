@@ -17,6 +17,7 @@ import {
   getProject,
   deleteTaskRequest,
   updateStatusTaskRequest,
+  updatePositonLaneRequest,
   removeLaneRequest,
   setGlobalMatch,
 } from "../actions/index";
@@ -24,12 +25,15 @@ import {
 export default ({ match }) => {
   const [data, setData] = useState(null);
   const [isUpdate, setIsUpdate] = useState(false);
+
   const [cardId, setCardId] = useState("");
   const [sourceLaneId, setSourceLaneId] = useState("");
   const [targetLaneId, setTargetLaneId] = useState("");
+
   const [loading, setLoading] = useState(true);
 
   const project = useSelector((state) => state.project);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -84,15 +88,20 @@ export default ({ match }) => {
 
   const handleDragEnd = (cardId, sourceLaneId, targetLaneId) => {
     setCardId(cardId);
+
     setSourceLaneId(sourceLaneId);
     setTargetLaneId(targetLaneId);
+
     setIsUpdate(true);
     // dispatch(updateStatusTaskRequest(cardId, sourceLaneId, targetLaneId));
   };
 
+  const handleLaneDragEnd = (lastIndex, newIndex, lane) => {
+    dispatch(updatePositonLaneRequest(project.id, lastIndex, newIndex));
+  };
+
   const onDataChange = (newData) => {
     if (data && isUpdate) {
-      console.log(newData);
       const lane = newData.lanes.find((lane) => lane.id === targetLaneId);
       lane.tasks = lane.cards;
       dispatch(
@@ -125,6 +134,7 @@ export default ({ match }) => {
         onCardDelete={onCardDelete}
         handleDragStart={handleDragStart}
         handleDragEnd={handleDragEnd}
+        handleLaneDragEnd={handleLaneDragEnd}
         onDataChange={onDataChange}
         onLaneDelete={handleLandDelete}
         components={{
