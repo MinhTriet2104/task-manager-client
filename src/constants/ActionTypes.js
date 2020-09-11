@@ -5,6 +5,8 @@ export const ADD_TASK = "ADD_TASK";
 export const DELETE_TASK = "DELETE_TASK";
 export const UPDATE_STATUS_TASK = "UPDATE_STATUS_TASK";
 
+export const SET_MESSAGES = "SET_MESSAGES";
+
 export const DELETE_LANE = "DELETE_LANE";
 
 export const SET_LOADING_TASK = "SET_LOADING_TASK";

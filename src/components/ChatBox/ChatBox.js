@@ -9,7 +9,7 @@ import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
 import Loader from "../Loader";
 
-import { getProject, setGlobalMatch } from "../../actions";
+import { getProject, setGlobalMatch, getMessagesRequest } from "../../actions";
 
 const ChatContainer = styled.div`
   display: flex;
@@ -28,10 +28,10 @@ const socket = io("localhost:5000");
 
 const ChatBox = ({ match }) => {
   const [message, setMessage] = useState("");
-  const [messageList, setMessageList] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const project = useSelector((state) => state.project);
+  const messages = useSelector((state) => state.messages);
   const user = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
@@ -41,10 +41,14 @@ const ChatBox = ({ match }) => {
   }, [match.params.id]);
 
   useEffect(() => {
-    socket.on("server message", (messages) => {
-      console.log("server: ", messages);
-      setMessageList([...messages]);
-    });
+    // socket.on("server message", (messages) => {
+    //   console.log("server: ", messages);
+    //   setMessageList([...messages]);
+    // });
+  }, []);
+
+  useEffect(() => {
+    dispatch(getMessagesRequest(project.id));
   }, []);
 
   useEffect(() => {
@@ -81,7 +85,7 @@ const ChatBox = ({ match }) => {
     <>
       <ChatHeader projectName={project.name} />
       <ChatContainer>
-        <ChatMessages messageList={messageList} />
+        <ChatMessages messageList={messages} />
 
         <ChatInput
           addEmoji={addEmoji}
