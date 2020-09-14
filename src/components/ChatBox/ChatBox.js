@@ -41,12 +41,15 @@ const ChatBox = ({ match }) => {
   }, [match.params.id]);
 
   useEffect(() => {
+    socket.on("server message", (msg) => {
+      console.log("server: ", msg);
+      // setMessageList([...messages]);
+    });
+  }, []);
+
+  useEffect(() => {
     if (!project) return;
     socket.emit('join', project.id);
-    // socket.on("server message", (messages) => {
-    //   console.log("server: ", messages);
-    //   setMessageList([...messages]);
-    // });
   }, [project]);
 
   useEffect(() => {
