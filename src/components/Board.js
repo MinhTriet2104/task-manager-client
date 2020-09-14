@@ -116,11 +116,9 @@ export default ({ match }) => {
   };
 
   return loading ? (
-    <li>
-      <div className="loader">
-        <Loader />
-      </div>
-    </li>
+    <div className="loader">
+      <Loader />
+    </div>
   ) : (
     <div>
       <Board

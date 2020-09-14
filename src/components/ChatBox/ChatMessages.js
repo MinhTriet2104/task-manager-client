@@ -10,7 +10,7 @@ const ChatMessagesContainer = styled.div`
   padding: 15px 0;
   padding-top: 0;
 
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 const ChatMessages = ({ messageList }) => {

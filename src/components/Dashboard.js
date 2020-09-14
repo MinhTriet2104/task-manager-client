@@ -84,19 +84,15 @@ class Dashboard extends Component {
       });
     } else {
       projectList = (
-        <li>
-          <div className="loader">
-            <Loader />
-          </div>
-        </li>
+        <div className="loader">
+          <Loader />
+        </div>
       );
 
       header = (
-        <li>
-          <div className="loader">
-            <Loader />
-          </div>
-        </li>
+        <div className="loader">
+          <Loader />
+        </div>
       );
     }
 
