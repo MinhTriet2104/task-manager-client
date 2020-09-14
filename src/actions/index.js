@@ -125,7 +125,7 @@ export const setUser = (user) => ({
 });
 
 export const getMessagesRequest = (projectId) => async (dispatch) => {
-  const res = await axios.post("http://localhost:2104/message", projectId);
+  const res = await axios.get("http://localhost:2104/message", projectId);
   const messages = await res.data;
 
   dispatch(setMessages(messages));

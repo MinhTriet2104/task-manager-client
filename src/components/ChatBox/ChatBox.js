@@ -41,19 +41,22 @@ const ChatBox = ({ match }) => {
   }, [match.params.id]);
 
   useEffect(() => {
+    if (!project) return;
+    socket.emit('join', project.id);
     // socket.on("server message", (messages) => {
     //   console.log("server: ", messages);
     //   setMessageList([...messages]);
     // });
-  }, []);
-
-  useEffect(() => {
-    dispatch(getMessagesRequest(project.id));
-  }, []);
-
-  useEffect(() => {
-    if (project && project.id === match.params.id) setLoading(false);
   }, [project]);
+
+  useEffect(() => {
+    if (!project) return;
+    dispatch(getMessagesRequest(project.id));
+  }, [project]);
+
+  useEffect(() => {
+    if (project && project.id === match.params.id && messages) setLoading(false);
+  }, [project, messages]);
 
   useEffect(() => {
     dispatch(setGlobalMatch(match));
@@ -76,11 +79,9 @@ const ChatBox = ({ match }) => {
   };
 
   return loading ? (
-    <li>
-      <div className="loader">
-        <Loader />
-      </div>
-    </li>
+    <div className="loader">
+      <Loader />
+    </div>
   ) : (
     <>
       <ChatHeader projectName={project.name} />

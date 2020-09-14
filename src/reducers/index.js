@@ -8,6 +8,7 @@ import user from "./user";
 
 const reducer = combineReducers({
   project,
+  messages,
   loading,
   globalMatch,
   user,
