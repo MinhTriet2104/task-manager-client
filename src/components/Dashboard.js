@@ -16,8 +16,8 @@ import Header from "./common/Header";
 import "../styles/Dashboard.scss";
 
 class Dashboard extends Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor() {
+    super();
     this.state = {
       projects: [],
       loading: true,

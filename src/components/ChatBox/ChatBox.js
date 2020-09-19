@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import io from "socket.io-client";
@@ -25,6 +25,7 @@ const ChatContainer = styled.div`
 `;
 
 const socket = io("localhost:5000");
+const rooms = [];
 
 const ChatBox = ({ match }) => {
   const [message, setMessage] = useState("");
@@ -36,11 +37,25 @@ const ChatBox = ({ match }) => {
 
   const dispatch = useDispatch();
 
+  function usePrevious(value) {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
+  }
+
+  const prevMatch = usePrevious(match);
   useEffect(() => {
+    if (prevMatch && prevMatch.params.id === match.params.id) return;
+
     dispatch(getProject(match.params.id));
   }, [match.params.id]);
 
   useEffect(() => {
+    if (rooms.indexOf(match.params.id) !== -1) return;
+    console.log("server messages connect");
+
     socket.on("server message", (msg) => {
       console.log("server: ", msg);
       // setMessageList([...messages]);
@@ -48,9 +63,12 @@ const ChatBox = ({ match }) => {
   }, []);
 
   useEffect(() => {
-    if (!project) return;
-    socket.emit('join', project.id);
-  }, [project]);
+    if (rooms.indexOf(match.params.id) === -1) {
+      rooms.push(match.params.id);
+      console.log("join room");
+      socket.emit("join", match.params.id);
+    }
+  }, [match.params.id]);
 
   useEffect(() => {
     if (!project) return;
@@ -58,7 +76,7 @@ const ChatBox = ({ match }) => {
   }, [project]);
 
   useEffect(() => {
-    if (project && project.id === match.params.id && messages) setLoading(false);
+    if (project && messages) setLoading(false);
   }, [project, messages]);
 
   useEffect(() => {

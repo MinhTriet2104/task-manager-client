@@ -39,6 +39,7 @@ export default ({ match }) => {
   useEffect(() => {
     dispatch(setGlobalMatch(match));
 
+    if (project) return;
     dispatch(getProject(match.params.id));
   }, [match.params.id]);
 
