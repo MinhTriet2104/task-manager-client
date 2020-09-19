@@ -25,7 +25,14 @@ const ChatContainer = styled.div`
 `;
 
 const socket = io("localhost:5000");
-const rooms = [];
+
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
 
 const ChatBox = ({ match }) => {
   const [message, setMessage] = useState("");
@@ -37,15 +44,8 @@ const ChatBox = ({ match }) => {
 
   const dispatch = useDispatch();
 
-  function usePrevious(value) {
-    const ref = useRef();
-    useEffect(() => {
-      ref.current = value;
-    });
-    return ref.current;
-  }
-
   const prevMatch = usePrevious(match);
+
   useEffect(() => {
     if (prevMatch && prevMatch.params.id === match.params.id) return;
 
@@ -53,21 +53,19 @@ const ChatBox = ({ match }) => {
   }, [match.params.id]);
 
   useEffect(() => {
-    if (rooms.indexOf(match.params.id) !== -1) return;
-    console.log("server messages connect");
-
+    if (project) return;
+    if (prevMatch && prevMatch.params.id === match.params.id) return;
+    console.log("connect to server message");
     socket.on("server message", (msg) => {
-      console.log("server: ", msg);
+      console.log("server msg: ", msg);
       // setMessageList([...messages]);
     });
   }, []);
 
   useEffect(() => {
-    if (rooms.indexOf(match.params.id) === -1) {
-      rooms.push(match.params.id);
-      console.log("join room");
-      socket.emit("join", match.params.id);
-    }
+    if (prevMatch && prevMatch.params.id === match.params.id) return;
+    console.log("join room");
+    socket.emit("join", match.params.id);
   }, [match.params.id]);
 
   useEffect(() => {
