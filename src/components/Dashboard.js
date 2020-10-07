@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-import { Route, Switch, Link } from "react-router-dom";
+import { Route, Switch, Link, Redirect } from "react-router-dom";
 import classNames from "classnames";
 
 // components
@@ -110,8 +110,17 @@ class Dashboard extends Component {
           <aside style={{ height: "calc(100vh - 58px)" }}>
             <Switch>
               <Route exact path="/project" component={MainSection} />
+
               <Route exact path="/project/:id/board" component={Board} />
               <Route exact path="/project/:id/chatbox" component={ChatBox} />
+
+              <Route
+                exact
+                path="/project/:id"
+                render={(props) => (
+                  <Redirect to={`${props.match.params.id}/board`} />
+                )}
+              />
             </Switch>
           </aside>
         </div>
