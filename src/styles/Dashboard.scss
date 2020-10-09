@@ -17,6 +17,8 @@
     color: $dashboard-logo-color;
 
     display: $dashboard-logo-display;
+    position: relative;
+    z-index: 100;
 
     text-align: $dashboard-logo-text-align;
     font-size: $dashboard-logo-font-size;
