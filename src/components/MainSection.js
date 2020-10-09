@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
@@ -36,9 +37,11 @@ const FormContainer = styled.div`
   padding: 1em 0;
 `;
 
-const MainSection = () => {
+const MainSection = ({ getProjects }) => {
   const [projectId, setprojectId] = useState("");
   const [projectName, setProjectName] = useState("");
+
+  const user = useSelector((state) => state.user);
 
   const history = useHistory();
 
@@ -54,18 +57,34 @@ const MainSection = () => {
       );
 
       if (res.status === 404) {
-        alert("ID DON'T EXIST");
+        alert("ID_DONT_EXIST");
       } else {
         history.push(`/project/${processedId}`);
       }
     } catch {
-      alert("ID DON'T EXIST");
+      alert("ID_DONT_EXIST");
     }
   };
 
-  const handleCreateProject = (keyCode) => {
+  const handleCreateProject = async (keyCode) => {
     if (projectName.trim() === "") return;
-    if (keyCode === 13) console.log(projectName);
+    if (keyCode !== 13) return;
+
+    try {
+      const project = {
+        name: projectName,
+        owner: user.id,
+      };
+
+      const res = await axios.post(`http://localhost:2104/project`, project);
+
+      if (res.status === 201) {
+        getProjects();
+        history.push(`/project/${res.data.id}`);
+      }
+    } catch {
+      alert("CREATE_FAILED");
+    }
   };
 
   const handleProjectIdChange = (value) => {
@@ -115,12 +134,12 @@ const MainSection = () => {
             value={projectName}
             onChange={(e) => handleProjectNameChange(e.target.value)}
             onKeyDown={(e) => handleCreateProject(e.keyCode)}
-            onClick={() => handleCreateProject(13)}
           />
           <Button
             variant="contained"
             color="primary"
             style={{ height: "100%", margin: "0 1em", padding: "0 2em" }}
+            onClick={() => handleCreateProject(13)}
           >
             Create
           </Button>
