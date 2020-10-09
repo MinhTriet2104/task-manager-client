@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-import { Route, Switch, Link, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
+import Link from "./common/CustomLink";
 import classNames from "classnames";
 
 // components
@@ -30,6 +31,10 @@ class Dashboard extends Component {
   };
 
   getProjects = () => {
+    this.setState({
+      loading: true,
+    });
+
     axios
       .get(`http://localhost:2104/project`)
       .then((r) => {
@@ -42,7 +47,7 @@ class Dashboard extends Component {
       })
       .catch((e) => {
         this.setState({
-          loading: true,
+          loading: false,
           err: e,
         });
       });
@@ -99,7 +104,9 @@ class Dashboard extends Component {
     return (
       <div style={{ position: "relative" }}>
         <div className="side">
-          <span className="logo">Task Manager</span>
+          <Link to={`/project`} className="logo">
+            Task Manager
+          </Link>
           <ul className="side-menu">{projectList}</ul>
           <div className="otherMenu">
             <AddStory />
@@ -109,7 +116,11 @@ class Dashboard extends Component {
           {header}
           <aside style={{ height: "calc(100vh - 58px)" }}>
             <Switch>
-              <Route exact path="/project" component={MainSection} />
+              <Route
+                exact
+                path="/project"
+                render={() => <MainSection getProjects={this.getProjects} />}
+              />
 
               <Route exact path="/project/:id/board" component={Board} />
               <Route exact path="/project/:id/chatbox" component={ChatBox} />

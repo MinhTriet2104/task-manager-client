@@ -12,6 +12,7 @@ export default ({ onClick }) => (
       marginRight: "10px",
       background: "#f9f9fe",
       boxShadow: "0px 3px 5px #bababa7d",
+      padding: "0.8em",
     }}
     onClick={onClick}
   >
