@@ -37,7 +37,7 @@ function usePrevious(value) {
 const ChatBox = ({ match }) => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
-  const [receiveMsg, setReceiveMsg] = useState("");
+  // const [receiveMsg, setReceiveMsg] = useState("");
   const [messages, setMessages] = useState([]);
 
   const project = useSelector((state) => state.project);
@@ -52,24 +52,29 @@ const ChatBox = ({ match }) => {
     if (prevMatch && prevMatch.params.id === match.params.id) return;
 
     dispatch(getProject(match.params.id));
+    socket.on("room messages", (roomMessages) => {
+      console.log(`room messages: ${roomMessages}`);
+      setMessages(roomMessages);
+    });
   }, [match.params.id]);
 
   useEffect(() => {
-    if (project) return;
+    // if (project) return;
     if (prevMatch && prevMatch.params.id === match.params.id) return;
     console.log("connect to server message");
-    socket.on("server message", (msg) => {
-      console.log("server msg: ", msg);
-      if (msg) setReceiveMsg(msg);
+    socket.on("server message", (messages) => {
+      console.log("server msg: ", messages);
+      setMessages(messages);
+      // if (msg) setReceiveMsg(msg);
     });
   }, []);
 
-  useEffect(() => {
-    if (receiveMsg) {
-      console.log("---------------SET MESSAGES---------------");
-      setMessages([...messages, receiveMsg]);
-    }
-  }, [receiveMsg]);
+  // useEffect(() => {
+  //   if (receiveMsg) {
+  //     console.log("---------------SET MESSAGES---------------");
+  //     setMessages([...messages, receiveMsg]);
+  //   }
+  // }, [receiveMsg]);
 
   useEffect(() => {
     if (prevMatch && prevMatch.params.id === match.params.id) return;
