@@ -37,9 +37,11 @@ function usePrevious(value) {
 const ChatBox = ({ match }) => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [receiveMsg, setReceiveMsg] = useState("");
+  const [messages, setMessages] = useState([]);
 
   const project = useSelector((state) => state.project);
-  const messages = useSelector((state) => state.messages);
+  // const messages = useSelector((state) => state.messages);
   const user = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
@@ -58,9 +60,16 @@ const ChatBox = ({ match }) => {
     console.log("connect to server message");
     socket.on("server message", (msg) => {
       console.log("server msg: ", msg);
-      // setMessageList([...messages]);
+      if (msg) setReceiveMsg(msg);
     });
   }, []);
+
+  useEffect(() => {
+    if (receiveMsg) {
+      console.log("---------------SET MESSAGES---------------");
+      setMessages([...messages, receiveMsg]);
+    }
+  }, [receiveMsg]);
 
   useEffect(() => {
     if (prevMatch && prevMatch.params.id === match.params.id) return;
