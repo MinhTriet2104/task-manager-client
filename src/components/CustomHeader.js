@@ -27,6 +27,8 @@ export default ({ id, title, actions, color, onDelete }) => {
     }
   `;
 
+  window.globalAddCardFunciton = actions.addCard;
+
   return (
     <CustomHeader>
       {title}

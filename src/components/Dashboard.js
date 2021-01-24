@@ -8,7 +8,8 @@ import classNames from "classnames";
 // components
 import MainSection from "./MainSection";
 import Board from "./Board";
-import ChatBox from "./ChatBox/ChatBox";
+import Table from "./Table/Table";
+// import ChatBox from "./ChatBox/ChatBox";
 import AddStory from "./forms/addStory";
 import Loader from "./Loader";
 import Header from "./common/Header";
@@ -123,7 +124,8 @@ class Dashboard extends Component {
               />
 
               <Route exact path="/project/:id/board" component={Board} />
-              <Route exact path="/project/:id/chatbox" component={ChatBox} />
+              <Route exact path="/project/:id/table" component={Table} />
+              {/* <Route exact path="/project/:id/chatbox" component={ChatBox} /> */}
 
               <Route
                 exact

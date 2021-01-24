@@ -29,7 +29,7 @@ const Header = () => {
               <span className="mainMenuText">Board</span>
             </li>
           </Link>
-          <Link
+          {/* <Link
             to={`/project/${globalMatch.params.id}/chatbox`}
             className={classNames({
               active: subMatch === "chatbox",
@@ -38,6 +38,17 @@ const Header = () => {
             <li>
               <i className="fas fa-comments"></i>
               <span className="mainMenuText">ChatBox</span>
+            </li>
+          </Link> */}
+          <Link
+            to={`/project/${globalMatch.params.id}/table`}
+            className={classNames({
+              active: subMatch === "table",
+            })}
+          >
+            <li>
+              <i className="fas fa-clipboard-list"></i>
+              <span className="mainMenuText">Table</span>
             </li>
           </Link>
         </ul>
