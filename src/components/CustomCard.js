@@ -1,19 +1,30 @@
 import React from "react";
+import { withStyles } from "@material-ui/core/styles";
 import moment from "moment";
 import TaskDetail from "./forms/taskDetail";
 // icon
 import DeleteIcon from "mdi-react/DeleteOutlineIcon";
-import SortVariant from "mdi-react/SortVariantIcon";
+// import SortVariant from "mdi-react/SortVariantIcon";
+import MuiAvatar from "@material-ui/core/Avatar";
+import AvatarGroup from "@material-ui/lab/AvatarGroup";
+// import TocIcon from '@material-ui/icons/Toc';
 
 //style
 import "../styles/CustomCard.scss";
+
+const Avatar = withStyles((theme) => ({
+  root: {
+    width: 32,
+    height: 32,
+  },
+}))(MuiAvatar);
 
 const CustomCard = ({
   _id,
   name,
   description,
   dueDate,
-  assignee,
+  assignees,
   onDelete,
   onClick,
 }) => {
@@ -50,29 +61,26 @@ const CustomCard = ({
             {moment(dueDate).format("DD/MM/YYYY")}
           </span>
         </div>
-        <span>
-          <SortVariant className="icon-dificult" />
-          <div className="number-dificult">1</div>
-          <i className="far fa-comment icon-coment"></i>
-          <div className="number-comment">1</div>
-        </span>
-        <span className="task-contributors">
-          <img
-            alt={assignee.username}
-            title={assignee.username}
-            src={
-              assignee.avatar
-                ? assignee.avatar
-                : "https://i.imgur.com/5bh5qpe.jpg"
-            }
-          />
-        </span>
+
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span>
+            <i className="far fa-comment icon-coment"></i>
+            <div className="number-comment">1</div>
+          </span>
+          <span className="task-contributors">
+            <AvatarGroup max={5}>
+              {assignees.map((user, index) => (
+                <Avatar key={index} alt={user.username} src={user.avatar} />
+              ))}
+            </AvatarGroup>
+          </span>
+        </div>
       </div>
 
       <TaskDetail
         open={open}
         handleClose={handleClose}
-        assignee={assignee}
+        assignee={assignees}
         dueDate={dueDate}
         name={name}
       />

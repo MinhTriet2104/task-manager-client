@@ -65,20 +65,31 @@ class AddUser extends React.Component {
     return (
       <div>
         <i className="fas fa-user-plus" onClick={this.toggle}></i>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+        <Modal
+          isOpen={this.state.modal}
+          toggle={this.toggle}
+          className={this.props.className}
+        >
           <ModalHeader toggle={this.toggle}>
-          <i className="fas fa-user-circle"></i> Add User
+            <i className="fas fa-user-circle"></i> Add User
           </ModalHeader>
           <ModalBody>
-          <FormGroup><Label for="username">Username(*):</Label><Input type="text" name="username" onChange={this.handleInput.bind(this)}/></FormGroup>
-          <FormGroup><Label for="name">Name(*):</Label><Input type="text" name="name" onChange={this.handleInput.bind(this)}/></FormGroup>
-          <FormGroup><Label for="lastName">Last Name(*):</Label><Input type="text" name="lastName" onChange={this.handleInput.bind(this)}/></FormGroup>
-          <FormGroup><Label for="profilePhoto">Profile Photo URL(*):</Label><Input type="text" name="profilePhoto" onChange={this.handleInput.bind(this)}/></FormGroup>
-          
+            <FormGroup>
+              <Label for="username">Username(*):</Label>
+              <Input
+                type="text"
+                name="username"
+                onChange={this.handleInput.bind(this)}
+              />
+            </FormGroup>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.handleClick.bind(this)}><i className="fas fa-plus-circle"></i> Add</Button>
-            <Button color="secondary" onClick={this.toggle}><i className="fas fa-times-circle"></i> Close</Button>
+            <Button color="primary" onClick={this.handleClick.bind(this)}>
+              <i className="fas fa-plus-circle"></i> Add
+            </Button>
+            <Button color="secondary" onClick={this.toggle}>
+              <i className="fas fa-times-circle"></i> Close
+            </Button>
           </ModalFooter>
         </Modal>
       </div>

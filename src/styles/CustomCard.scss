@@ -85,22 +85,5 @@
     .icon-comment {
       padding-left: $icon-comment-padding-left;
     }
-    .task-contributors {
-      text-align: $task-contributors-text-align;
-      display: $task-contributors-display;
-      width: $task-contributors-width;
-
-      right: $task-contributors-right;
-      bottom: $task-contributors-bottom;
-      position: $task-contributors-position;
-      img {
-        border-radius: $task-contributors-img-border-radius;
-        width: $task-contributors-img-width;
-        height: $task-contributors-img-height;
-      }
-      span {
-        text-align: $task-contributors-span-text-align;
-      }
-    }
   }
 }

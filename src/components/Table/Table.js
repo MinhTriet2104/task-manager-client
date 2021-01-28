@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { DataGrid } from "@material-ui/data-grid";
+import Avatar from "@material-ui/core/Avatar";
+import AvatarGroup from "@material-ui/lab/AvatarGroup";
+import FilterBar from "./FilterBar";
 
 // action
 import { getProject, setGlobalMatch } from "../../actions/index";
@@ -91,6 +94,19 @@ const Table = ({ match }) => {
       width: 120,
     };
 
+    const colAsignee = {
+      field: "asignees",
+      headerName: "Asignees",
+      width: 200,
+      renderCell: (params) => (
+        <AvatarGroup max={5}>
+          {params.value.map((user, index) => (
+            <Avatar key={index} alt={user.username} src={user.avatar} />
+          ))}
+        </AvatarGroup>
+      ),
+    };
+
     setColumns([
       colLaneName,
       colTaskName,
@@ -99,6 +115,7 @@ const Table = ({ match }) => {
       colDifficult,
       colDeliveryDate,
       colDueDate,
+      colAsignee,
     ]);
   };
 
@@ -124,6 +141,7 @@ const Table = ({ match }) => {
           break;
       }
 
+      console.log("row", row.task.assignee);
       rawRow.push({
         id: index,
         laneName: row.lane.title,
@@ -133,6 +151,7 @@ const Table = ({ match }) => {
         difficult: difficult,
         deliveryDate: row.task.deliveryDate.split("T")[0],
         dueDate: row.task.dueDate.split("T")[0],
+        asignees: row.task.assignees,
       });
     });
 
@@ -141,6 +160,7 @@ const Table = ({ match }) => {
 
   return (
     <div style={{ height: "100%", width: "100%" }}>
+      <FilterBar />
       <DataGrid rows={rows} columns={columns} />
     </div>
   );
