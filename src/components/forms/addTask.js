@@ -6,6 +6,7 @@ import axios from "axios";
 // Component
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import CheckboxAutocomplete from "../CheckboxAutocomplete";
 
 import {
   Button,
@@ -33,7 +34,7 @@ class AddModal extends React.Component {
       modal: false,
       name: "",
       description: "",
-      assignee: "",
+      assignees: "",
       creator: "5eeee36efda6530ab8af88ec",
       dueDate: "",
       status: this.props.status,
@@ -51,7 +52,7 @@ class AddModal extends React.Component {
 
   componentDidMount() {
     moment.locale("tr");
-    // this.getUsers();
+    this.getUsers();
   }
 
   getUsers() {
@@ -82,6 +83,12 @@ class AddModal extends React.Component {
     });
   };
 
+  handleCombobox = (values) => {
+    this.setState({
+      assignees: values,
+    });
+  };
+
   handleClose = () => {
     this.setState({ showSuccess: false });
   };
@@ -91,7 +98,7 @@ class AddModal extends React.Component {
       name: this.state.name,
       description: this.state.description,
       status: this.props.status,
-      assignee: this.state.assignee,
+      assignees: this.state.assignees,
       dueDate: this.state.dueDate,
       difficult: this.state.difficult,
       projectId: this.state.projectId,
@@ -126,11 +133,11 @@ class AddModal extends React.Component {
     let userContent;
     if (!users) userContent = <option value="">Loading...</option>;
     else {
-      userContent = users.map((user, index) => (
-        <option key={index} value={user._id}>
-          {user.username}
-        </option>
-      ));
+      userContent = (
+        (
+        <CheckboxAutocomplete users={users} handleCombobox={this.handleCombobox} />
+      )
+      );
     }
     return (
       <div>
@@ -177,18 +184,7 @@ class AddModal extends React.Component {
             </FormGroup>
             <FormGroup>
               <Label for="assignee">Assign To(*):</Label>
-              <Input
-                type="select"
-                name="assignee"
-                id="assignee"
-                defaultValue={this.state.assignee}
-                onChange={(e) => this.handleInput(e)}
-              >
-                <option value="" disabled>
-                  Choose:
-                </option>
-                {userContent}
-              </Input>
+              {userContent}
             </FormGroup>
             <FormGroup>
               <Label for="color">Task Difficult(*):</Label>

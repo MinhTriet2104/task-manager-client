@@ -23,12 +23,11 @@ const Table = ({ match }) => {
   useEffect(() => {
     dispatch(setGlobalMatch(match));
 
-    if (project && project.id === match.params.id) return;
     dispatch(getProject(match.params.id));
   }, [match.params.id]);
 
   useEffect(() => {
-    if (project && project.id === match.params.id) {
+    if (project) {
       const flatData = [];
       console.log("Project:", project);
       project.lanes.forEach((lane) => {

@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Link from "./common/CustomLink";
@@ -17,138 +17,130 @@ import Header from "./common/Header";
 //style
 import "../styles/Dashboard.scss";
 
-class Dashboard extends Component {
-  constructor() {
-    super();
-    this.state = {
-      projects: [],
-      loading: true,
-      err: "",
-    };
-  }
+import usePushNotifications from "../hooks/usePushNotifications";
 
-  componentDidMount = () => {
-    this.getProjects();
-  };
+const Dashboard = () => {
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState("");
 
-  getProjects = () => {
-    this.setState({
-      loading: true,
-    });
+  const globalMatch = useSelector((state) => state.globalMatch);
+
+  const {
+    userConsent,
+    pushNotificationSupported,
+    userSubscription,
+    onClickAskUserPermission,
+    onClickSusbribeToPushNotification,
+    onClickSendSubscriptionToPushServer,
+    pushServerSubscriptionId,
+    onClickSendNotification,
+  } = usePushNotifications();
+
+  useEffect(() => {
+    getProjects();
+    onClickAskUserPermission();
+    // onClickSusbribeToPushNotification();
+  }, []);
+
+  const getProjects = () => {
+    setLoading(true);
 
     axios
       .get(`http://localhost:2104/project`)
       .then((r) => {
         console.log("getProjects", r.data);
-        this.setState({
-          projects: r.data,
-          loading: false,
-          err: "",
-        });
+        setProjects(r.data);
+        setLoading(false);
+        setErr("");
       })
       .catch((e) => {
-        this.setState({
-          loading: false,
-          err: e,
-        });
+        setLoading(false);
+        setErr(e);
       });
   };
 
-  render() {
-    const { projects, loading } = this.state;
-    const { globalMatch } = this.props;
+  let projectList;
+  let header;
 
-    let projectList;
-    let header;
+  if (!loading) {
+    let projectId;
+    let subMatch = "board";
+    if (globalMatch) {
+      projectId = globalMatch.params.id;
 
-    if (!loading) {
-      let projectId;
-      let subMatch = "board";
-      if (globalMatch) {
-        projectId = globalMatch.params.id;
-
-        subMatch = globalMatch.path.split("/");
-        subMatch = subMatch[subMatch.length - 1];
-      }
-
-      header = <Header />;
-
-      projectList = projects.map((project, index) => {
-        return (
-          <li key={index}>
-            <Link
-              to={`/project/${project._id}/${subMatch}`}
-              className={classNames({
-                active: project._id === projectId,
-              })}
-            >
-              <i className="fas fa-list-alt"></i>
-              <span className="menu-text">{project.name}</span>
-            </Link>
-          </li>
-        );
-      });
-    } else {
-      projectList = (
-        <div className="loader">
-          <Loader />
-        </div>
-      );
-
-      header = (
-        <div className="loader">
-          <Loader />
-        </div>
-      );
+      subMatch = globalMatch.path.split("/");
+      subMatch = subMatch[subMatch.length - 1];
     }
 
-    return (
-      <div style={{ position: "relative" }}>
-        <div className="side">
-          <Link to={`/project`} className="logo">
-            Task Manager
+    header = <Header />;
+
+    projectList = projects.map((project, index) => {
+      return (
+        <li key={index}>
+          <Link
+            to={`/project/${project._id}/${subMatch}`}
+            className={classNames({
+              active: project._id === projectId,
+            })}
+          >
+            <i className="fas fa-list-alt"></i>
+            <span className="menu-text">{project.name}</span>
           </Link>
-          <ul className="side-menu">{projectList}</ul>
-          <div className="otherMenu">
-            <AddStory />
-          </div>
-        </div>
-        <div className="con">
-          {header}
-          <aside style={{ height: "calc(100vh - 58px)" }}>
-            <Switch>
-              <Route
-                exact
-                path="/project"
-                render={() => <MainSection getProjects={this.getProjects} />}
-              />
+        </li>
+      );
+    });
+  } else {
+    projectList = (
+      <div className="loader">
+        <Loader />
+      </div>
+    );
 
-              <Route exact path="/project/:id/board" component={Board} />
-              <Route exact path="/project/:id/table" component={Table} />
-              {/* <Route exact path="/project/:id/chatbox" component={ChatBox} /> */}
-
-              <Route
-                exact
-                path="/project/:id"
-                render={(props) => (
-                  <Redirect to={`${props.match.params.id}/board`} />
-                )}
-              />
-            </Switch>
-          </aside>
-        </div>
+    header = (
+      <div className="loader">
+        <Loader />
       </div>
     );
   }
-}
 
-const mapStateToProps = (state) => ({
-  project: state.project,
-  globalMatch: state.globalMatch,
-});
+  return (
+    <div style={{ position: "relative" }}>
+      <div className="side">
+        <Link to={`/project`} className="logo">
+          Task Manager
+        </Link>
+        <ul className="side-menu">{projectList}</ul>
+        <div className="otherMenu">
+          <AddStory />
+        </div>
+      </div>
+      <div className="con">
+        {header}
+        <aside style={{ height: "calc(100vh - 58px)" }}>
+          <Switch>
+            <Route
+              exact
+              path="/project"
+              render={() => <MainSection getProjects={getProjects} />}
+            />
 
-// const mapDispatchToProps = (dispatch) => ({
-//   resetProject: () => dispatch(setProject(null)),
-// });
+            <Route exact path="/project/:id/board" component={Board} />
+            <Route exact path="/project/:id/table" component={Table} />
+            {/* <Route exact path="/project/:id/chatbox" component={ChatBox} /> */}
 
-export default connect(mapStateToProps, null)(Dashboard);
+            <Route
+              exact
+              path="/project/:id"
+              render={(props) => (
+                <Redirect to={`${props.match.params.id}/board`} />
+              )}
+            />
+          </Switch>
+        </aside>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
