@@ -35,40 +35,43 @@ class AddModal extends React.Component {
       name: "",
       description: "",
       assignees: "",
-      creator: "5eeee36efda6530ab8af88ec",
+      creator: this.props.user.id,
       dueDate: "",
       status: this.props.status,
       difficult: 1,
       laneId: this.props.laneId,
       laneTitle: this.props.laneTitle,
       loading: false,
-      users: [],
+      members: [],
       showSuccess: false,
     };
 
     this.toggle = this.toggle.bind(this);
-    this.getUsers = this.getUsers.bind(this);
+    this.getMembers = this.getMembers.bind(this);
   }
 
   componentDidMount() {
     moment.locale("tr");
-    this.getUsers();
+    this.getMembers();
   }
 
-  getUsers() {
-    axios
-      .get("http://localhost:2104/user")
-      .then((r) => {
-        this.setState({
-          users: r.data,
-          err: "",
-        });
-      })
-      .catch((e) => {
-        this.setState({
-          err: e,
-        });
-      });
+  getMembers() {
+    // axios
+    //   .get("http://localhost:2104/user")
+    //   .then((r) => {
+    //     this.setState({
+    //       users: r.data,
+    //       err: "",
+    //     });
+    //   })
+    //   .catch((e) => {
+    //     this.setState({
+    //       err: e,
+    //     });
+    //   });
+    this.setState({
+      members: this.props.project.members,
+    });
   }
 
   toggle() {
@@ -129,16 +132,13 @@ class AddModal extends React.Component {
   };
 
   render() {
-    const { users } = this.state;
-    let userContent;
-    if (!users) userContent = <option value="">Loading...</option>;
-    else {
-      userContent = (
-        (
-        <CheckboxAutocomplete users={users} handleCombobox={this.handleCombobox} />
-      )
-      );
-    }
+    const userContent = (
+      <CheckboxAutocomplete
+        members={this.state.members}
+        handleCombobox={this.handleCombobox}
+      />
+    );
+
     return (
       <div>
         <Snackbar
@@ -230,8 +230,13 @@ class AddModal extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  project: state.project,
+  user: state.user,
+});
+
 const mapDispathToProps = (dispatch) => ({
   addTask: (task, laneId) => dispatch(addTaskRequest(task, laneId)),
 });
 
-export default connect(null, mapDispathToProps)(AddModal);
+export default connect(mapStateToProps, mapDispathToProps)(AddModal);

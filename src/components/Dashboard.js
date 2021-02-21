@@ -25,6 +25,7 @@ const Dashboard = () => {
   const [err, setErr] = useState("");
 
   const globalMatch = useSelector((state) => state.globalMatch);
+  const user = useSelector((state) => state.user);
 
   const {
     userConsent,
@@ -46,8 +47,21 @@ const Dashboard = () => {
   const getProjects = () => {
     setLoading(true);
 
+    // axios
+    //   .get(`http://localhost:2104/project`)
+    //   .then((r) => {
+    //     console.log("getProjects", r.data);
+    //     setProjects(r.data);
+    //     setLoading(false);
+    //     setErr("");
+    //   })
+    //   .catch((e) => {
+    //     setLoading(false);
+    //     setErr(e);
+    //   });
+
     axios
-      .get(`http://localhost:2104/project`)
+      .get(`http://localhost:2104/project/user/${user.id}`)
       .then((r) => {
         console.log("getProjects", r.data);
         setProjects(r.data);

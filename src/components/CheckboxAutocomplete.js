@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
-function CheckboxAutocomplete({ users, handleCombobox }) {
+function CheckboxAutocomplete({ members, handleCombobox }) {
   const handleChange = (e, values) => {
     handleCombobox(values);
   };
@@ -18,11 +18,11 @@ function CheckboxAutocomplete({ users, handleCombobox }) {
   return (
     <Autocomplete
       multiple
-      options={users}
+      options={members}
       disableCloseOnSelect
       onChange={handleChange}
-      getOptionLabel={(user) => user.username}
-      renderOption={(user, { selected }) => (
+      getOptionLabel={(member) => member.username}
+      renderOption={(member, { selected }) => (
         <React.Fragment>
           <Checkbox
             icon={icon}
@@ -30,13 +30,13 @@ function CheckboxAutocomplete({ users, handleCombobox }) {
             style={{ marginRight: 8 }}
             checked={selected}
           />
-          <Avatar alt={user.username} src={user.avatar} />
+          <Avatar alt={member.username} src={member.avatar} />
           <Typography
             variant="subtitle1"
             gutterBottom
             style={{ marginLeft: "0.5em" }}
           >
-            {user.username}
+            {member.username}
           </Typography>
         </React.Fragment>
       )}
