@@ -9,6 +9,7 @@ import classNames from "classnames";
 import MainSection from "./MainSection";
 import Board from "./Board";
 import Table from "./Table/Table";
+import ProjectSetting from "./ProjectSetting/ProjectSetting";
 // import ChatBox from "./ChatBox/ChatBox";
 import AddStory from "./forms/addStory";
 import Loader from "./Loader";
@@ -141,6 +142,11 @@ const Dashboard = () => {
 
             <Route exact path="/project/:id/board" component={Board} />
             <Route exact path="/project/:id/table" component={Table} />
+            <Route
+              exact
+              path="/project/:id/setting"
+              component={ProjectSetting}
+            />
             {/* <Route exact path="/project/:id/chatbox" component={ChatBox} /> */}
 
             <Route

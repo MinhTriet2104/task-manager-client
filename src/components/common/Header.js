@@ -47,8 +47,20 @@ const Header = () => {
             })}
           >
             <li>
-              <i className="fas fa-clipboard-list"></i>
+              <i className="fas fa-table"></i>
               <span className="mainMenuText">Table</span>
+            </li>
+          </Link>
+
+          <Link
+            to={`/project/${globalMatch.params.id}/setting`}
+            className={classNames({
+              active: subMatch === "setting",
+            })}
+          >
+            <li>
+              <i className="fas fa-cog"></i>
+              <span className="mainMenuText">Setting</span>
             </li>
           </Link>
         </ul>
