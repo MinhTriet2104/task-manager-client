@@ -7,8 +7,10 @@ import AddUser from "../forms/addUser";
 //style
 import "../../styles/Header.scss";
 
-const Header = () => {
+const Header = ({ project }) => {
   const globalMatch = useSelector((state) => state.globalMatch);
+  const user = useSelector((state) => state.user);
+
   if (!globalMatch) return null;
 
   let subMatch = globalMatch.path.split("/");

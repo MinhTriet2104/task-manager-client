@@ -7,13 +7,10 @@ import classNames from "classnames";
 
 // components
 import MainSection from "./MainSection";
-import Board from "./Board";
-import Table from "./Table/Table";
-import ProjectSetting from "./ProjectSetting/ProjectSetting";
+import Project from "./Project";
 // import ChatBox from "./ChatBox/ChatBox";
 import AddStory from "./forms/addStory";
 import Loader from "./Loader";
-import Header from "./common/Header";
 
 //style
 import "../styles/Dashboard.scss";
@@ -41,7 +38,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     getProjects();
-    onClickAskUserPermission();
+    // onClickAskUserPermission();
     // onClickSusbribeToPushNotification();
   }, []);
 
@@ -76,7 +73,6 @@ const Dashboard = () => {
   };
 
   let projectList;
-  let header;
 
   if (!loading) {
     let projectId;
@@ -87,8 +83,6 @@ const Dashboard = () => {
       subMatch = globalMatch.path.split("/");
       subMatch = subMatch[subMatch.length - 1];
     }
-
-    header = <Header />;
 
     projectList = projects.map((project, index) => {
       return (
@@ -111,12 +105,6 @@ const Dashboard = () => {
         <Loader />
       </div>
     );
-
-    header = (
-      <div className="loader">
-        <Loader />
-      </div>
-    );
   }
 
   return (
@@ -131,30 +119,17 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="con">
-        {header}
         <aside style={{ height: "calc(100vh - 58px)" }}>
           <Switch>
             <Route
               exact
-              path="/project"
+              path="/home"
               render={() => <MainSection getProjects={getProjects} />}
             />
 
-            <Route exact path="/project/:id/board" component={Board} />
-            <Route exact path="/project/:id/table" component={Table} />
             <Route
-              exact
-              path="/project/:id/setting"
-              component={ProjectSetting}
-            />
-            {/* <Route exact path="/project/:id/chatbox" component={ChatBox} /> */}
-
-            <Route
-              exact
               path="/project/:id"
-              render={(props) => (
-                <Redirect to={`${props.match.params.id}/board`} />
-              )}
+              component={Project}
             />
           </Switch>
         </aside>

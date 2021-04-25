@@ -38,12 +38,15 @@ const ProjectSetting = ({ match }) => {
   }, [project]);
 
   const handleLevelChange = (id, level) => {
-    const roleChange = project.members.find((role) => role.id === id);
-    const newRole = {
-      user: roleChange.id,
-      level: +level,
-    };
-    setRoles([...roles, newRole]);
+    if (!level.trim()) return;
+
+    const newRoles = roles;
+    newRoles.forEach((role) => {
+      if (role.id === id) {
+        role.level = +level;
+      }
+    });
+    setRoles([...newRoles]);
   };
 
   const handleSaveSetting = () => {
@@ -65,6 +68,7 @@ const ProjectSetting = ({ match }) => {
           <MemberItem
             key={index}
             member={member}
+            roles={project.roles}
             handleLevelChange={handleLevelChange}
           />
         ))}

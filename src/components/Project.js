@@ -1,133 +1,91 @@
-import React, { Component } from "react";
-// import axios from "axios";
-import { connect } from "react-redux";
+import React, { useState, useEffect, useRef } from 'react'
+import { useSelector, useDispatch } from "react-redux";
+import { Route, Switch, Redirect } from "react-router-dom";
 
-import Task from "./Task";
-import Tooltips from "./Tooltip";
+import Header from "./common/Header";
+import Board from "./Board";
+import Table from "./Table/Table";
+import ProjectSetting from "./ProjectSetting/ProjectSetting";
 
-import { getProject, setLoadingTask } from "../actions/index";
+import { initiateSocket, disconnectSocket, subscribeToReloadProject } from './Socket';
 
-class Project extends Component {
-  constructor(props) {
-    super(props);
-    // this.state = {
-    //   // project: {},
-    //   // err: "",
-    //   loading: true,
-    // };
+// action
+import {
+  getProject,
+} from "../actions/index";
 
-    this.getProjectAndTasks = this.getProjectAndTasks.bind(this);
-  }
-
-  componentDidMount = () => {
-    this.getProjectAndTasks();
-  };
-
-  componentDidUpdate = (prevProps) => {
-    // this.getStoryDetails();
-    if (this.props.projectId !== prevProps.projectId) this.getProjectAndTasks();
-    // setInterval(() => {
-    //   this.getData();
-    // }, 2000);
-  };
-
-  getProjectAndTasks = () => {
-    this.props.getProject(this.props.projectId);
-    this.props.setLoadingTask(false);
-  };
-
-  render() {
-    const { tasks, loadingTask } = this.props;
-
-    return (
-      <div className="container">
-        <div className="space">
-          <h2 className="story">
-            {this.props.project ? this.props.project.name : "Loading..."}
-          </h2>
-        </div>
-        <div className="row">
-          <div className="col-sm mcell mcolor1" status="1">
-            <div className="mcell-title story">
-              <b className="fas fa-lightbulb" /> Backlog
-              <Tooltips
-                id="1"
-                content="You can do what you want to do with this column"
-                placement="top"
-                projectId={this.props.projectId}
-              />
-            </div>
-
-            <Task tasks={tasks} loading={loadingTask} filter="1" />
-            <button className="btn-add">
-              <i className="fas fa-plus customAddTask btn-icon"></i>
-              Add a task{" "}
-            </button>
-          </div>
-          <div className="col-sm mcell mcolor2" status="2">
-            <div className="mcell-title story">
-              <b className="fas fa-bars" /> TODO
-              <Tooltips
-                id="2"
-                content="You can do what you want to do with this column"
-                placement="top"
-                projectId={this.props.projectId}
-              />
-            </div>
-            <Task tasks={tasks} loading={loadingTask} filter="2" />
-            <button className="btn-add">
-              <i className="fas fa-plus customAddTask btn-icon"></i>
-              Add a task{" "}
-            </button>
-          </div>
-
-          <div className="col-sm mcell mcolor3" status="3">
-            <div className="mcell-title story">
-              <b className="fas fa-spinner"></b> In Progress
-              <Tooltips
-                id="3"
-                content="You can do what you want to do with this column"
-                placement="top"
-                projectId={this.props.projectId}
-              />{" "}
-            </div>
-            <Task tasks={tasks} loading={loadingTask} filter="3" />
-            <button className="btn-add">
-              <i className="fas fa-plus customAddTask btn-icon"></i>
-              Add a task{" "}
-            </button>
-          </div>
-          <div className="col-sm mcell mcolor4" status="4">
-            <div className="mcell-title story">
-              <b className="fas fa-check" /> Done
-              <Tooltips
-                id="4"
-                content="You can do what you want to do with this column"
-                placement="top"
-                projectId={this.props.projectId}
-              />{" "}
-            </div>
-            <Task tasks={tasks} loading={loadingTask} filter="4" />
-            <button className="btn-add">
-              <i className="fas fa-plus customAddTask btn-icon"></i>
-              Add a task{" "}
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
 }
 
-const mapStateToProps = (state) => ({
-  project: state.project,
-  tasks: state.tasks,
-  loadingTask: state.loading.loadingTask,
-});
+const Project = ({ match }) => {
+  const project = useSelector((state) => state.project);
 
-const mapDispatchToProps = (dispatch) => ({
-  getProject: (id) => dispatch(getProject(id)),
-  setLoadingTask: (status) => dispatch(setLoadingTask(status)),
-});
+  const [loading, setLoading] = useState(true);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Project);
+  const dispatch = useDispatch();
+
+  const prevMatch = usePrevious(match);
+
+  useEffect(() => {
+    if (prevMatch && prevMatch.params.id === match.params.id) return;
+
+    dispatch(getProject(match.params.id));
+
+    if (match.params.id) initiateSocket(match.params.id);
+
+    subscribeToReloadProject(() => dispatch(getProject(match.params.id)));
+
+    return () => {
+      disconnectSocket();
+    }
+    
+  }, [match.params.id]);
+
+  useEffect(() => {
+    // dispatch(setGlobalMatch(match));
+
+    // if (project && project.id === match.params.id) return;
+    dispatch(getProject(match.params.id));
+  }, []);
+
+  useEffect(() => {
+    if (project) {
+      setLoading(false);
+    }
+  }, [project]);
+
+  return (
+    <>
+    <Header />
+    <Switch>
+      <Route exact path="/project/:id/board" component={Board} />
+      <Route exact path="/project/:id/table" component={Table} />
+      <Route
+        exact
+        path="/project/:id/setting"
+        component={ProjectSetting}
+      />
+      {/* <Route exact path="/project/:id/chatbox" component={ChatBox} /> */}
+
+      <Route
+        exact
+        path="/project/:id"
+        render={(props) => (
+          <Redirect to={`${props.match.params.id}/board`} />
+        )}
+      />
+
+      <Route
+        render={() => <Redirect to={`home`} />}
+      />
+    </Switch>
+    </>
+  )
+}
+
+export default Project

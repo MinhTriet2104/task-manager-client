@@ -1,3 +1,8 @@
+.MuiDialog-paperWidthSm {
+  width: 700px;
+  max-width: 700px !important;
+}
+
 .icon-plus,
 .icon-plus-names {
   position: relative;
@@ -38,15 +43,18 @@
   padding: 15px 10px;
 }
 .detail-desription , .detail-comment{
+  height: 80px;
+
   overflow: hidden;
-  overflow-wrap: break-word;
   resize: none;
-  width: 92%;
-  margin-left: 5%;
+  width: calc(100% - 37px);
+  margin-left: 37px;
   padding: 5px;
 }
 .detail-comment{
+  width: 100%;
   margin: 0;
+  margin-left: 5px;
 }
 .name-members {
   background-color: #ff9f1a;

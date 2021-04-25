@@ -28,11 +28,12 @@ const CustomCard = ({
   onDelete,
   onClick,
 }) => {
+  let cardDescription = "";
   if (description) {
-    description =
+    cardDescription =
       description.length > 32 ? description.slice(0, 32) + "..." : description;
   } else {
-    description = "This task don't have description";
+    cardDescription = "This task don't have description";
   }
   const [open, setOpen] = React.useState(false);
 
@@ -55,7 +56,7 @@ const CustomCard = ({
             {/* <CloseIcon id="delete" onClick={onDelete}></CloseIcon> */}
           </i>
         </span>
-        <span className="task-details">{description}</span>
+        <span className="task-details">{cardDescription}</span>
         <div>
           <span className="task-due">
             {moment(dueDate).format("DD/MM/YYYY")}
@@ -80,7 +81,8 @@ const CustomCard = ({
       <TaskDetail
         open={open}
         handleClose={handleClose}
-        assignee={assignees}
+        assignees={assignees}
+        description={description}
         dueDate={dueDate}
         name={name}
       />

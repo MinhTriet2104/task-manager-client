@@ -43,6 +43,8 @@ class AddModal extends React.Component {
       laneTitle: this.props.laneTitle,
       loading: false,
       members: [],
+      roles: [],
+      filteredMembers: [],
       showSuccess: false,
     };
 
@@ -53,6 +55,26 @@ class AddModal extends React.Component {
   componentDidMount() {
     moment.locale("tr");
     this.getMembers();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.roles !== this.state.roles) {
+      const { user } = this.props;
+      const { roles, members } = this.state;
+      const userRoles = roles.find((role) => role.user === user.id);
+
+      const membersWithLevel = members.map((member) => {
+        member.level = roles.find((role) => role.user === member.id).level;
+        return member;
+      });
+      const filteredMembers = membersWithLevel.filter(
+        (member) => member.level < userRoles.level
+      );
+
+      this.setState({
+        filteredMembers: filteredMembers,
+      });
+    }
   }
 
   getMembers() {
@@ -71,6 +93,7 @@ class AddModal extends React.Component {
     //   });
     this.setState({
       members: this.props.project.members,
+      roles: this.props.project.roles,
     });
   }
 
@@ -108,33 +131,20 @@ class AddModal extends React.Component {
       creator: this.state.creator,
     };
 
-    const res = await axios.post("http://localhost:2104/task", {
-      ...task,
-      laneId: this.props.laneId,
-    });
-    task.id = res.data;
-
-    this.props.addCard({
-      laneId: this.props.laneId,
-      card: task,
-    });
-
+    // const res = await axios.post("http://localhost:2104/task", {
+    //   ...task,
+    //   laneId: this.props.laneId,
+    // });
+    // task.id = res.data;
+    this.props.addTask(task, this.props.laneId);
+    
     this.toggle();
-    this.setState({
-      name: "",
-      description: "",
-      assignee: "",
-      dueDate: "",
-      difficult: 1,
-      loading: false,
-      showSuccess: true,
-    });
   };
 
   render() {
     const userContent = (
       <CheckboxAutocomplete
-        members={this.state.members}
+        members={this.state.filteredMembers}
         handleCombobox={this.handleCombobox}
       />
     );

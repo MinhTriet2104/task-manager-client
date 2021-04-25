@@ -23,7 +23,7 @@ const Table = ({ match }) => {
   useEffect(() => {
     dispatch(setGlobalMatch(match));
 
-    dispatch(getProject(match.params.id));
+    // dispatch(getProject(match.params.id));
   }, [match.params.id]);
 
   useEffect(() => {
@@ -140,7 +140,6 @@ const Table = ({ match }) => {
           break;
       }
 
-      console.log("row", row.task.assignee);
       rawRow.push({
         id: index,
         laneName: row.lane.title,

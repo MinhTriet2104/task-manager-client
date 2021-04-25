@@ -1,18 +1,26 @@
 import axios from "axios";
 
 import * as types from "../constants/ActionTypes";
+import { NotifyProjectChange } from "../components/Socket";
 
-export const getProject = (id) => async (dispatch) => {
+export const getProject = (id, socket) => async (dispatch) => {
   const res = await axios.get(`http://localhost:2104/project/${id}`);
-  dispatch(setProject(res.data));
-  // dispatch(setTasks(res.data.tasks));
-  // dispatch(setLoadingProject(false));
-  // dispatch(setLoadingTask(false));
+  if (socket) {
+    dispatch(setProject(res.data));
+    dispatch(setSocket(socket));
+  } else {
+    dispatch(setProject(res.data));
+  }
 };
 
 export const setProject = (project) => ({
   type: types.SET_PROJECT,
   project,
+});
+
+export const setSocket = (socket) => ({
+  type: types.SET_SOCKET,
+  socket,
 });
 
 export const setTasks = (tasks) => ({
@@ -25,6 +33,7 @@ export const addTaskRequest = (task, laneId) => async (dispatch) => {
     task: task,
     laneId: laneId,
   });
+  NotifyProjectChange();
   dispatch(addTask(res.data));
 };
 
@@ -35,9 +44,12 @@ export const addTask = (lane) => ({
 
 export const deleteTaskRequest = (id, laneId) => async (dispatch) => {
   // dispatch(setLoadingProject(true));
-  await axios.delete("http://localhost:2104/task/" + id, {
-    laneId: laneId,
+  const deleteTask = await axios.delete("http://localhost:2104/task/" + id, {
+    data: {
+      laneId: laneId,
+    },
   });
+  NotifyProjectChange();
   // dispatch(deleteTask(res.data, laneId));
   // dispatch(setLoadingProject(false));
 };
@@ -54,11 +66,15 @@ export const updateStatusTaskRequest = (
   sourceLaneId,
   targetLaneId
 ) => async (dispatch) => {
-  await axios.patch("http://localhost:2104/task/" + id, {
-    tasks: lane.tasks.map((task) => task.id),
-    sourceLaneId: sourceLaneId,
-    targetLaneId: targetLaneId,
-  });
+  axios
+    .patch("http://localhost:2104/task/" + id, {
+      tasks: lane.tasks.map((task) => task.id),
+      sourceLaneId: sourceLaneId,
+      targetLaneId: targetLaneId,
+    })
+    .then((res) => {
+      NotifyProjectChange();
+    });
 
   // dispatch(updateStatusTask(res.data, lane, sourceLaneId, targetLaneId));
   // dispatch(updateStatusTask(id, lane, sourceLaneId, targetLaneId));
@@ -75,6 +91,7 @@ export const updateStatusTask = (id, lane, sourceLaneId, targetLaneId) => ({
 export const removeLaneRequest = (id) => async (dispatch) => {
   const deletedLane = await axios.delete("http://localhost:2104/lane/" + id);
   // console.log(deletedLane.data);
+  NotifyProjectChange();
   dispatch(removeLane(deletedLane.id));
 };
 

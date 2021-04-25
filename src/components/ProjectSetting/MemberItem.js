@@ -7,8 +7,9 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
 import TextField from "@material-ui/core/TextField";
 
-const MemberItem = ({ member, handleLevelChange }) => {
-  const { id, username, avatar, level } = member;
+const MemberItem = ({ member, roles, handleLevelChange }) => {
+  const { id, username, avatar } = member;
+  const role = roles.find((role) => role.user === id);
 
   return (
     <ListItem>
@@ -21,10 +22,10 @@ const MemberItem = ({ member, handleLevelChange }) => {
         <TextField
           label="Level"
           type="number"
-          defaultValue={level}
+          defaultValue={role.level}
           required
           style={{ width: 100 }}
-          onChange={(e) => handleLevelChange(id, e.target.value)}
+          onChange={(e) => handleLevelChange(role.id, e.target.value)}
         />
       </ListItemSecondaryAction>
     </ListItem>

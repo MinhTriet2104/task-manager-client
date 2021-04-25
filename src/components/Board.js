@@ -40,7 +40,7 @@ export default ({ match }) => {
     dispatch(setGlobalMatch(match));
 
     // if (project && project.id === match.params.id) return;
-    dispatch(getProject(match.params.id));
+    // dispatch(getProject(match.params.id));
   }, [match.params.id]);
 
   useEffect(() => {
@@ -146,4 +146,4 @@ export default ({ match }) => {
       />
     </div>
   );
-};
+};;

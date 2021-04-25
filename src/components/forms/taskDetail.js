@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import "../../styles/TaskDetail.scss";
 import { withStyles } from "@material-ui/core/styles";
 import { green } from "@material-ui/core/colors";
@@ -22,6 +23,8 @@ import Paper from "@material-ui/core/Paper";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import TextField from "@material-ui/core/TextField";
+import MuiAvatar from "@material-ui/core/Avatar";
+import AvatarGroup from "@material-ui/lab/AvatarGroup";
 
 //icon
 import PlusIcon from "mdi-react/PlusIcon";
@@ -29,14 +32,30 @@ import DescriptionIcon from "mdi-react/TextSubjectIcon";
 import ActivityIcon from "mdi-react/FormatListTextIcon";
 import TitleIcon from "mdi-react/NewspaperIcon";
 
+const Avatar = withStyles((theme) => ({
+  root: {
+    width: 38,
+    height: 38,
+  },
+}))(MuiAvatar);
+
+const UserAvatar = withStyles((theme) => ({
+  root: {
+    width: 32,
+    height: 32,
+  },
+}))(MuiAvatar);
+
 export default ({
   open,
   handleClose,
   name,
   description,
   dueDate,
-  assignee,
+  assignees,
 }) => {
+  const user = useSelector((state) => state.user);
+
   const [state, setState] = React.useState({
     checkedG: false,
   });
@@ -89,45 +108,39 @@ export default ({
       open={open}
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
-      maxWidth="lg"
+      className="detail-dialog"
     >
       <DialogTitle id="customized-dialog-title" onClose={handleClose}>
         <div className="title-task">
-          <TitleIcon className="icon-title-task"/>
+          <TitleIcon className="icon-title-task" />
           <TextField id="standard-basic" className="title-field" value={name} />
         </div>
       </DialogTitle>
       <DialogContent>
         {/* Table Show Members, Labels, Due Date */}
-        <TableContainer component={Paper} >
+        <TableContainer component={Paper}>
           <Table size="small" aria-label="a dense table">
             <TableHead>
               <TableRow>
                 <TableCell>Members</TableCell>
-                <TableCell align="left">LABELS</TableCell>
                 <TableCell align="left">DUE DATE</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               <TableRow>
                 <TableCell>
-                  <span>
-                    <img
-                      className="img-members"
-                      alt={assignee.username}
-                      title={assignee.username}
-                      src={
-                        assignee.avatar
-                          ? assignee.avatar
-                          : "https://i.imgur.com/5bh5qpe.jpg"
-                      }
-                    />
+                  <span className="task-contributors">
+                    <AvatarGroup max={5}>
+                      {assignees &&
+                        assignees.map((user, index) => (
+                          <Avatar
+                            key={index}
+                            alt={user.username}
+                            src={user.avatar}
+                          />
+                        ))}
+                    </AvatarGroup>
                   </span>
-                  <PlusIcon className="icon-plus-member" />
-                </TableCell>
-                <TableCell align="left">
-                  <span className="name-members">{assignee.username} </span>
-                  <PlusIcon className="icon-plus-names" />
                 </TableCell>
                 <TableCell align="left">
                   <span>
@@ -157,9 +170,12 @@ export default ({
           DESCRIPTION
         </h6>
         <TextareaAutosize
+          rows={4}
+          rowsMax={4}
           aria-label="empty textarea"
-          placeholder="Add a more detailed description"
+          placeholder="Description..."
           className="detail-desription"
+          defaultValue={description}
         />
 
         {/* Add ACitivy (Comment) */}
@@ -171,16 +187,7 @@ export default ({
         </h6>
         <div className="item-activity">
           <span>
-            <img
-              className="img-members"
-              alt={assignee.username}
-              title={assignee.username}
-              src={
-                assignee.avatar
-                  ? assignee.avatar
-                  : "https://i.imgur.com/5bh5qpe.jpg"
-              }
-            />
+            <UserAvatar alt={user.username} src={user.avatar} />
           </span>
           <TextareaAutosize
             aria-label="empty textarea"

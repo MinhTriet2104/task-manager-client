@@ -53,7 +53,10 @@ const MainSection = ({ getProjects }) => {
 
     try {
       const res = await axios.post(
-        `http://localhost:2104/project/${processedId}`
+        `http://localhost:2104/project/${processedId}`,
+        {
+          userId: user.id,
+        }
       );
 
       if (res.status === 404) {
