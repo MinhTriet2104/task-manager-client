@@ -20,6 +20,17 @@ export const subscribeToReloadProject = (getProject) => {
   });
 };
 
+export const subscribeToLoadNewCmt = (loadNewCmt) => {
+  if (!socket) return true;
+  socket.on("load new comment", (newCmt) => {
+    loadNewCmt(newCmt);
+  });
+};
+
 export const NotifyProjectChange = () => {
   if (socket) socket.emit("project change");
+};
+
+export const NotifyNewComment = (newCmt) => {
+  if (socket) socket.emit("new comment", newCmt);
 };

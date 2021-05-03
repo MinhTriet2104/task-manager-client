@@ -55,13 +55,14 @@ const useStyles = makeStyles((theme) => ({
 
 const CustomCard = ({
   _id,
+  creator,
+  deliveryDate,
   name,
   description,
   dueDate,
   assignees,
   complete,
   onDelete,
-  onClick,
 }) => {
   const classes = useStyles();
 
@@ -123,8 +124,8 @@ const CustomCard = ({
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span>
-            <i className="far fa-comment icon-coment"></i>
-            <div className="number-comment">1</div>
+            {/* <i className="far fa-comment icon-coment"></i>
+            <div className="number-comment">1</div> */}
           </span>
           <span className="task-contributors">
             <AvatarGroup max={5}>
@@ -138,6 +139,8 @@ const CustomCard = ({
 
       <TaskDetail
         open={open}
+        creator={creator}
+        deliveryDate={deliveryDate}
         taskId={_id}
         handleClose={handleClose}
         assignees={assignees}
