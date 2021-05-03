@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import "../../styles/TaskDetail.scss";
 import { withStyles } from "@material-ui/core/styles";
 import { green } from "@material-ui/core/colors";
-import Checkbox from "@material-ui/core/Checkbox";
 import moment from "moment";
+import axios from 'axios';
+
+import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "mdi-react/CloseIcon";
@@ -32,6 +34,8 @@ import DescriptionIcon from "mdi-react/TextSubjectIcon";
 import ActivityIcon from "mdi-react/FormatListTextIcon";
 import TitleIcon from "mdi-react/NewspaperIcon";
 
+import { NotifyProjectChange } from "../Socket";
+
 const Avatar = withStyles((theme) => ({
   root: {
     width: 38,
@@ -49,28 +53,21 @@ const UserAvatar = withStyles((theme) => ({
 export default ({
   open,
   handleClose,
+  taskId,
   name,
   description,
   dueDate,
   assignees,
+  complete,
 }) => {
   const user = useSelector((state) => state.user);
 
   const [state, setState] = React.useState({
-    checkedG: false,
+    complete: complete,
+    name: name,
+    description: description,
   });
-  const styles = (theme) => ({
-    root: {
-      margin: 0,
-      padding: theme.spacing(2),
-    },
-    closeButton: {
-      position: "absolute",
-      right: theme.spacing(1),
-      top: theme.spacing(1),
-      color: theme.palette.grey[500],
-    },
-  });
+  
   const GreenCheckbox = withStyles({
     root: {
       color: green[400],
@@ -82,26 +79,18 @@ export default ({
   })((props) => <Checkbox color="default" {...props} />);
 
   const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
+    const inputName = event.target.name;
+    const inputValue = inputName !== 'complete' ? event.target.value : event.target.checked;
+    setState({ ...state, [event.target.name]: inputValue });
   };
 
-  const DialogTitle = withStyles(styles)((props) => {
-    const { children, classes, onClose, ...other } = props;
-    return (
-      <MuiDialogTitle disableTypography className={classes.root} {...other}>
-        <Typography variant="h6">{children}</Typography>
-        {onClose ? (
-          <IconButton
-            aria-label="close"
-            className={classes.closeButton}
-            onClick={onClose}
-          >
-            <CloseIcon />
-          </IconButton>
-        ) : null}
-      </MuiDialogTitle>
-    );
-  });
+  const handleSave = async () => {
+    const res = await axios.patch(`http://localhost:2104/task/${taskId}/detail`, {
+      ...state
+    });
+    NotifyProjectChange();
+    handleClose();
+  }
 
   return (
     <Dialog
@@ -110,12 +99,17 @@ export default ({
       aria-labelledby="form-dialog-title"
       className="detail-dialog"
     >
-      <DialogTitle id="customized-dialog-title" onClose={handleClose}>
+      <MuiDialogTitle>
         <div className="title-task">
           <TitleIcon className="icon-title-task" />
-          <TextField id="standard-basic" className="title-field" value={name} />
+          <TextField
+            className="title-field"
+            name="name"
+            value={state.name}
+            onChange={handleChange}
+          />
         </div>
-      </DialogTitle>
+      </MuiDialogTitle>
       <DialogContent>
         {/* Table Show Members, Labels, Due Date */}
         <TableContainer component={Paper}>
@@ -148,9 +142,9 @@ export default ({
                     <FormControlLabel
                       control={
                         <GreenCheckbox
-                          checked={state.checkedG}
+                          checked={state.complete}
                           onChange={handleChange}
-                          name="checkedG"
+                          name="complete"
                         />
                       }
                       label={moment(dueDate).format("DD/MM/YYYY")}
@@ -170,12 +164,14 @@ export default ({
           DESCRIPTION
         </h6>
         <TextareaAutosize
+          onChange={handleChange}
           rows={4}
           rowsMax={4}
           aria-label="empty textarea"
           placeholder="Description..."
           className="detail-desription"
-          defaultValue={description}
+          name="description"
+          defaultValue={state.description}
         />
 
         {/* Add ACitivy (Comment) */}
@@ -197,7 +193,7 @@ export default ({
         </div>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} variant="contained" color="primary">
+        <Button onClick={handleSave} variant="contained" color="primary">
           Save
         </Button>
         <Button onClick={handleClose} color="secondary">

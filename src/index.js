@@ -12,6 +12,7 @@ import {
 import thunk from "redux-thunk";
 
 import App from "./App";
+import Test from "./components/Test";
 import Login from "./components/Login/Login";
 import About from "./components/About";
 
@@ -53,6 +54,7 @@ ReactDOM.render(
         <Route exact path="/" component={IndexPage}>
           <Redirect to="/login" />
         </Route>
+        <Route exact path="/test" component={Test} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/about" component={About} />
         <Route path="/project" component={App} />

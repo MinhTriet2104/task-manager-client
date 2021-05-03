@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import * as serviceWorker from "../serviceWorker";
 
@@ -6,6 +7,8 @@ const pushNotificationSupported = serviceWorker.isPushNotificationSupported();
 // check push notifications are supported by the browser
 
 export default function usePushNotifications() {
+  const user = useSelector((state) => state.user);
+
   const [userConsent, setSuserConsent] = useState(Notification.permission);
   //to manage the user consent: Notification.permission is a JavaScript native function that return the current state of the permission
   //We initialize the userConsent with that value
@@ -18,6 +21,8 @@ export default function usePushNotifications() {
   const [loading, setLoading] = useState(true);
   //to manage async actions
 
+  const isConsentGranted = userConsent === "granted";
+
   useEffect(() => {
     if (pushNotificationSupported) {
       setLoading(true);
@@ -29,6 +34,14 @@ export default function usePushNotifications() {
   //this effect runs only the first render
 
   useEffect(() => {
+    if (pushNotificationSupported && !isConsentGranted) {
+      onClickAskUserPermission();
+    } else {
+      console.log("permisson granted");
+    }
+  }, []);
+
+  useEffect(() => {
     setLoading(true);
     setError(false);
     const getExixtingSubscription = async () => {
@@ -38,6 +51,18 @@ export default function usePushNotifications() {
     };
     getExixtingSubscription();
   }, []);
+
+  useEffect(() => {
+    if (isConsentGranted && !userSubscription) {
+      onClickSusbribeToPushNotification();
+    }
+  }, [userConsent, userSubscription]);
+
+  useEffect(() => {
+    if (isConsentGranted && userSubscription && !pushServerSubscriptionId) {
+      onClickSendSubscriptionToPushServer();
+    }
+  }, [userSubscription, pushServerSubscriptionId]);
   //Retrieve if there is any push notification subscription for the registered service worker
   // this use effect runs only in the first render
 
@@ -103,9 +128,13 @@ export default function usePushNotifications() {
     setError(false);
     console.log(userSubscription);
     axios
-      .post("http://localhost:2104/subscription", { data: userSubscription })
+      .post("http://localhost:2104/subscription", {
+        userId: user.id,
+        data: userSubscription,
+      })
       .then(function (response) {
         setPushServerSubscriptionId(response.data.id);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
         setLoading(false);
       })
       .catch((err) => {

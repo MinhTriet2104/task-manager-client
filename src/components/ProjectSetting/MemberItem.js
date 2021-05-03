@@ -22,7 +22,7 @@ const MemberItem = ({ member, roles, handleLevelChange }) => {
         <TextField
           label="Level"
           type="number"
-          defaultValue={role.level}
+          defaultValue={(role && role.level) || 0}
           required
           style={{ width: 100 }}
           onChange={(e) => handleLevelChange(role.id, e.target.value)}

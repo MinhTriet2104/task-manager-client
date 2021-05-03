@@ -24,7 +24,7 @@ const ChatContainer = styled.div`
   padding-bottom: 30px;
 `;
 
-const socket = io("localhost:5000");
+const socket = io("localhost:8008");
 
 function usePrevious(value) {
   const ref = useRef();

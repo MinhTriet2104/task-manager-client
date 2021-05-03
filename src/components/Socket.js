@@ -2,7 +2,7 @@ import io from "socket.io-client";
 let socket;
 
 export const initiateSocket = (projectId) => {
-  socket = io("http://localhost:5000");
+  socket = io("http://localhost:8008");
   console.log(`Connecting socket...`);
   if (socket && projectId) socket.emit("join", projectId);
 };

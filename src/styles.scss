@@ -364,17 +364,17 @@ li .active:before {
   background-color: rgba(9, 30, 66, 0.08);
   color: #172b4d;
 }
-.mcell-task::before {
-  content: "";
-  background-color: #ff9f1a;
-  width: 40px;
-  height: 8px;
-  position: absolute;
-  top: 20px;
-  left: 4px;
-  border-radius: 20px;
-  padding: 0;
-}
+// .mcell-task::before {
+//   content: "";
+//   background-color: #ff9f1a;
+//   width: 40px;
+//   height: 8px;
+//   position: absolute;
+//   top: 20px;
+//   left: 4px;
+//   border-radius: 20px;
+//   padding: 0;
+// }
 .icon-plus {
   position: relative;
   bottom: 3px;
@@ -388,14 +388,14 @@ li .active:before {
 //   font-weight: bold;
 //   position: relative;
 // }
-.mcell-task {
-  background-color: #fff;
-  padding: 4px 8px;
-  margin: 10px -6px;
-  border-radius: 9px;
-  box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
-  list-style-type: none;
-}
+// .mcell-task {
+//   background-color: #fff;
+//   padding: 4px 8px;
+//   margin: 10px -6px;
+//   border-radius: 9px;
+//   box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
+//   list-style-type: none;
+// }
 .otherMenu div {
   margin: 13px;
   display: grid;
@@ -418,19 +418,12 @@ li .active:before {
   font-weight: normal;
   margin: 3px;
 }
-.task-name {
-  font-size: 19px;
-  padding-top: 15px;
-}
+// .task-name {
+//   font-size: 19px;
+//   padding-top: 15px;
+// }
 .task-details {
   font-size: 13px;
-}
-.task-due {
-  display: inline-block;
-  width: 48%;
-  font-weight: normal;
-  font-size: 13px;
-  margin: 3px;
 }
 .task-contributors img {
   border-radius: 50%;

@@ -5,8 +5,10 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import Header from "./common/Header";
 import Board from "./Board";
 import Table from "./Table/Table";
+import Chart from "./Chart";
 import ProjectSetting from "./ProjectSetting/ProjectSetting";
 
+import usePushNotifications from "../hooks/usePushNotifications";
 import { initiateSocket, disconnectSocket, subscribeToReloadProject } from './Socket';
 
 // action
@@ -23,7 +25,14 @@ function usePrevious(value) {
 }
 
 const Project = ({ match }) => {
+  const {
+    userConsent,
+    pushNotificationSupported,
+    onClickAskUserPermission,
+  } = usePushNotifications();
+
   const project = useSelector((state) => state.project);
+  const user = useSelector((state) => state.user);
 
   const [loading, setLoading] = useState(true);
 
@@ -59,33 +68,28 @@ const Project = ({ match }) => {
     }
   }, [project]);
 
+  if (!localStorage.getItem("user")) return <Redirect to="/login" />;
+
   return (
     <>
-    <Header />
-    <Switch>
-      <Route exact path="/project/:id/board" component={Board} />
-      <Route exact path="/project/:id/table" component={Table} />
-      <Route
-        exact
-        path="/project/:id/setting"
-        component={ProjectSetting}
-      />
-      {/* <Route exact path="/project/:id/chatbox" component={ChatBox} /> */}
+      <Header />
+      <Switch>
+        <Route exact path="/project/:id/board" component={Board} />
+        <Route exact path="/project/:id/table" component={Table} />
+        <Route exact path="/project/:id/chart" component={Chart} />
+        <Route exact path="/project/:id/setting" component={ProjectSetting} />
+        {/* <Route exact path="/project/:id/chatbox" component={ChatBox} /> */}
 
-      <Route
-        exact
-        path="/project/:id"
-        render={(props) => (
-          <Redirect to={`${props.match.params.id}/board`} />
-        )}
-      />
+        <Route
+          exact
+          path="/project/:id"
+          render={(props) => <Redirect to={`${props.match.params.id}/board`} />}
+        />
 
-      <Route
-        render={() => <Redirect to={`home`} />}
-      />
-    </Switch>
+        <Route render={() => <Redirect to={`project`} />} />
+      </Switch>
     </>
-  )
+  );
 }
 
 export default Project

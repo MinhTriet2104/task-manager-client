@@ -28,14 +28,15 @@ export const setTasks = (tasks) => ({
   tasks,
 });
 
-export const addTaskRequest = (task, laneId) => async (dispatch) => {
-  const res = await axios.post("http://localhost:2104/task", {
+export const addTaskRequest = (task, laneId, project) => async (dispatch) => {
+  const newTask = await axios.post("http://localhost:2104/task", {
     task: task,
     laneId: laneId,
+    project: project,
   });
-  NotifyProjectChange();
-  dispatch(addTask(res.data));
-};
+  NotifyProjectChange(newTask);
+  // dispatch(addTask(res.data));
+};;
 
 export const addTask = (lane) => ({
   type: types.ADD_TASK,
@@ -44,12 +45,12 @@ export const addTask = (lane) => ({
 
 export const deleteTaskRequest = (id, laneId) => async (dispatch) => {
   // dispatch(setLoadingProject(true));
-  const deleteTask = await axios.delete("http://localhost:2104/task/" + id, {
+  const deletedTask = await axios.delete("http://localhost:2104/task/" + id, {
     data: {
       laneId: laneId,
     },
   });
-  NotifyProjectChange();
+  NotifyProjectChange(deletedTask);
   // dispatch(deleteTask(res.data, laneId));
   // dispatch(setLoadingProject(false));
 };

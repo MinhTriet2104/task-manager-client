@@ -25,17 +25,6 @@ const Dashboard = () => {
   const globalMatch = useSelector((state) => state.globalMatch);
   const user = useSelector((state) => state.user);
 
-  const {
-    userConsent,
-    pushNotificationSupported,
-    userSubscription,
-    onClickAskUserPermission,
-    onClickSusbribeToPushNotification,
-    onClickSendSubscriptionToPushServer,
-    pushServerSubscriptionId,
-    onClickSendNotification,
-  } = usePushNotifications();
-
   useEffect(() => {
     getProjects();
     // onClickAskUserPermission();
@@ -58,18 +47,19 @@ const Dashboard = () => {
     //     setErr(e);
     //   });
 
-    axios
-      .get(`http://localhost:2104/project/user/${user.id}`)
-      .then((r) => {
-        console.log("getProjects", r.data);
-        setProjects(r.data);
-        setLoading(false);
-        setErr("");
-      })
-      .catch((e) => {
-        setLoading(false);
-        setErr(e);
-      });
+    user &&
+        axios
+          .get(`http://localhost:2104/project/user/${user.id}`)
+          .then((r) => {
+            console.log("getProjects", r.data);
+            setProjects(r.data);
+            setLoading(false);
+            setErr("");
+          })
+          .catch((e) => {
+            setLoading(false);
+            setErr(e);
+          });
   };
 
   let projectList;
@@ -119,18 +109,15 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="con">
-        <aside style={{ height: "calc(100vh - 58px)" }}>
+        <aside style={{ height: "100vh", overflow: 'auto' }}>
           <Switch>
             <Route
               exact
-              path="/home"
+              path="/project"
               render={() => <MainSection getProjects={getProjects} />}
             />
 
-            <Route
-              path="/project/:id"
-              component={Project}
-            />
+            <Route path="/project/:id" component={Project} />
           </Switch>
         </aside>
       </div>

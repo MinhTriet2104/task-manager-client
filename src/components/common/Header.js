@@ -55,6 +55,18 @@ const Header = ({ project }) => {
           </Link>
 
           <Link
+            to={`/project/${globalMatch.params.id}/chart`}
+            className={classNames({
+              active: subMatch === "chart",
+            })}
+          >
+            <li>
+              <i className="fas fa-chart-bar"></i>
+              <span className="mainMenuText">Chart</span>
+            </li>
+          </Link>
+
+          <Link
             to={`/project/${globalMatch.params.id}/setting`}
             className={classNames({
               active: subMatch === "setting",

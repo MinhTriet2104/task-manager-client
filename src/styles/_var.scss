@@ -182,7 +182,7 @@ $react-trello-lane-header-before-border-radius: 10px;
 /* Variables mcell-task */
 $mcell-task-background-color: #fff;
 $mcell-task-padding: 4px 8px;
-$mcell-task-margin: 10px -6px;
+$mcell-task-margin: 10px;
 $mcell-task-border-radius: 5px;
 $mcell-task-box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
 $mcell-task-list-style-type: none;
@@ -199,7 +199,7 @@ $mcell-task-before-border-radius: 15px;
 $mcell-task-before-padding: 0;
 
 /* Variables task name */
-$task-name-padding-top: 15px;
+$task-name-padding-top: 0px;
 $task-name-display: block;
 $task-name-margin: 3px;
 $task-name-font-weight: bold !important;

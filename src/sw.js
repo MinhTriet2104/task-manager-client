@@ -10,12 +10,14 @@ function receivePushNotification(event) {
     vibrate: [200, 100, 200],
     tag: tag,
     image: image,
-    badge: "https://spyna.it/icons/favicon.ico",
+    badge:
+      "https://icons.iconarchive.com/icons/cornmanthe3rd/metronome/128/Utilities-tasks-icon.png",
     actions: [
       {
         action: "Detail",
         title: "View",
-        icon: "https://via.placeholder.com/128/ff0000",
+        icon:
+          "https://icons.iconarchive.com/icons/cornmanthe3rd/metronome/128/Utilities-tasks-icon.png",
       },
     ],
   };
