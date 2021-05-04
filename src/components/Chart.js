@@ -113,7 +113,7 @@ const ProjectSetting = ({ match }) => {
   useEffect(() => {
     if (tasks.length) {
       generateUsersData();
-      generateTasksData();
+      generateTaskStatusData();
     }
   }, [tasks]);
 
@@ -217,7 +217,7 @@ const ProjectSetting = ({ match }) => {
     }
   };
 
-  const generateTasksData = () => {
+  const generateTaskStatusData = () => {
     if (project && tasks.length) {
       let taskDateTimeObj = [];
       let taskDateTimeMap = {};
@@ -266,8 +266,8 @@ const ProjectSetting = ({ match }) => {
           {
             label: 'Task created',
             data: dataTaskCreated,
-            borderColor: '#888',
-            backgroundColor: '#888',
+            borderColor: '#000',
+            backgroundColor: '#000',
           },
           {
             label: 'Task complete',
