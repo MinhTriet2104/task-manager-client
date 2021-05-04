@@ -16,22 +16,6 @@ const MyContainer = styled.div`
   padding: 15px 20px;
 `;
 
-const data = {
-  labels: ["Red", "Blue", "Yellow", "Green"],
-  datasets: [
-    {
-      label: "# of Votes",
-      data: [12, 19, 3, 5],
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.2)",
-        "rgba(54, 162, 235, 0.2)",
-        "rgba(255, 206, 86, 0.2)",
-        "rgba(75, 192, 192, 0.2)",
-      ],
-    },
-  ],
-};
-
 const userWorkProgressOptions = {
   indexAxis: "y",
   responsive: true,
@@ -62,6 +46,20 @@ const taskInfoOptions = {
     title: {
       display: true,
       text: "Task Info",
+    },
+  },
+  layout: {
+    padding: 20,
+  },
+};
+
+const taskStatusOptions = {
+  responsive: true,
+  maintainAspectRatio: true,
+  plugins: {
+    title: {
+      display: true,
+      text: "Tasks Status",
     },
   },
   layout: {
@@ -253,33 +251,33 @@ const ProjectSetting = ({ match }) => {
       const dataTaskCreated = taskDateMonthYearLabels.map(date => taskDateTimeMap[date].length);
       const dataTaskComplete = taskDateMonthYearLabels.map(date => {
         const curTasks = taskDateTimeMap[date];
-        retrun curTasks.filter(task => task.complete).length;
+        return curTasks.filter((task) => task.complete).length;
       });
       const dataTaskExpired = taskDateMonthYearLabels.map(date => {
         const curTasks = taskDateTimeMap[date];
-        retrun curTasks.filter(task => checkIsExpired(task.dueDate)).length;
+        return curTasks.filter((task) => checkIsExpired(task.dueDate)).length;
       });
 
       setTaskStatusData({
         labels: taskDateMonthYearLabels,
         datasets: [
           {
-            label: 'Task created',
-            data: dataTaskCreated,
-            borderColor: '#000',
-            backgroundColor: '#000',
-          },
-          {
             label: 'Task complete',
             data: dataTaskComplete,
-            borderColor: 'green',
-            backgroundColor: 'green',
+            borderColor: '#4bc0c0',
+            backgroundColor: '#4bc0c0',
           },
           {
             label: 'Task expired',
             data: dataTaskExpired,
-            borderColor: 'red',
-            backgroundColor: 'red',
+            borderColor: '#ff6384',
+            backgroundColor: '#ff6384',
+          },
+          {
+            label: 'Task created',
+            data: dataTaskCreated,
+            borderColor: '#000',
+            backgroundColor: '#000',
           },
         ]
       });
@@ -290,11 +288,13 @@ const ProjectSetting = ({ match }) => {
     <MyContainer>
       <Typography variant="h4">Project Chart Info</Typography>
 
-      <div style={{ width: 500, height: 500 }}>
+      <div style={{ display: 'flex' }}>
+      <div style={{ flex: 1 }}>
         <Pie data={tasksData} options={taskInfoOptions} />
       </div>
-      <div style={{ height: 500 }}>
-        <Line data={taskStatusData} />
+      <div style={{ flex: 3 }}>
+        <Line data={taskStatusData} options={taskStatusOptions} height={100} />
+      </div>
       </div>
       <div>
         <Bar
