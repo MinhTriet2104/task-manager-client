@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import styled from "styled-components";
 
-import { Pie, Bar } from "react-chartjs-2";
+import { Pie, Line, Bar } from "react-chartjs-2";
 
 import Typography from "@material-ui/core/Typography";
 
@@ -89,6 +89,10 @@ const ProjectSetting = ({ match }) => {
     labels: ["complete", "expired", "incomplete"],
     datasets: [],
   });
+  const [taskStatusData, setTaskStatusData] = useState({
+    labels: [],
+    datasets: [],
+  });
 
   useEffect(() => {
     dispatch(setGlobalMatch(match));
@@ -109,6 +113,7 @@ const ProjectSetting = ({ match }) => {
   useEffect(() => {
     if (tasks.length) {
       generateUsersData();
+      generateTasksData();
     }
   }, [tasks]);
 
@@ -212,12 +217,84 @@ const ProjectSetting = ({ match }) => {
     }
   };
 
+  const generateTasksData = () => {
+    if (project && tasks.length) {
+      let taskDateTimeObj = [];
+      let taskDateTimeMap = {};
+      let taskDateMonthYearLabels;
+
+      tasks.forEach(task => {
+        const date = new Date(task.deliveryDate);
+        taskDateTimeObj.push({
+          task: task,
+          dateTime: date.getTime()
+        });
+      });
+
+      taskDateTimeObj.sort((a, b) => a.dateTime - b.dateTime);
+      taskDateMonthYearLabels = taskDateTimeObj.map(item => {
+        const dateTimeMonthYear = moment(item.dateTime).format("MM/YYYY")
+        if (!taskDateTimeMap[dateTimeMonthYear]) {
+          taskDateTimeMap[dateTimeMonthYear] = [];
+        }
+        taskDateTimeMap[dateTimeMonthYear].push(item.task);
+        return dateTimeMonthYear;
+      });
+      taskDateMonthYearLabels = [...new Set(taskDateMonthYearLabels)];
+
+      // const sortedTasks = tasks;
+      // sortedTasks.sort((a, b) => {
+      //   const dateA = new Date(a.deliveryDate);
+      //   const dateB = new Date(b.deliveryDate);
+      //
+      //   return dateA - dateB;
+      // });
+
+      const dataTaskCreated = taskDateMonthYearLabels.map(date => taskDateTimeMap[date].length);
+      const dataTaskComplete = taskDateMonthYearLabels.map(date => {
+        const curTasks = taskDateTimeMap[date];
+        retrun curTasks.filter(task => task.complete).length;
+      });
+      const dataTaskExpired = taskDateMonthYearLabels.map(date => {
+        const curTasks = taskDateTimeMap[date];
+        retrun curTasks.filter(task => checkIsExpired(task.dueDate)).length;
+      });
+
+      setTaskStatusData({
+        labels: taskDateMonthYearLabels,
+        datasets: [
+          {
+            label: 'Task created',
+            data: dataTaskCreated,
+            borderColor: '#888',
+            backgroundColor: '#888',
+          },
+          {
+            label: 'Task complete',
+            data: dataTaskComplete,
+            borderColor: 'green',
+            backgroundColor: 'green',
+          },
+          {
+            label: 'Task expired',
+            data: dataTaskExpired,
+            borderColor: 'red',
+            backgroundColor: 'red',
+          },
+        ]
+      });
+    }
+  };
+
   return project ? (
     <MyContainer>
       <Typography variant="h4">Project Chart Info</Typography>
 
       <div style={{ width: 500, height: 500 }}>
         <Pie data={tasksData} options={taskInfoOptions} />
+      </div>
+      <div style={{ height: 500 }}>
+        <Line data={taskStatusData} />
       </div>
       <div>
         <Bar
