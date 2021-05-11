@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
 import { green } from "@material-ui/core/colors";
 import moment from "moment";
 import axios from "axios";
@@ -23,14 +23,26 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import TextField from "@material-ui/core/TextField";
 import MuiAvatar from "@material-ui/core/Avatar";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import ListItemText from "@material-ui/core/ListItemText";
+import IconButton from "@material-ui/core/IconButton";
 
-import { Button as SemaButton, Comment, Form, Header } from "semantic-ui-react";
+import { Button as SemaButton, Comment, Form } from "semantic-ui-react";
 import "../../styles/TaskDetail.scss";
 
 //icon
 import DescriptionIcon from "mdi-react/TextSubjectIcon";
+import PlaylistAddCheckSharpIcon from "@material-ui/icons/PlaylistAddCheckSharp";
 import ActivityIcon from "mdi-react/FormatListTextIcon";
 import TitleIcon from "mdi-react/NewspaperIcon";
+import AddSharpIcon from "@material-ui/icons/AddSharp";
+import CloseSharpIcon from "@material-ui/icons/CloseSharp";
 
 import {
   NotifyProjectChange,
@@ -46,6 +58,47 @@ const Avatar = withStyles((theme) => ({
   },
 }))(MuiAvatar);
 
+const BorderLinearProgress = withStyles((theme) => ({
+  root: {
+    height: 10,
+    borderRadius: 5,
+  },
+  colorPrimary: {
+    backgroundColor:
+      theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
+  },
+  bar: {
+    borderRadius: 5,
+    backgroundColor: "#1a90ff",
+  },
+}))(LinearProgress);
+
+const useStyles = makeStyles((theme) => ({
+  list: {
+    width: "100%",
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
+}));
+
+const LinearProgressWithLabel = (props) => (
+  <Box display="flex" alignItems="center">
+    <Box width="100%" mr={1}>
+      <BorderLinearProgress
+        variant="determinate"
+        size={40}
+        thickness={4}
+        {...props}
+      />
+    </Box>
+    <Box minWidth={35}>
+      <Typography variant="body2" color="textSecondary">{`${Math.round(
+        props.value
+      )}%`}</Typography>
+    </Box>
+  </Box>
+);
+
 export default ({
   open,
   handleClose,
@@ -56,14 +109,18 @@ export default ({
   description,
   dueDate,
   assignees,
+  list,
   complete,
 }) => {
+  const classes = useStyles();
+
   const user = useSelector((state) => state.user);
 
   const [state, setState] = useState({
     complete: complete,
     name: name,
     description: description,
+    list: list,
   });
   const [commentField, setCommentField] = useState("");
   const [newComment, setNewComment] = useState("");
@@ -71,6 +128,8 @@ export default ({
   const [cachedNewCmt, setCachedNewCmt] = useState(0);
   const [comments, setComments] = useState([]);
   const [hasMoreCmt, setHasMoreCmt] = useState(false);
+  const [completePercent, setCompletePercent] = useState(0);
+  const [newListValue, setNewListValue] = useState("");
 
   useEffect(() => {
     if (open) {
@@ -115,6 +174,20 @@ export default ({
     }
   }, [newComment]);
 
+  useEffect(() => {
+    let completeCount = 0;
+
+    state.list.forEach((item) => {
+      if (item.complete) completeCount++;
+    });
+
+    if (completeCount) {
+      setCompletePercent(Math.round((completeCount / state.list.length) * 100));
+    } else {
+      setCompletePercent(0);
+    }
+  }, [state.list]);
+
   const GreenCheckbox = withStyles({
     root: {
       color: green[400],
@@ -158,6 +231,147 @@ export default ({
     );
     setCommentField("");
     NotifyNewComment(res.data);
+  };
+
+  const handleAddListItem = () => {
+    if (newListValue.trim() === "") return;
+
+    const newList = [
+      {
+        value: newListValue,
+        complete: false,
+      },
+      ...state.list,
+    ];
+    setState({
+      ...state,
+      list: newList,
+    });
+    setNewListValue("");
+  };
+
+  const handleNewListFieldChange = (e) => {
+    const value = e.target.value;
+    if (e.keyCode  === 13) {
+      if (value.trim() === "") return;
+
+      const newList = [
+        {
+          value: value,
+          complete: false,
+        },
+        ...state.list,
+      ];
+      setState({
+        ...state,
+        list: newList,
+      });
+      setNewListValue("");
+    } else {
+      setNewListValue(value);
+    }
+  };
+
+  const handleListItemRemove = (index) => {
+    const newList = [...state.list];
+
+    newList.splice(index, 1);
+    setState({
+      ...state,
+      list: newList,
+    });
+  };
+
+  const handleListItemChecked = (e, index) => {
+    const newList = [...state.list];
+    newList[index].complete = e.target.checked;
+    setState({
+      ...state,
+      list: newList,
+    });
+  };
+
+  const renderChecklistInput = () => {
+    if (state.list.length === 0) {
+      return (
+        <List className={classes.list}>
+          <ListItem role={undefined} dense button>
+            <ListItemIcon></ListItemIcon>
+            <TextField
+              value={newListValue}
+              onKeyDown={(e) => handleNewListFieldChange(e)}
+              onChange={(e) => handleNewListFieldChange(e)}
+              name="new-checklist"
+            />
+            <ListItemSecondaryAction>
+              <IconButton
+                edge="end"
+                aria-label="add"
+                onClick={handleAddListItem}
+              >
+                <AddSharpIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
+        </List>
+      );
+    } else {
+      return (
+        <List className={classes.list}>
+          <ListItem role={undefined} dense button>
+            <ListItemIcon></ListItemIcon>
+            <TextField
+              value={newListValue}
+              onKeyDown={(e) => handleNewListFieldChange(e)}
+              onChange={(e) => handleNewListFieldChange(e)}
+              name="new-checklist"
+            />
+            <ListItemSecondaryAction>
+              <IconButton
+                edge="end"
+                aria-label="add"
+                onClick={handleAddListItem}
+              >
+                <AddSharpIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
+          {state.list.map((item, index) => {
+            const labelId = `checkbox-list-label-${index}`;
+
+            return (
+              <ListItem
+                key={index}
+                role={undefined}
+                dense
+                button
+                onClick={null}
+              >
+                <ListItemIcon>
+                  <Checkbox
+                    edge="start"
+                    checked={item.complete}
+                    onChange={(e) => handleListItemChecked(e, index)}
+                    disableRipple
+                    inputProps={{ "aria-labelledby": labelId }}
+                  />
+                </ListItemIcon>
+                <TextField name={labelId} value={item.value} />
+                <ListItemSecondaryAction>
+                  <IconButton
+                    edge="end"
+                    aria-label="remove"
+                    onClick={() => handleListItemRemove(index)}
+                  >
+                    <CloseSharpIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            );
+          })}
+        </List>
+      );
+    }
   };
 
   return (
@@ -241,6 +455,20 @@ export default ({
           name="description"
           defaultValue={state.description}
         />
+
+        {/* Add CheckList */}
+        <h6 className="lbl-description">
+          <span className="icon-description">
+            <PlaylistAddCheckSharpIcon />
+          </span>
+          CHECKLIST
+        </h6>
+        <div className="checklist-progress-bar">
+          <LinearProgressWithLabel value={completePercent} />
+        </div>
+        <div className="checklist-input-render-area">
+          {renderChecklistInput()}
+        </div>
 
         {/* Add ACitivy (Comment) */}
         <h6 className="lbl-description">

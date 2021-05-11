@@ -326,10 +326,6 @@ li .active:before {
 .icon-delete {
   padding-right: 6px !important;
 }
-.icon-coment {
-  padding-left: 10px;
-  /* cursor: pointer; */
-}
 .icon-dificult {
   float: left;
   cursor: pointer;
@@ -337,11 +333,6 @@ li .active:before {
   position: relative;
   bottom: -9px;
   height: 18px;
-}
-.number-comment,
-.number-dificult {
-  display: inline-flex;
-  padding-left: 2px;
 }
 .btn-icon {
   top: 0px;

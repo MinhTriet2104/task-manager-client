@@ -1,22 +1,22 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 import moment from "moment";
 import TaskDetail from "./forms/taskDetail";
 
 import { green } from "@material-ui/core/colors";
-import Chip from '@material-ui/core/Chip';
+import Chip from "@material-ui/core/Chip";
 
 // icon
 import DeleteIcon from "mdi-react/DeleteOutlineIcon";
 // import SortVariant from "mdi-react/SortVariantIcon";
 import MuiAvatar from "@material-ui/core/Avatar";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
-import CheckIcon from '@material-ui/icons/Check';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import AccessAlarmsRoundedIcon from '@material-ui/icons/AccessAlarmsRounded';
+import CheckIcon from "@material-ui/icons/Check";
+import AccessTimeIcon from "@material-ui/icons/AccessTime";
+import AccessAlarmsRoundedIcon from "@material-ui/icons/AccessAlarmsRounded";
+import PlaylistAddCheckSharpIcon from "@material-ui/icons/PlaylistAddCheckSharp";
 // import TocIcon from '@material-ui/icons/Toc';
-
 
 //style
 import "../styles/CustomCard.scss";
@@ -31,26 +31,26 @@ const Avatar = withStyles((theme) => ({
 const useStyles = makeStyles((theme) => ({
   completeChip: {
     background: green[500],
-    color: '#fff',
+    color: "#fff",
 
-    margin: '4px 0',
-    boxShadow: '0 2px 6px rgb(76 175 80 / 50%)',
+    margin: "4px 0",
+    boxShadow: "0 2px 6px rgb(76 175 80 / 50%)",
 
-    '& svg': {
-      color: '#fff',
-    }
+    "& svg": {
+      color: "#fff",
+    },
   },
   expiredChip: {
-    background: '#ff002a',
-    color: '#fff',
+    background: "#ff002a",
+    color: "#fff",
 
-    margin: '4px 0',
-    boxShadow: '0 2px 6px #ff002a57',
+    margin: "4px 0",
+    boxShadow: "0 2px 6px #ff002a57",
 
-    '& svg': {
-      color: '#fff',
-    }
-  }
+    "& svg": {
+      color: "#fff",
+    },
+  },
 }));
 
 const CustomCard = ({
@@ -61,6 +61,7 @@ const CustomCard = ({
   description,
   dueDate,
   assignees,
+  list,
   complete,
   onDelete,
 }) => {
@@ -87,27 +88,35 @@ const CustomCard = ({
     const taskDueDate = moment(dueDate);
     const curDate = moment();
 
-    const diffDate = curDate.diff(taskDueDate, 'days');
+    const diffDate = curDate.diff(taskDueDate, "days");
 
     if (diffDate > 0) {
       return true;
     }
     return false;
-  }
+  };
+
+  const completeTask = list.filter((item) => item.complete);
 
   return (
     <div>
       <div id={_id} className="mcell-task" onClick={handleClickOpen}>
-        {complete && <Chip
-          size="small"
-          icon={<CheckIcon />}
-          label="complete"
-          className={classes.completeChip}
-        /> || checkIsExpired() && <Chip
-        size="small"
-        icon={<AccessTimeIcon />}
-        label="expired"
-        className={classes.expiredChip} />}
+        {(complete && (
+          <Chip
+            size="small"
+            icon={<CheckIcon />}
+            label="complete"
+            className={classes.completeChip}
+          />
+        )) ||
+          (checkIsExpired() && (
+            <Chip
+              size="small"
+              icon={<AccessTimeIcon />}
+              label="expired"
+              className={classes.expiredChip}
+            />
+          ))}
         <span className="task-name">
           <span>{name}</span>
           <i className="icon-delete">
@@ -122,10 +131,26 @@ const CustomCard = ({
           </span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span>
-            {/* <i className="far fa-comment icon-coment"></i>
-            <div className="number-comment">1</div> */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <span
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: '#656565',
+              padding: 6,
+            }}
+          >
+            <PlaylistAddCheckSharpIcon />
+            <div
+              style={{ fontSize: 13 }}
+            >{`${completeTask.length}/${list.length}`}</div>
           </span>
           <span className="task-contributors">
             <AvatarGroup max={5}>
@@ -147,6 +172,7 @@ const CustomCard = ({
         description={description}
         dueDate={dueDate}
         name={name}
+        list={list}
         complete={complete}
       />
     </div>

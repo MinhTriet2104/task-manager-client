@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import styled from "styled-components";
 
-import { Pie, Line, Bar } from "react-chartjs-2";
+import { Pie, Doughnut, Line, Bar } from "react-chartjs-2";
 
 import Typography from "@material-ui/core/Typography";
 
@@ -45,7 +45,21 @@ const taskInfoOptions = {
   plugins: {
     title: {
       display: true,
-      text: "Task Info",
+      text: "Tasks Info",
+    },
+  },
+  layout: {
+    padding: 20,
+  },
+};
+
+const laneInfoOptions = {
+  responsive: true,
+  maintainAspectRatio: true,
+  plugins: {
+    title: {
+      display: true,
+      text: "Lanes Info",
     },
   },
   layout: {
@@ -75,6 +89,7 @@ const ProjectSetting = ({ match }) => {
   const ref = useRef();
 
   const [tasks, setTasks] = useState([]);
+  const [lanes, setLanes] = useState([]);
   const [numberOfCompleteTask, setNumberOfCompleteTask] = useState(0);
   const [numberOfExpiredTask, setNumberOfExpiredTask] = useState(0);
   const [numberOfIncompleteTask, setNumberOfIncompleteTask] = useState(0);
@@ -91,6 +106,10 @@ const ProjectSetting = ({ match }) => {
     labels: [],
     datasets: [],
   });
+  const [lanesData, setLanesData] = useState({
+    labels: [],
+    datasets: [],
+  });
 
   useEffect(() => {
     dispatch(setGlobalMatch(match));
@@ -100,6 +119,7 @@ const ProjectSetting = ({ match }) => {
     if (project) {
       let allTasks = [];
 
+      setLanes(project.lanes);
       project.lanes.map((lane) => {
         allTasks.push(...lane.tasks);
       });
@@ -111,9 +131,16 @@ const ProjectSetting = ({ match }) => {
   useEffect(() => {
     if (tasks.length) {
       generateUsersData();
+      generateLanesData();
       generateTaskStatusData();
     }
   }, [tasks]);
+
+  useEffect(() => {
+    if (lanes.length) {
+      generateLanesData();
+    }
+  }, [lanes]);
 
   useEffect(() => {
     if (tasks.length) {
@@ -215,6 +242,32 @@ const ProjectSetting = ({ match }) => {
     }
   };
 
+  const generateLanesData = () => {
+    if (project && lanes) {
+      let laneLabels = [];
+      let laneDatas = [];
+      let laneBgColors = [];
+
+      laneLabels = lanes.map(lane => {
+        laneDatas.push(lane.tasks.length);
+        laneBgColors.push('#' + Math.floor(Math.random()*16777215).toString(16));
+        return lane.title;
+      });
+
+      console.log(laneLabels, laneDatas, laneBgColors);
+
+      setLanesData({
+        labels: laneLabels,
+        datasets: [
+          {
+            data: laneDatas,
+            backgroundColor: laneBgColors,
+          }
+        ],
+      });
+    }
+  }
+
   const generateTaskStatusData = () => {
     if (project && tasks.length) {
       let taskDateTimeObj = [];
@@ -288,14 +341,26 @@ const ProjectSetting = ({ match }) => {
     <MyContainer>
       <Typography variant="h4">Project Chart Info</Typography>
 
-      <div style={{ display: 'flex' }}>
-      <div style={{ flex: 1 }}>
-        <Pie data={tasksData} options={taskInfoOptions} />
+      <div style={{ display: "flex" }}>
+        <div style={{ flex: 1 }}>
+          <Pie data={tasksData} options={taskInfoOptions} width={200} height={200} />
+        </div>
+        <div style={{ flex: 1 }}>
+          <Doughnut data={lanesData} options={laneInfoOptions} width={200} height={200} />
+        </div>
+        <div style={{ flex: 1, height: 300 }}>
+          
+        </div>
       </div>
-      <div style={{ flex: 3 }}>
-        <Line data={taskStatusData} options={taskStatusOptions} height={100} />
+
+      <div>
+        <Line
+          data={taskStatusData}
+          options={taskStatusOptions}
+          height={100}
+        />
       </div>
-      </div>
+
       <div>
         <Bar
           ref={ref}
