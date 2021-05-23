@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
 
@@ -6,15 +6,18 @@ import Header from "./common/Header";
 import Board from "./Board";
 import Table from "./Table/Table";
 import Chart from "./Chart";
+import Notification from "./Notfication/Notification";
 import ProjectSetting from "./ProjectSetting/ProjectSetting";
 
 import usePushNotifications from "../hooks/usePushNotifications";
-import { initiateSocket, disconnectSocket, subscribeToReloadProject } from './Socket';
+import {
+  initiateSocket,
+  disconnectSocket,
+  subscribeToReloadProject,
+} from "./Socket";
 
 // action
-import {
-  getProject,
-} from "../actions/index";
+import { getProject } from "../actions/index";
 
 function usePrevious(value) {
   const ref = useRef();
@@ -25,11 +28,8 @@ function usePrevious(value) {
 }
 
 const Project = ({ match }) => {
-  const {
-    userConsent,
-    pushNotificationSupported,
-    onClickAskUserPermission,
-  } = usePushNotifications();
+  const { userConsent, pushNotificationSupported, onClickAskUserPermission } =
+    usePushNotifications();
 
   const project = useSelector((state) => state.project);
   const user = useSelector((state) => state.user);
@@ -51,14 +51,11 @@ const Project = ({ match }) => {
 
     return () => {
       disconnectSocket();
-    }
-    
+    };
   }, [match.params.id]);
 
   useEffect(() => {
     // dispatch(setGlobalMatch(match));
-
-    // if (project && project.id === match.params.id) return;
     dispatch(getProject(match.params.id));
   }, []);
 
@@ -77,6 +74,11 @@ const Project = ({ match }) => {
         <Route exact path="/project/:id/board" component={Board} />
         <Route exact path="/project/:id/table" component={Table} />
         <Route exact path="/project/:id/chart" component={Chart} />
+        <Route
+          exact
+          path="/project/:id/notification"
+          component={Notification}
+        />
         <Route exact path="/project/:id/setting" component={ProjectSetting} />
         {/* <Route exact path="/project/:id/chatbox" component={ChatBox} /> */}
 
@@ -86,10 +88,10 @@ const Project = ({ match }) => {
           render={(props) => <Redirect to={`${props.match.params.id}/board`} />}
         />
 
-        <Route render={() => <Redirect to={`project`} />} />
+        <Route render={() => <Redirect to={`/`} />} />
       </Switch>
     </>
   );
-}
+};
 
-export default Project
+export default Project;

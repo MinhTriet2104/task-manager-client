@@ -143,7 +143,7 @@ const CustomCard = ({
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: '#656565',
+              color: "#656565",
               padding: 6,
             }}
           >
@@ -164,6 +164,7 @@ const CustomCard = ({
 
       <TaskDetail
         open={open}
+        setOpen={setOpen}
         creator={creator}
         deliveryDate={deliveryDate}
         taskId={_id}

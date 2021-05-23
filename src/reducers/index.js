@@ -5,6 +5,7 @@ import messages from "./messages"
 import loading from "./loading";
 import globalMatch from "./globalMatch";
 import user from "./user";
+import notifications from "./notifications";
 import socket from "./socket";
 
 const reducer = combineReducers({
@@ -13,6 +14,7 @@ const reducer = combineReducers({
   loading,
   globalMatch,
   user,
+  notifications,
   socket,
 });
 

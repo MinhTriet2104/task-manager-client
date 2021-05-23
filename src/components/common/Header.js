@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { withStyles } from "@material-ui/core/styles";
 import Link from "./CustomLink";
 import classNames from "classnames";
 
@@ -7,9 +8,22 @@ import AddUser from "../forms/addUser";
 //style
 import "../../styles/Header.scss";
 
-const Header = ({ project }) => {
+import Badge from "@material-ui/core/Badge";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    right: -3,
+    top: 10,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: "0 4px",
+  },
+}))(Badge);
+
+const Header = () => {
   const globalMatch = useSelector((state) => state.globalMatch);
-  const user = useSelector((state) => state.user);
+  const notifications = useSelector((state) => state.notifications);
+  // const user = useSelector((state) => state.user);
 
   if (!globalMatch) return null;
 
@@ -67,6 +81,29 @@ const Header = ({ project }) => {
           </Link>
 
           <Link
+            to={`/project/${globalMatch.params.id}/notification`}
+            className={classNames({
+              active: subMatch === "notification",
+            })}
+          >
+            <li>
+              {notifications &&
+              notifications[globalMatch.params.id] &&
+              notifications[globalMatch.params.id].length ? (
+                <Badge
+                  badgeContent={notifications[globalMatch.params.id].length}
+                  max={99}
+                  children={<NotificationsIcon />}
+                  color="secondary"
+                />
+              ) : (
+                <NotificationsIcon />
+              )}
+              <span className="mainMenuText">Notification</span>
+            </li>
+          </Link>
+
+          <Link
             to={`/project/${globalMatch.params.id}/setting`}
             className={classNames({
               active: subMatch === "setting",
@@ -84,6 +121,6 @@ const Header = ({ project }) => {
       </div>
     </header>
   );
-};
+};;
 
 export default Header;

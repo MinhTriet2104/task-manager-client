@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 import Board from "react-trello";
 import CustomCard from "./CustomCard";
@@ -14,15 +15,18 @@ import "../styles/Board.scss";
 
 // action
 import {
-  getProject,
+  // getProject,
   deleteTaskRequest,
   updateStatusTaskRequest,
   updatePositonLaneRequest,
   removeLaneRequest,
   setGlobalMatch,
+  setNotifications,
 } from "../actions/index";
 
 export default ({ match }) => {
+  const { query } = useLocation();
+
   const [data, setData] = useState(null);
   const [isUpdate, setIsUpdate] = useState(false);
 
@@ -33,8 +37,27 @@ export default ({ match }) => {
   const [loading, setLoading] = useState(true);
 
   const project = useSelector((state) => state.project);
+  const notifications = useSelector((state) => state.notifications);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (query && query.notifyTaskId) {
+      const curNotifications = { ...notifications };
+      const seenNoti = curNotifications[project.id].find(
+        (noti) =>
+          noti.taskId === query.notifyTaskId && noti.type === query.notiType
+      );
+
+      const seenIndex = curNotifications[project.id].indexOf(seenNoti);
+      curNotifications[project.id].splice(seenIndex, 1);
+
+      seenNoti.seen = true;
+      curNotifications["seen"] = seenNoti;
+
+      dispatch(setNotifications(curNotifications));
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(setGlobalMatch(match));

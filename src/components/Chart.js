@@ -254,8 +254,6 @@ const ProjectSetting = ({ match }) => {
         return lane.title;
       });
 
-      console.log(laneLabels, laneDatas, laneBgColors);
-
       setLanesData({
         labels: laneLabels,
         datasets: [

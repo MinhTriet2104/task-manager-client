@@ -23,9 +23,14 @@ new style
 span.menu-text {
   display: inline-block;
   vertical-align: top;
-  padding: 2px 0 0 15px;
+  padding: 2px 0 0 8px;
   font-weight: bold;
   font-size: 14px;
+  width: 100%;
+  max-width: 130px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .con {

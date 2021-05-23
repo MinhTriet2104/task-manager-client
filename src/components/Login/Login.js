@@ -100,6 +100,8 @@ const Login = () => {
         avatar: res.profileObj.imageUrl,
       };
 
+      console.log(req.data);
+
       if (!req.data) dispatch(createUserRequest(user));
       else dispatch(setUser(req.data));
 
@@ -114,7 +116,7 @@ const Login = () => {
         <LeftSection></LeftSection>
         <RightSection>
           <LoginTitle>Login With</LoginTitle>
-          <FacebookLogin
+          {/* <FacebookLogin
             appId="661692841097516"
             textButton="FACEBOOK"
             fields="name,email,picture"
@@ -130,7 +132,7 @@ const Login = () => {
                 <span className="text">Facebook</span>
               </button>
             )}
-          />
+          /> */}
 
           <GoogleLogin
             clientId="738277559607-qmkk4k8rared9tltub646d02oq8bvkuf.apps.googleusercontent.com"

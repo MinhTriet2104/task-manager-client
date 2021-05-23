@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import moment from "moment";
+import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Link from "./common/CustomLink";
@@ -12,13 +14,29 @@ import Project from "./Project";
 import AddStory from "./forms/addStory";
 import Loader from "./Loader";
 
+import Badge from "@material-ui/core/Badge";
+
+import AssignmentIcon from "@material-ui/icons/Assignment";
+
 //style
 import "../styles/Dashboard.scss";
 
-import usePushNotifications from "../hooks/usePushNotifications";
+import { setUser, setNotifications } from "../actions";
+
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    right: -3,
+    top: 10,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: "0 4px",
+  },
+}))(Badge);
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
+
   const [projects, setProjects] = useState([]);
+  const [unreadNotfication, setUnreadNotfication] = useState({});
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
 
@@ -30,6 +48,53 @@ const Dashboard = () => {
     // onClickAskUserPermission();
     // onClickSusbribeToPushNotification();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      axios
+        .get(`http://localhost:2104/user/${user.id}`)
+        .then((res) => dispatch(setUser(res.data)));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user && user.notifications && projects) {
+      const curDate = moment();
+
+      let projectNotfication = {};
+      projects.forEach((project) => {
+        let filteredNotification = [];
+        if (user.notifications[project.id]) {
+          filteredNotification = user.notifications[project.id].filter(
+            (noti) => {
+              if (!noti.seen) {
+                const taskDueDate = moment(noti.dueDate);
+
+                if (noti.type === "add") return true;
+                else if (noti.type === "expire 1d") {
+                  const diffDays = taskDueDate.diff(curDate, "days");
+
+                  if (diffDays <= 1) return true;
+                } else if (noti.type === "expire 1h") {
+                  const diffHours = taskDueDate.diff(curDate, "hours");
+
+                  if (diffHours <= 1) return true;
+                }
+                return false;
+              } else {
+                return false;
+              }
+            }
+          );
+        }
+
+        projectNotfication[project.id] = filteredNotification;
+      });
+
+      setUnreadNotfication(projectNotfication);
+      dispatch(setNotifications(projectNotfication));
+    }
+  }, [user, projects]);
 
   const getProjects = () => {
     setLoading(true);
@@ -48,18 +113,18 @@ const Dashboard = () => {
     //   });
 
     user &&
-        axios
-          .get(`http://localhost:2104/project/user/${user.id}`)
-          .then((r) => {
-            console.log("getProjects", r.data);
-            setProjects(r.data);
-            setLoading(false);
-            setErr("");
-          })
-          .catch((e) => {
-            setLoading(false);
-            setErr(e);
-          });
+      axios
+        .get(`http://localhost:2104/project/user/${user.id}`)
+        .then((r) => {
+          console.log("getProjects", r.data);
+          setProjects(r.data);
+          setLoading(false);
+          setErr("");
+        })
+        .catch((e) => {
+          setLoading(false);
+          setErr(e);
+        });
   };
 
   let projectList;
@@ -78,13 +143,31 @@ const Dashboard = () => {
       return (
         <li key={index}>
           <Link
-            to={`/project/${project._id}/${subMatch}`}
+            to={`/project/${project.id}/${subMatch}`}
             className={classNames({
-              active: project._id === projectId,
+              active: project.id === projectId,
             })}
           >
-            <i className="fas fa-list-alt"></i>
-            <span className="menu-text">{project.name}</span>
+            {unreadNotfication[project.id] ? (
+              <>
+                <StyledBadge
+                  badgeContent={unreadNotfication[project.id].length}
+                  max={99}
+                  children={<AssignmentIcon />}
+                  color="secondary"
+                />
+                <span className="menu-text" style={{ paddingLeft: 20 }}>
+                  {project.name}
+                </span>
+              </>
+            ) : (
+              <>
+                <AssignmentIcon />
+                <span className="menu-text">
+                  {project.name}
+                </span>
+              </>
+            )}
           </Link>
         </li>
       );
@@ -96,6 +179,8 @@ const Dashboard = () => {
       </div>
     );
   }
+
+  if (!localStorage.getItem("user")) return <Redirect to="/login" />;
 
   return (
     <div style={{ position: "relative" }}>
@@ -109,7 +194,7 @@ const Dashboard = () => {
         </div>
       </div>
       <div className="con">
-        <aside style={{ height: "100vh", overflow: 'auto' }}>
+        <aside style={{ height: "100vh", overflow: "auto" }}>
           <Switch>
             <Route
               exact

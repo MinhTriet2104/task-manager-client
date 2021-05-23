@@ -29,9 +29,10 @@ const ProjectSetting = ({ match }) => {
   useEffect(() => {
     dispatch(setGlobalMatch(match));
 
-    // if (project && project.id === match.params.id) return;
-    dispatch(getProject(match.params.id));
-  }, [match.params.id]);
+    if (project && project.id !== match.params.id) {
+      dispatch(getProject(match.params.id));
+    }
+  }, [project, match.params.id]);
 
   useEffect(() => {
     if (project) setRoles(project.roles);

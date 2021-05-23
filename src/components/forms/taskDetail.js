@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import { green } from "@material-ui/core/colors";
 import moment from "moment";
@@ -51,6 +51,8 @@ import {
   disconnectSocket,
 } from "../Socket";
 
+import { setNotifications, setUser } from "../../actions";
+
 const Avatar = withStyles((theme) => ({
   root: {
     width: 38,
@@ -101,6 +103,7 @@ const LinearProgressWithLabel = (props) => (
 
 export default ({
   open,
+  setOpen,
   handleClose,
   creator,
   deliveryDate,
@@ -113,8 +116,10 @@ export default ({
   complete,
 }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);
+  const notifications = useSelector((state) => state.notifications);
 
   const [state, setState] = useState({
     complete: complete,
@@ -130,6 +135,27 @@ export default ({
   const [hasMoreCmt, setHasMoreCmt] = useState(false);
   const [completePercent, setCompletePercent] = useState(0);
   const [newListValue, setNewListValue] = useState("");
+
+  useEffect(() => {
+    if (notifications && notifications["seen"]) {
+      if (taskId === notifications["seen"].taskId) {
+        setOpen(true);
+        const curNotifications = { ...notifications };
+        delete curNotifications["seen"];
+        dispatch(setNotifications(curNotifications));
+
+        (async () => {
+          const res = await axios.patch(
+            `http://localhost:2104/user/${user.id}`,
+            {
+              notifications: curNotifications,
+            }
+          );
+          dispatch(setUser(res.data));
+        })();
+      }
+    }
+  }, [notifications]);
 
   useEffect(() => {
     if (open) {
@@ -252,7 +278,7 @@ export default ({
 
   const handleNewListFieldChange = (e) => {
     const value = e.target.value;
-    if (e.keyCode  === 13) {
+    if (e.keyCode === 13) {
       if (value.trim() === "") return;
 
       const newList = [

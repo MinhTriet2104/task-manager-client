@@ -142,6 +142,11 @@ export const setUser = (user) => ({
   user,
 });
 
+export const setNotifications = (notifications) => ({
+  type: types.SET_NOTIFICATIONS,
+  notifications,
+});
+
 export const getMessagesRequest = (projectId) => async (dispatch) => {
   const res = await axios.get("http://localhost:2104/message", projectId);
   const messages = await res.data;

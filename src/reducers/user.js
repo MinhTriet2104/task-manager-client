@@ -9,6 +9,7 @@ const user = (state = initialState, action) => {
   switch (action.type) {
     case types.SET_USER:
       const { user } = action;
+      console.log("SET USER:", user);
       localStorage.setItem("user", JSON.stringify(user));
       return { ...user };
     default:
