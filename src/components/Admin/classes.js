@@ -5,5 +5,6 @@ export default makeStyles((theme) => ({
   emailSearch: { padding: "10px 0" },
   dataGrid: { height: "600px", width: "100%" },
   btnEdit: { fontSize: 24 },
+  btntEdit: { cursor: "pointer", fontSize: 24, marginLeft: "15px" },
   btntDelete: { cursor: "pointer", fontSize: 24, marginLeft: "15px" },
 }));

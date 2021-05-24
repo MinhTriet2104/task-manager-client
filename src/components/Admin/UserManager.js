@@ -4,6 +4,7 @@ import axios from "axios";
 import AdminLayout from "../common/AdminLayout";
 import Link from "../common/CustomLink";
 import ConfirmDialog from "../common/ConfirmDialog";
+import UserFormEditDialog from "./UserFormEditDialog";
 
 import { DataGrid } from "@material-ui/data-grid";
 import MuiAvatar from "@material-ui/core/Avatar";
@@ -27,11 +28,17 @@ function UserManager() {
   const [rows, setRows] = useState([]);
   //search
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
   const [keyword, setKeyword] = useState("");
   const [keywordToSearch, setKeywordToSearch] = useState("");
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(15);
   const [totalItems, setTotalItems] = useState(0);
+
+  const [curUserId, setCurUserId] = useState("");
+  const [curEmail, setCurEmail] = useState("");
+  const [curUsername, setCurUsername] = useState("");
+  const [curIsAdmin, setCurIsAdmin] = useState(false);
 
   useEffect(() => {
     searchUsers(keywordToSearch);
@@ -62,16 +69,46 @@ function UserManager() {
 
   const handleCloseConfirmDelete = () => setShowConfirmDelete(false);
 
-  const handleDeleteUser = async (userId) => {
-    const res = await axios.delete(`http://localhost:2104/user/${userId}`);
-  }
+  const handleDeleteUser = async () => {
+    const res = await axios.delete(`http://localhost:2104/user/${curUserId}`);
+  };
+
+  const handleShowEditForm = async (id, email, username, isAdmin) => {
+    setCurUserId(id);
+    setCurEmail(email);
+    setCurUsername(username);
+    setCurIsAdmin(isAdmin);
+    setShowEditForm(true);
+  };
+
+  const handleEmailChange = (event) => {
+    setCurEmail(event.target.value);
+  };
+
+  const handleUsernameChange = (event) => {
+    setCurUsername(event.target.value);
+  };
+
+  const handleCheckboxChange = (event) => {
+    setCurIsAdmin(event.target.checked);
+  };
+
+  const handleSaveUser = async () => {
+    await axios.patch(`http://localhost:2104/user/${curUserId}/edit`, {
+      username: curUsername,
+      isAdmin: curIsAdmin,
+    });
+
+    setShowEditForm(false);
+    searchUsers(keywordToSearch);
+  };
 
   let columns = [
     {
       field: "id",
       headerName: "#ID",
 
-      width: 150,
+      width: 182,
 
       renderCell: (params) => <strong>{params.value}</strong>,
     },
@@ -111,17 +148,26 @@ function UserManager() {
 
       renderCell: (params) => (
         <strong>
-          <Link to={`/admin/user/edit/${params.getValue("id")}`}>
-            <EditIcon
-              variant="contained"
-              color="primary"
-              size="small"
-              className={classes.btnEdit}
-            />
-          </Link>
+          <EditIcon
+            onClick={() =>
+              handleShowEditForm(
+                params.getValue("id"),
+                params.getValue("email"),
+                params.getValue("username"),
+                params.getValue("isAdmin")
+              )
+            }
+            className={classes.btnEdit}
+            variant="contained"
+            color="primary"
+            size="small"
+          />
 
           <DeleteForeverIcon
-            onClick={() => setShowConfirmDelete(true)}
+            onClick={() => { 
+              setCurUserId(params.getValue("id"));
+              setShowConfirmDelete(true);
+            }}
             className={classes.btntDelete}
             variant="contained"
             color="secondary"
@@ -166,7 +212,25 @@ function UserManager() {
           )}
         </div>
       </div>
-      <ConfirmDialog open={showConfirmDelete} title={"Confirm Delete User"} description={"Are you sure want to Delete this user?"} handleClose={handleCloseConfirmDelete} handleConfirm={null} />
+      <ConfirmDialog
+        open={showConfirmDelete}
+        title={"Confirm Delete User"}
+        description={"Are you sure want to Delete this user?"}
+        handleClose={handleCloseConfirmDelete}
+        handleConfirm={handleDeleteUser}
+      />
+      <UserFormEditDialog
+        open={showEditForm}
+        title={"Edit User"}
+        handleSave={handleSaveUser}
+        handleClose={() => setShowEditForm(false)}
+        email={curEmail}
+        username={curUsername}
+        isAdmin={curIsAdmin}
+        handleEmailChange={handleEmailChange}
+        handleUsernameChange={handleUsernameChange}
+        handleCheckboxChange={handleCheckboxChange}
+      />
     </AdminLayout>
   );
 }

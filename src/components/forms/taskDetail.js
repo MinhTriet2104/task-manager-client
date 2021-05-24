@@ -552,20 +552,22 @@ export default ({
               </Button>
             )}
 
-            <Comment>
-              <Comment.Avatar src={creator.avatar} />
-              <Comment.Content>
-                <Comment.Author as="a">{creator.username}</Comment.Author>
-                <Comment.Metadata>
-                  <div>{moment(deliveryDate).fromNow()}</div>
-                </Comment.Metadata>
-                <Comment.Text>
-                  This Task is created at{" "}
-                  {moment(deliveryDate).format("DD/MM/YYYY hh:mm")} & The
-                  Deadline is {moment(dueDate).format("DD/MM/YYYY hh:mm")}
-                </Comment.Text>
-              </Comment.Content>
-            </Comment>
+            {creator && (
+              <Comment>
+                <Comment.Avatar src={creator.avatar} />
+                <Comment.Content>
+                  <Comment.Author as="a">{creator.username}</Comment.Author>
+                  <Comment.Metadata>
+                    <div>{moment(deliveryDate).fromNow()}</div>
+                  </Comment.Metadata>
+                  <Comment.Text>
+                    This Task is created at{" "}
+                    {moment(deliveryDate).format("DD/MM/YYYY hh:mm")} & The
+                    Deadline is {moment(dueDate).format("DD/MM/YYYY hh:mm")}
+                  </Comment.Text>
+                </Comment.Content>
+              </Comment>
+            )}
           </Comment.Group>
         </div>
       </DialogContent>
