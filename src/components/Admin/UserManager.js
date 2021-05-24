@@ -3,6 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import AdminLayout from "../common/AdminLayout";
 import Link from "../common/CustomLink";
+import ConfirmDialog from "../common/ConfirmDialog";
 
 import { DataGrid } from "@material-ui/data-grid";
 import MuiAvatar from "@material-ui/core/Avatar";
@@ -25,6 +26,7 @@ function UserManager() {
   const classes = useStyles();
   const [rows, setRows] = useState([]);
   //search
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [keyword, setKeyword] = useState("");
   const [keywordToSearch, setKeywordToSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -50,13 +52,19 @@ function UserManager() {
       params: {
         page: page,
         keyword: searchKeyword,
-        perPage: 1,
+        perPage: perPage,
       },
     });
 
     setRows(res.data.user);
     setTotalItems(res.data.totalItems);
   };
+
+  const handleCloseConfirmDelete = () => setShowConfirmDelete(false);
+
+  const handleDeleteUser = async (userId) => {
+    const res = await axios.delete(`http://localhost:2104/user/${userId}`);
+  }
 
   let columns = [
     {
@@ -113,6 +121,7 @@ function UserManager() {
           </Link>
 
           <DeleteForeverIcon
+            onClick={() => setShowConfirmDelete(true)}
             className={classes.btntDelete}
             variant="contained"
             color="secondary"
@@ -144,17 +153,20 @@ function UserManager() {
           </Button>{" "}
         </div>
         <div className={classes.dataGrid}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            page={page}
-            pageSize={1}
-            rowCount={totalItems}
-            onPageChange={(params) => setPage(params.page)}
-            pagination
-          />
+          {totalItems && (
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              page={page}
+              pageSize={15}
+              rowCount={totalItems}
+              onPageChange={(params) => setPage(params.page)}
+              pagination
+            />
+          )}
         </div>
       </div>
+      <ConfirmDialog open={showConfirmDelete} title={"Confirm Delete User"} description={"Are you sure want to Delete this user?"} handleClose={handleCloseConfirmDelete} handleConfirm={null} />
     </AdminLayout>
   );
 }
