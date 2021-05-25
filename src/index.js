@@ -16,6 +16,7 @@ import Test from "./components/Test";
 import Login from "./components/Login/Login";
 import About from "./components/About";
 import UserManager from "./components/Admin/UserManager";
+import ProjectManager from "./components/Admin/ProjectManager";
 
 import reducer from "./reducers/index";
 import "./styles.scss";
@@ -60,6 +61,7 @@ ReactDOM.render(
         <Route exact path="/about" component={About} />
         <Route path="/project" component={App} />
         <Route path="/admin/users" component={UserManager} />
+        <Route path="/admin/projects" component={ProjectManager} />
         <Route component={NotFoundPage} />
       </Switch>
     </Router>

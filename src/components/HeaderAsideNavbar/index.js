@@ -67,7 +67,7 @@ function Index(props) {
               <ListItemIcon>
                 <ViewListIcon />
               </ListItemIcon>
-              <ListItemText primary="Events" />
+              <ListItemText primary="Project" />
             </ListItem>
           </Link>
         </List>
