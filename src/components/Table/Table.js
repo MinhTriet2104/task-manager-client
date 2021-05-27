@@ -144,7 +144,7 @@ const Table = ({ match }) => {
         id: index,
         laneName: row.lane.title,
         taskName: row.task.name,
-        creator: row.task.creator.username,
+        creator: row.task.creator && row.task.creator.username,
         description: row.task.description,
         difficult: difficult,
         deliveryDate: row.task.deliveryDate.split("T")[0],

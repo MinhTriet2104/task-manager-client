@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import { makeStyles } from "@material-ui/core/styles";
 import moment from "moment";
@@ -17,6 +18,8 @@ import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import AccessAlarmsRoundedIcon from "@material-ui/icons/AccessAlarmsRounded";
 import PlaylistAddCheckSharpIcon from "@material-ui/icons/PlaylistAddCheckSharp";
 // import TocIcon from '@material-ui/icons/Toc';
+
+import ConfirmDialog from "./common/ConfirmDialog";
 
 //style
 import "../styles/CustomCard.scss";
@@ -67,6 +70,9 @@ const CustomCard = ({
 }) => {
   const classes = useStyles();
 
+  const user = useSelector((state) => state.user);
+  const project = useSelector((state) => state.project);
+
   let cardDescription = "";
   if (description) {
     cardDescription =
@@ -74,7 +80,26 @@ const CustomCard = ({
   } else {
     cardDescription = "This task don't have description";
   }
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [userLevel, setUserLevel] = useState(0);
+  const [taskCreatorLevel, setTaskCreatorLevel] = useState(0);
+
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+
+  useEffect(() => {
+    if (project && project.members) {
+      project.members.forEach((member) => {
+        if (member && user && creator) {
+          if (member.id == user.id) {
+            setUserLevel(member.level);
+          }
+          if (member.id == creator.id) {
+            setTaskCreatorLevel(member.level);
+          }
+        }
+      });
+    }
+  }, [project]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -98,9 +123,11 @@ const CustomCard = ({
 
   const completeTask = list.filter((item) => item.complete);
 
+  const handleCloseConfirmDelete = () => setShowConfirmDelete(false);
+
   return (
     <div>
-      <div id={_id} className="mcell-task" onClick={handleClickOpen}>
+      <div id={_id} className="mcell-task">
         {(complete && (
           <Chip
             size="small"
@@ -118,9 +145,17 @@ const CustomCard = ({
             />
           ))}
         <span className="task-name">
-          <span>{name}</span>
+          <span style={{ cursor: "pointer" }} onClick={handleClickOpen}>
+            {name}
+          </span>
+
           <i className="icon-delete">
-            <DeleteIcon id="delete" onClick={onDelete}></DeleteIcon>
+            {userLevel >= taskCreatorLevel && (
+              <DeleteIcon
+                id="delete"
+                onClick={() => setShowConfirmDelete(true)}
+              ></DeleteIcon>
+            )}
           </i>
         </span>
         <span className="task-details">{cardDescription}</span>
@@ -175,6 +210,14 @@ const CustomCard = ({
         name={name}
         list={list}
         complete={complete}
+      />
+
+      <ConfirmDialog
+        open={showConfirmDelete}
+        title={"Confirm Delete Task"}
+        description={"Are you sure want to Delete this Task?"}
+        handleClose={handleCloseConfirmDelete}
+        handleConfirm={onDelete}
       />
     </div>
   );
