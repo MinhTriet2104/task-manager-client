@@ -20,7 +20,7 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const Header = () => {
+const Header = ({ showSettingPage }) => {
   const globalMatch = useSelector((state) => state.globalMatch);
   const notifications = useSelector((state) => state.notifications);
   // const user = useSelector((state) => state.user);
@@ -104,16 +104,30 @@ const Header = () => {
           </Link>
 
           <Link
-            to={`/project/${globalMatch.params.id}/setting`}
+            to={`/project/${globalMatch.params.id}/history`}
             className={classNames({
-              active: subMatch === "setting",
+              active: subMatch === "history",
             })}
           >
             <li>
-              <i className="fas fa-cog"></i>
-              <span className="mainMenuText">Setting</span>
+              <i className="fas fa-history"></i>
+              <span className="mainMenuText">Delete History</span>
             </li>
           </Link>
+
+          {showSettingPage && (
+            <Link
+              to={`/project/${globalMatch.params.id}/setting`}
+              className={classNames({
+                active: subMatch === "setting",
+              })}
+            >
+              <li>
+                <i className="fas fa-cog"></i>
+                <span className="mainMenuText">Setting</span>
+              </li>
+            </Link>
+          )}
         </ul>
       </div>
       <div className="profilewidget">
@@ -121,6 +135,6 @@ const Header = () => {
       </div>
     </header>
   );
-};;
+};
 
 export default Header;

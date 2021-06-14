@@ -1,30 +1,39 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import AddTask from "./forms/addTask";
+
+import ConfirmDialog from './common/ConfirmDialog';
+import { NotifyProjectChange } from "./Socket";
 
 //style
 import "../styles/Tooltip.scss";
 
-class Tooltips extends Component {
-  constructor(props) {
-    super(props);
+const Tooltip = ({ id, title, addCard, removeLane }) => {
+    const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
-    this.state = {};
-  }
-  render() {
+    const handleShowConfirmDelete = () => setShowConfirmDelete(true);
+    const handleCloseConfirmDelete = () => setShowConfirmDelete(false);
+
     return (
       <span>
         <i
           className="fas fa-times-circle icon-remove"
-          onClick={() => this.props.removeLane()}
+          onClick={handleShowConfirmDelete}
         ></i>
 
         <AddTask
-          laneId={this.props.id}
-          laneTitle={this.props.title}
-          addCard={this.props.addCard}
+          laneId={id}
+          laneTitle={title}
+          addCard={addCard}
+        />
+
+        <ConfirmDialog
+          open={showConfirmDelete}
+          title={"Confirm Delete Lane"}
+          description={`This will also delete all the Task inside. Are you sure want to Delete Lane: ${title} ?`}
+          handleClose={handleCloseConfirmDelete}
+          handleConfirm={removeLane}
         />
       </span>
     );
-  }
 }
-export default Tooltips;
+export default Tooltip;

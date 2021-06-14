@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 
+import Link from "./common/CustomLink";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
@@ -44,6 +45,10 @@ const MainSection = ({ getProjects }) => {
   const user = useSelector((state) => state.user);
 
   const history = useHistory();
+
+  useEffect(() => {
+    getProjects();
+  }, []);
 
   const handleJoinProject = async (keyCode) => {
     if (projectId.trim() === "") return;
@@ -110,6 +115,11 @@ const MainSection = ({ getProjects }) => {
         </div>
       </header> */}
       <Container>
+        {user.isAdmin && (
+          <Link style={{ fontSize: '2rem' }} to={`/admin/users`}>
+            Go to Admin Page
+          </Link>
+        )}
         <Title>Join Project</Title>
 
         <FormContainer>

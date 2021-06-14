@@ -43,6 +43,13 @@ import ActivityIcon from "mdi-react/FormatListTextIcon";
 import TitleIcon from "mdi-react/NewspaperIcon";
 import AddSharpIcon from "@material-ui/icons/AddSharp";
 import CloseSharpIcon from "@material-ui/icons/CloseSharp";
+import SaveIcon from "@material-ui/icons/Save";
+import StarIcon from "@material-ui/icons/Star";
+import SentimentVerySatisfiedIcon from "@material-ui/icons/SentimentVerySatisfied";
+import SentimentSatisfiedAltIcon from "@material-ui/icons/SentimentSatisfiedAlt";
+import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
+import SentimentDissatisfiedIcon from "@material-ui/icons/SentimentDissatisfied";
+import SentimentVeryDissatisfiedIcon from "@material-ui/icons/SentimentVeryDissatisfied";
 
 import {
   NotifyProjectChange,
@@ -106,7 +113,10 @@ export default ({
   setOpen,
   handleClose,
   creator,
+  taskCreatorLevel,
+  userLevel,
   deliveryDate,
+  difficult,
   taskId,
   name,
   description,
@@ -127,6 +137,7 @@ export default ({
     description: description,
     list: list,
   });
+  const [isDisableDueDate, setIsDisableDueDate] = useState(true);
   const [commentField, setCommentField] = useState("");
   const [newComment, setNewComment] = useState("");
   const [page, setPage] = useState(1);
@@ -153,6 +164,23 @@ export default ({
           );
           dispatch(setUser(res.data));
         })();
+      }
+    }
+  }, [notifications]);
+
+  useEffect(() => {
+    if (user && assignees && creator) {
+      if (user.isAdmin) {
+        return setIsDisableDueDate(false);
+      }
+      if (creator.id === user.id) {
+        return setIsDisableDueDate(false);
+      }
+      const findAssignee = assignees.find(
+        (assignee) => assignee.id === user.id
+      );
+      if (findAssignee) {
+        return setIsDisableDueDate(false);
       }
     }
   }, [notifications]);
@@ -232,20 +260,53 @@ export default ({
   };
 
   const handleSave = async () => {
-    const res = await axios.patch(
-      `http://localhost:2104/task/${taskId}/detail`,
-      {
-        ...state,
+    let commentUpdate = "";
+
+    if (state.complete !== complete) {
+      if (state.complete) {
+        commentUpdate += "\nCheck complete the task";
+      } else {
+        commentUpdate += "\nUncheck complete the task";
       }
-    );
-    NotifyProjectChange(res);
-    handleClose();
+    }
+
+    if (state.name !== name) {
+      commentUpdate += `\nChange name from: ${name} to: ${state.name}`;
+    }
+
+    if (state.description !== description) {
+      commentUpdate += "\nEdit the description";
+    }
+
+    if (state.list !== list) {
+      if (list.length !== 0) {
+        commentUpdate += "\nEdit the list";
+      }
+    }
+
+    if (commentUpdate) {
+      commentUpdate = commentUpdate.slice(1);
+
+      await axios.patch(`http://localhost:2104/task/${taskId}/detail`, {
+        ...state,
+      });
+
+      addComment(commentUpdate);
+      // NotifyProjectChange(res);
+      // handleClose();
+    } else {
+      handleClose();
+    }
   };
 
-  const addComment = async () => {
+  const addComment = async (updateContent) => {
+    if (typeof updateContent !== "string" && commentField.trim() === "") return;
+
+    let commentContent = typeof updateContent === "string" ? updateContent : commentField;
+
     const newComment = {
       sender: user.id,
-      content: commentField,
+      content: commentContent,
       taskId: taskId,
     };
 
@@ -257,6 +318,10 @@ export default ({
     );
     setCommentField("");
     NotifyNewComment(res.data);
+    if (typeof updateContent === "string") {
+      NotifyProjectChange(res.data);
+      handleClose();
+    }
   };
 
   const handleAddListItem = () => {
@@ -315,6 +380,30 @@ export default ({
       ...state,
       list: newList,
     });
+  };
+
+  const editable = userLevel >= taskCreatorLevel;
+
+  const renderDifficult = () => {
+    let difficultContent = "Very Easy";
+    switch (difficult) {
+      case 2:
+        difficult = "Easy";
+        break;
+      case 3:
+        difficult = "Medium";
+        break;
+      case 4:
+        difficult = "Hard";
+        break;
+      case 5:
+        difficult = "Very Hard";
+        break;
+      default:
+        break;
+    }
+
+    return difficultContent;
   };
 
   const renderChecklistInput = () => {
@@ -410,12 +499,16 @@ export default ({
       <MuiDialogTitle>
         <div className="title-task">
           <TitleIcon className="icon-title-task" />
-          <TextField
-            className="title-field"
-            name="name"
-            value={state.name}
-            onChange={handleChange}
-          />
+          {editable ? (
+            <TextField
+              className="title-field"
+              name="name"
+              value={state.name}
+              onChange={handleChange}
+            />
+          ) : (
+            <span className="title-field">{state.name}</span>
+          )}
         </div>
       </MuiDialogTitle>
       <DialogContent>
@@ -424,7 +517,7 @@ export default ({
           <Table size="small" aria-label="a dense table">
             <TableHead>
               <TableRow>
-                <TableCell>Members</TableCell>
+                <TableCell>Assignees</TableCell>
                 <TableCell align="left">DUE DATE</TableCell>
               </TableRow>
             </TableHead>
@@ -451,7 +544,8 @@ export default ({
                       control={
                         <GreenCheckbox
                           checked={state.complete}
-                          onChange={handleChange}
+                          onChange={isDisableDueDate ? null : handleChange}
+                          disabled={isDisableDueDate}
                           name="complete"
                         />
                       }
@@ -464,6 +558,13 @@ export default ({
           </Table>
         </TableContainer>
 
+        <h6 className="lbl-description">
+          <span className="icon-description">
+            <StarIcon />
+          </span>
+          Difficult: {" " + renderDifficult()}
+        </h6>
+
         {/* Add Detailed Description */}
         <h6 className="lbl-description">
           <span className="icon-description">
@@ -471,16 +572,21 @@ export default ({
           </span>
           DESCRIPTION
         </h6>
-        <TextareaAutosize
-          onChange={handleChange}
-          rows={4}
-          rowsMax={4}
-          aria-label="empty textarea"
-          placeholder="Description..."
-          className="detail-desription"
-          name="description"
-          defaultValue={state.description}
-        />
+
+        {editable ? (
+          <TextareaAutosize
+            onChange={handleChange}
+            rows={4}
+            rowsMax={4}
+            aria-label="empty textarea"
+            placeholder="Description..."
+            className="detail-desription"
+            name="description"
+            defaultValue={state.description}
+          />
+        ) : (
+          <span className="detail-desription">{state.description}</span>
+        )}
 
         {/* Add CheckList */}
         <h6 className="lbl-description">
@@ -536,7 +642,7 @@ export default ({
                   <Comment.Metadata>
                     <div>{moment(cmt.time).fromNow()}</div>
                   </Comment.Metadata>
-                  <Comment.Text>{cmt.content}</Comment.Text>
+                  <Comment.Text>{cmt.content.split('\n').map((content, index) => <React.Fragment key={index}>{content}<br/></React.Fragment> )}</Comment.Text>
                 </Comment.Content>
               </Comment>
             ))}
@@ -572,10 +678,19 @@ export default ({
         </div>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleSave} variant="contained" color="primary">
+        <Button
+          startIcon={<SaveIcon />}
+          onClick={handleSave}
+          variant="contained"
+          color="primary"
+        >
           Save
         </Button>
-        <Button onClick={handleClose} color="secondary">
+        <Button
+          startIcon={<CloseSharpIcon />}
+          onClick={handleClose}
+          color="secondary"
+        >
           Cancel
         </Button>
       </DialogActions>

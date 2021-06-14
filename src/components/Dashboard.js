@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
-import { withStyles } from "@material-ui/core/styles";
+import {
+  withStyles,
+  createMuiTheme,
+  ThemeProvider,
+} from "@material-ui/core/styles";
 import axios from "axios";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Link from "./common/CustomLink";
 import classNames from "classnames";
+
+import { blue, red } from "@material-ui/core/colors";
 
 // components
 import MainSection from "./MainSection";
@@ -31,6 +37,17 @@ const StyledBadge = withStyles((theme) => ({
     padding: "0 4px",
   },
 }))(Badge);
+
+const mainTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#007bff",
+    },
+    secondary: {
+      main: "#ff002a",
+    },
+  },
+});
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -143,7 +160,7 @@ const Dashboard = () => {
       return (
         <li key={index}>
           <Link
-            to={`/project/${project.id}/${subMatch}`}
+            to={`/project/${project.id}/board`}
             className={classNames({
               active: project.id === projectId,
             })}
@@ -163,9 +180,7 @@ const Dashboard = () => {
             ) : (
               <>
                 <AssignmentIcon />
-                <span className="menu-text">
-                  {project.name}
-                </span>
+                <span className="menu-text">{project.name}</span>
               </>
             )}
           </Link>
@@ -183,30 +198,32 @@ const Dashboard = () => {
   if (!localStorage.getItem("user")) return <Redirect to="/login" />;
 
   return (
-    <div style={{ position: "relative" }}>
-      <div className="side">
-        <Link to={`/project`} className="logo">
-          Task Manager
-        </Link>
-        <ul className="side-menu">{projectList}</ul>
-        <div className="otherMenu">
+    <ThemeProvider theme={mainTheme}>
+      <div style={{ position: "relative" }}>
+        <div className="side">
+          <Link to={`/project`} className="logo">
+            Task Manager
+          </Link>
+          <ul className="side-menu">{projectList}</ul>
+          {/* <div className="otherMenu">
           <AddStory />
+        </div> */}
+        </div>
+        <div className="con">
+          <aside style={{ height: "100vh", overflow: "auto" }}>
+            <Switch>
+              <Route
+                exact
+                path="/project"
+                render={() => <MainSection getProjects={getProjects} />}
+              />
+
+              <Route path="/project/:id" component={Project} />
+            </Switch>
+          </aside>
         </div>
       </div>
-      <div className="con">
-        <aside style={{ height: "100vh", overflow: "auto" }}>
-          <Switch>
-            <Route
-              exact
-              path="/project"
-              render={() => <MainSection getProjects={getProjects} />}
-            />
-
-            <Route path="/project/:id" component={Project} />
-          </Switch>
-        </aside>
-      </div>
-    </div>
+    </ThemeProvider>
   );
 };
 

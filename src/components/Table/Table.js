@@ -124,16 +124,16 @@ const Table = ({ match }) => {
     data.map((row, index) => {
       let difficult = "Very Easy";
       switch (row.task.difficult) {
-        case "2":
+        case 2:
           difficult = "Easy";
           break;
-        case "3":
+        case 3:
           difficult = "Medium";
           break;
-        case "4":
+        case 4:
           difficult = "Hard";
           break;
-        case "5":
+        case 5:
           difficult = "Very Hard";
           break;
         default:
@@ -157,7 +157,7 @@ const Table = ({ match }) => {
   };
 
   return (
-    <div style={{ height: "100%", width: "100%" }}>
+    <div style={{ height: "80vh", width: "100%" }}>
       <FilterBar />
       <DataGrid rows={rows} columns={columns} />
     </div>

@@ -10,10 +10,13 @@ import TextField from "@material-ui/core/TextField";
 
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
-import ConfirmDialog from "../common/ConfirmDialog";
-
-const MemberItem = ({ member, roles, handleLevelChange }) => {
-  const { id, username, avatar } = member;
+const MemberItem = ({
+  member,
+  roles,
+  handleLevelChange,
+  handleRemoveBtnClick,
+}) => {
+  const { id, username, email, avatar } = member;
   const role = roles.find((role) => role.user === id);
 
   return (
@@ -21,19 +24,24 @@ const MemberItem = ({ member, roles, handleLevelChange }) => {
       <ListItemAvatar>
         <Avatar alt={username} src={avatar} />
       </ListItemAvatar>
-      <ListItemText primary={username} />
+      <ListItemText primary={username + ` (${email})`} />
 
       <ListItemSecondaryAction>
         <TextField
           label="Level"
           type="number"
+          InputProps={{ inputProps: { min: 0, max: 999 } }}
           defaultValue={(role && role.level) || 0}
           required
           style={{ width: 100 }}
           onChange={(e) => handleLevelChange(role.id, e.target.value)}
         />
-        <IconButton edge="end" aria-label="delete">
-          <DeleteForeverIcon />
+        <IconButton
+          edge="end"
+          aria-label="delete"
+          onClick={() => handleRemoveBtnClick(role.id)}
+        >
+          <DeleteForeverIcon color="secondary" />
         </IconButton>
       </ListItemSecondaryAction>
     </ListItem>

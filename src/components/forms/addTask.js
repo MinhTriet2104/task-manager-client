@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import moment from "moment";
-import axios from "axios";
+// import axios from "axios";
 
 // Component
 import Snackbar from "@material-ui/core/Snackbar";
@@ -73,7 +73,7 @@ class AddModal extends React.Component {
         return member;
       });
       const filteredMembers = membersWithLevel.filter(
-        (member) => member.level < userRoles.level
+        (member) => member.level <= userRoles.level
       );
 
       this.setState({
@@ -131,7 +131,7 @@ class AddModal extends React.Component {
       status: this.props.status,
       assignees: this.state.assignees,
       dueDate: this.state.dueDate,
-      difficult: this.state.difficult,
+      difficult: +this.state.difficult,
       // projectId: this.state.projectId,
       creator: this.state.creator,
     };
@@ -202,11 +202,11 @@ class AddModal extends React.Component {
               {userContent}
             </FormGroup>
             <FormGroup>
-              <Label for="color">Task Difficult(*):</Label>
+              <Label for="difficult">Task Difficult(*):</Label>
               <Input
                 type="select"
-                name="color"
-                id="color"
+                name="difficult"
+                id="difficult"
                 defaultValue={this.state.difficult}
                 onChange={(e) => this.handleInput(e)}
               >

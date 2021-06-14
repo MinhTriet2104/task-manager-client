@@ -91,7 +91,7 @@ const Login = () => {
     console.log(res);
     const id = res.googleId;
     if (id) {
-      const req = await axios.get(`http://localhost:2104/user/${id}`);
+      const req = await axios.get(`http://localhost:2104/user/${id}/login`);
 
       const user = {
         oauth2Id: id,

@@ -19,6 +19,7 @@ import WarningIcon from "@material-ui/icons/Warning";
 
 // action
 import { getProject, setGlobalMatch } from "../../actions/index";
+import { green, red } from '@material-ui/core/colors';
 
 const MyContainer = styled.div`
   margin-top: 10px;
@@ -42,6 +43,14 @@ const useStyles = makeStyles((theme) => ({
     fontSize: ".8125rem",
     lineHeight: 1.2308,
     textAlign: "left",
+  },
+  green: {
+    // color: theme.palette.getContrastText(green[500]),
+    backgroundColor: green[500],
+  },
+  red: {
+    color: theme.palette.getContrastText(red[500]),
+    backgroundColor: red[500],
   },
 }));
 
@@ -71,7 +80,7 @@ const Notification = ({ match }) => {
   // );
 
   return project ? (
-    <MyContainer>
+    <MyContainer style={{ height: '90vh', overflow: 'auto' }}>
       <Typography variant="h4">Notification</Typography>
       <List>
         {project &&
@@ -106,7 +115,7 @@ const Notification = ({ match }) => {
                     alignItems="flex-start"
                   >
                     <ListItemAvatar>
-                      <Avatar>
+                      <Avatar className={noti.type === "add" ? classes.green : classes.red}>
                         {noti.type === "add" ? <AddIcon /> : <WarningIcon />}
                       </Avatar>
                     </ListItemAvatar>
@@ -126,10 +135,10 @@ const Notification = ({ match }) => {
                           >
                             {noti.type === "add"
                               ? "New task is waiting for you to check."
-                              : `Time remain: ${expireStr}`}
+                              : `${expireStr}`}
                           </Typography>
                           <span className={classes.itemCreateDate}>
-                            {noti.createAt && noti.createAt}
+                            {noti.createAt && " " + noti.createAt}
                           </span>
                         </React.Fragment>
                       }

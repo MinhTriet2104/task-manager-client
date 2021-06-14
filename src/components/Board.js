@@ -38,6 +38,7 @@ export default ({ match }) => {
 
   const project = useSelector((state) => state.project);
   const notifications = useSelector((state) => state.notifications);
+  const user = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -101,7 +102,7 @@ export default ({ match }) => {
   // }, [data]);
 
   const onCardDelete = (cardId, laneId) => {
-    dispatch(deleteTaskRequest(cardId, laneId));
+    dispatch(deleteTaskRequest(cardId, laneId, user.id));
   };
 
   const handleDragStart = (cardId, laneId) => {
@@ -136,7 +137,7 @@ export default ({ match }) => {
   };
 
   const handleLandDelete = (laneId) => {
-    dispatch(removeLaneRequest(laneId));
+    dispatch(removeLaneRequest(laneId, user.id));
   };
 
   return loading ? (
