@@ -43,11 +43,12 @@ export const addTask = (lane) => ({
   lane,
 });
 
-export const deleteTaskRequest = (id, laneId) => async (dispatch) => {
+export const deleteTaskRequest = (id, laneId, userId) => async (dispatch) => {
   // dispatch(setLoadingProject(true));
   const deletedTask = await axios.delete("http://localhost:2104/task/" + id, {
     data: {
       laneId: laneId,
+      userId: userId
     },
   });
   NotifyProjectChange(deletedTask);
@@ -89,8 +90,12 @@ export const updateStatusTask = (id, lane, sourceLaneId, targetLaneId) => ({
   targetLaneId,
 });
 
-export const removeLaneRequest = (id) => async (dispatch) => {
-  const deletedLane = await axios.delete("http://localhost:2104/lane/" + id);
+export const removeLaneRequest = (id, userId) => async (dispatch) => {
+  const deletedLane = await axios.delete("http://localhost:2104/lane/" + id, {
+    data: {
+      userId: userId
+    }
+  });
   // console.log(deletedLane.data);
   NotifyProjectChange();
   dispatch(removeLane(deletedLane.id));
@@ -132,6 +137,7 @@ export const setGlobalMatch = (match) => ({
 
 export const createUserRequest = (user) => async (dispatch) => {
   const res = await axios.post("http://localhost:2104/user", user);
+  console.log(res.data);
   const newUser = await res.data;
 
   dispatch(setUser(newUser));
