@@ -230,14 +230,6 @@ const ProjectSetting = ({ match }) => {
         datasets: datasetsMember,
       };
 
-      const sum = (accumulator, currentValue) => {
-        return accumulator + currentValue;
-      };
-
-      setNumberOfCompleteTask(completeArray.reduce(sum));
-      setNumberOfExpiredTask(expiredArray.reduce(sum));
-      setNumberOfIncompleteTask(incompleteArray.reduce(sum));
-
       setMembersData(data);
     }
   };
@@ -306,8 +298,22 @@ const ProjectSetting = ({ match }) => {
       });
       const dataTaskExpired = taskDateMonthYearLabels.map(date => {
         const curTasks = taskDateTimeMap[date];
-        return curTasks.filter((task) => checkIsExpired(task.dueDate)).length;
+        return curTasks.filter((task) => !task.complete && checkIsExpired(task.dueDate)).length;
       });
+
+      const sum = (accumulator, currentValue) => {
+        return accumulator + currentValue;
+      };
+
+
+      const sumDataTaskCreated = dataTaskCreated.reduce(sum);
+      const sumDataTaskComplete = dataTaskComplete.reduce(sum);
+      const sumDataTaskExpired = dataTaskExpired.reduce(sum);
+      const sumDataTaskIncomplete = sumDataTaskCreated - sumDataTaskComplete - sumDataTaskExpired;
+
+      setNumberOfCompleteTask(sumDataTaskComplete);
+      setNumberOfExpiredTask(sumDataTaskExpired);
+      setNumberOfIncompleteTask(sumDataTaskIncomplete);
 
       setTaskStatusData({
         labels: taskDateMonthYearLabels,
