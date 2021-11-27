@@ -45,17 +45,17 @@ import AddSharpIcon from "@material-ui/icons/AddSharp";
 import CloseSharpIcon from "@material-ui/icons/CloseSharp";
 import SaveIcon from "@material-ui/icons/Save";
 import StarIcon from "@material-ui/icons/Star";
-import SentimentVerySatisfiedIcon from "@material-ui/icons/SentimentVerySatisfied";
-import SentimentSatisfiedAltIcon from "@material-ui/icons/SentimentSatisfiedAlt";
-import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
-import SentimentDissatisfiedIcon from "@material-ui/icons/SentimentDissatisfied";
-import SentimentVeryDissatisfiedIcon from "@material-ui/icons/SentimentVeryDissatisfied";
+// import SentimentVerySatisfiedIcon from "@material-ui/icons/SentimentVerySatisfied";
+// import SentimentSatisfiedAltIcon from "@material-ui/icons/SentimentSatisfiedAlt";
+// import SentimentSatisfiedIcon from "@material-ui/icons/SentimentSatisfied";
+// import SentimentDissatisfiedIcon from "@material-ui/icons/SentimentDissatisfied";
+// import SentimentVeryDissatisfiedIcon from "@material-ui/icons/SentimentVeryDissatisfied";
 
 import {
   NotifyProjectChange,
   NotifyNewComment,
   subscribeToLoadNewCmt,
-  disconnectSocket,
+  // disconnectSocket,
 } from "../Socket";
 
 import { setNotifications, setUser } from "../../actions";

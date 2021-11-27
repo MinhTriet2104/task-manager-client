@@ -25,7 +25,7 @@ import WarningIcon from "@material-ui/icons/Warning";
 import ConfirmDialog from "../common/ConfirmDialog";
 
 // action
-import { getProject, setGlobalMatch } from "../../actions/index";
+import { setGlobalMatch } from "../../actions/index";
 import { NotifyProjectChange } from "../Socket";
 
 const MyContainer = styled.div`
@@ -47,10 +47,15 @@ const ProjectSetting = ({ match }) => {
   const classes = useStyles();
 
   const [roles, setRoles] = useState([]);
+  const [filteredMembers, setFilteredMembers] = useState([]);
+  const [removedMembers, setRemovedMembers] = useState([]);
   const [projectName, setProjectName] = useState("");
   const [removeUserId, setRemoveUserId] = useState("");
+  const [unbanUserId, setUnbanUserId] = useState("");
   const [confirmDeleteProjectId, setConfirmDeleteProjectId] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState("");
   const [showConfirmRemoveDialog, setShowConfirmRemoveDialog] = useState(false);
+  const [showConfirmUnbanDialog, setShowConfirmUnbanDialog] = useState(false);
   const [showConfirmDeleteProject, setShowConfirmDeleteProject] =
     useState(false);
 
@@ -62,7 +67,7 @@ const ProjectSetting = ({ match }) => {
     dispatch(setGlobalMatch(match));
 
     if (project && project.id !== match.params.id) {
-      history.replace(`/project/${match.params.id}`)
+      history.replace(`/project/${match.params.id}`);
     }
   }, [project, match.params.id]);
 
@@ -72,6 +77,25 @@ const ProjectSetting = ({ match }) => {
       setProjectName(project.name);
     }
   }, [project]);
+
+  useEffect(() => {
+    if (project && !removedMembers.length) {
+      getRemovedMembers(project.id);
+    }
+  }, [project]);
+
+  useEffect(() => {
+    if (searchKeyword === "") {
+      setFilteredMembers(project.members);
+    } else {
+      const filter = project.members.filter(
+        (member) =>
+          member.email.includes(searchKeyword) ||
+          member.username.includes(searchKeyword)
+      );
+      setFilteredMembers(filter);
+    }
+  }, [searchKeyword]);
 
   const handleLevelChange = (id, level) => {
     if (!level.trim()) return;
@@ -113,15 +137,36 @@ const ProjectSetting = ({ match }) => {
     setShowConfirmRemoveDialog(false);
   };
 
+  const handleOpenConfirmUnban = (userId) => {
+    setUnbanUserId(userId);
+    setShowConfirmUnbanDialog(true);
+  };
+
+  const handleCloseConfirmUnban = () => {
+    setShowConfirmUnbanDialog(false);
+  };
+
+  const getRemovedMembers = async (projectId) => {
+    const req = await axios.get(`http://localhost:2104/project/setting/${projectId}/getRemovedMembers`);
+    setRemovedMembers(req.data);
+  }
+
   const requestRemoveUserFromProject = async () => {
     await axios.delete(`http://localhost:2104/role/${removeUserId}`, {
       data: {
         projectId: project.id,
       },
     });
-
-    setShowConfirmRemoveDialog(false);
     NotifyProjectChange();
+    history.go(0);
+  };
+
+  const requestUnbanUserFromProject = async () => {
+    await axios.post(`http://localhost:2104/role/${unbanUserId}/unban`, {
+      projectId: project.id,
+    });
+    NotifyProjectChange();
+    history.go(0);
   };
 
   const handleOpenConfirmDeleteProject = () =>
@@ -138,6 +183,10 @@ const ProjectSetting = ({ match }) => {
     } else {
       alert("WRONG PROJECT ID");
     }
+  };
+
+  const handleSearchKeywordChange = (value) => {
+    setSearchKeyword(value);
   };
 
   return project ? (
@@ -163,14 +212,35 @@ const ProjectSetting = ({ match }) => {
       <Typography className={classes.categoryTitle} variant="h4">
         Members:
       </Typography>
+      <TextField
+        autoFocus
+        style={{ width: 640 }}
+        margin="dense"
+        label="Search by Username or Email:"
+        defaultValue={searchKeyword}
+        onChange={(e) => handleSearchKeywordChange(e.target.value)}
+      />
       <List style={{ width: 640, maxHeight: 700, overflow: "auto" }}>
-        {project.members.map((member, index) => (
+        {filteredMembers.map((member, index) => (
           <MemberItem
             key={index}
             member={member}
             roles={project.roles}
             handleLevelChange={handleLevelChange}
             handleRemoveBtnClick={handleOpenConfirmRemove}
+          />
+        ))}
+      </List>
+
+      <Typography className={classes.categoryTitle} variant="h4">
+        Banned Members:
+      </Typography>
+      <List style={{ width: 640, maxHeight: 700, overflow: "auto" }}>
+        {removedMembers.map((member, index) => (
+          <MemberItem
+            key={index}
+            member={member}
+            handleUnbanBtnClick={handleOpenConfirmUnban}
           />
         ))}
       </List>
@@ -203,10 +273,20 @@ const ProjectSetting = ({ match }) => {
         open={showConfirmRemoveDialog}
         title={"Remove User from Project"}
         description={
-          "This user will be remove forever from this Project and can't be added again. Are you sure want to Remove this user?"
+          "This user will be remove from this Project and can't be added or join again. Are you sure want to Remove this user?"
         }
         handleClose={handleCloseConfirmRemove}
         handleConfirm={requestRemoveUserFromProject}
+      />
+
+      <ConfirmDialog
+        open={showConfirmUnbanDialog}
+        title={"Unban User"}
+        description={
+          "Are you sure want to Unban this user?"
+        }
+        handleClose={handleCloseConfirmUnban}
+        handleConfirm={requestUnbanUserFromProject}
       />
 
       <Dialog

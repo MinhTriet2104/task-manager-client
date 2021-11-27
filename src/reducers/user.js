@@ -10,7 +10,10 @@ const user = (state = initialState, action) => {
     case types.SET_USER:
       const { user } = action;
       console.log("SET USER:", user);
-      localStorage.setItem("user", JSON.stringify(user));
+      if (user)
+        localStorage.setItem("user", JSON.stringify(user));
+      else
+        localStorage.removeItem("user");
       return { ...user };
     default:
       return state;

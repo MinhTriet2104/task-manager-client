@@ -69,7 +69,12 @@ class AddModal extends React.Component {
       }
 
       const membersWithLevel = members.map((member) => {
-        member.level = roles.find((role) => role.user === member.id).level;
+        const memberToFind = roles.find((role) => role.user === member.id);
+        if (memberToFind && memberToFind.level) {
+          member.level = memberToFind.level;
+        } else {
+          member.level = 0;
+        }
         return member;
       });
       const filteredMembers = membersWithLevel.filter(
@@ -141,7 +146,7 @@ class AddModal extends React.Component {
     //   laneId: this.props.laneId,
     // });
     // task.id = res.data;
-    this.props.addTask(task, this.props.laneId, this.props.project);
+    this.props.addTask(task, this.props.laneId, this.props.project, this.props.user.id);
 
     this.toggle();
   };
@@ -251,8 +256,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispathToProps = (dispatch) => ({
-  addTask: (task, laneId, project) =>
-    dispatch(addTaskRequest(task, laneId, project)),
+  addTask: (task, laneId, project, userId) =>
+    dispatch(addTaskRequest(task, laneId, project, userId)),
 });
 
 export default connect(mapStateToProps, mapDispathToProps)(AddModal);

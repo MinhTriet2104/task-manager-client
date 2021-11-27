@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
+import { makeStyles } from "@material-ui/core/styles";
 
 import Link from "./common/CustomLink";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+
 import LandingSvg from "../images/landing_svg.svg";
+
+import { logout } from "../actions";
 
 const Container = styled.div`
   display: flex;
@@ -38,7 +43,20 @@ const FormContainer = styled.div`
   padding: 1em 0;
 `;
 
+const useStyles = makeStyles((theme) => ({
+  button: {
+    margin: theme.spacing(1),
+    position: "absolute",
+    top: "1rem",
+    right: "1rem",
+  },
+}));
+
 const MainSection = ({ getProjects }) => {
+  const classes = useStyles();
+
+  const dispatch = useDispatch();
+
   const [projectId, setprojectId] = useState("");
   const [projectName, setProjectName] = useState("");
 
@@ -103,6 +121,10 @@ const MainSection = ({ getProjects }) => {
     setProjectName(value);
   };
 
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <>
       {/* <header style={{ boxShadow: "0 1px 2px 0 rgba(0, 0, 0, .10)" }}>
@@ -114,9 +136,18 @@ const MainSection = ({ getProjects }) => {
           ></i>
         </div>
       </header> */}
+      <Button
+        variant="outlined"
+        color="secondary"
+        className={classes.button}
+        startIcon={<ExitToAppIcon />}
+        onClick={handleLogout}
+      >
+        Logout
+      </Button>
       <Container>
         {user.isAdmin && (
-          <Link style={{ fontSize: '2rem' }} to={`/admin/users`}>
+          <Link style={{ fontSize: "2rem" }} to={`/admin/users`}>
             Go to Admin Page
           </Link>
         )}

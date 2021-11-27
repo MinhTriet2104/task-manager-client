@@ -16,6 +16,8 @@ import PlusIcon from "mdi-react/PlusIcon";
 // import { CirclePicker } from "react-color";
 import { Circle } from "../circle/Circle";
 
+import { NotifyProjectChange } from '../Socket'
+
 const colors = [
   "linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%)",
   "linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%)",
@@ -70,7 +72,9 @@ export default ({ onAdd, onCancel }) => {
 
     const lane = await res.data;
 
-    onAdd(lane);
+    // onAdd(lane);
+    onCancel();
+    NotifyProjectChange(lane);
   };
 
   const styles = (theme) => ({

@@ -253,7 +253,7 @@ const CustomCard = ({
         </div>
       </div>
 
-      {taskCreatorLevel && userLevel !== null && (
+      {taskCreatorLevel !== null && userLevel !== null && (
         <TaskDetail
           open={open}
           setOpen={setOpen}

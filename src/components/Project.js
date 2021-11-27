@@ -33,8 +33,8 @@ function usePrevious(value) {
 }
 
 const Project = ({ match }) => {
-  const { userConsent, pushNotificationSupported, onClickAskUserPermission } =
-    usePushNotifications();
+  // const { userConsent, pushNotificationSupported, onClickAskUserPermission } =
+  //   usePushNotifications();
 
   const project = useSelector((state) => state.project);
   const user = useSelector((state) => state.user);
@@ -79,7 +79,7 @@ const Project = ({ match }) => {
         setIsUserinBlackList(true);
       } else {
         setIsUserinBlackList(false);
-        if ((project.owner && project.owner.id === user.id) || user.idAdmin) {
+        if (user.idAdmin || (project.owner && project.owner.id === user.id)) {
           setShowSettingPage(true);
         }
       }
@@ -89,6 +89,7 @@ const Project = ({ match }) => {
 
   useEffect(() => {
     if (project && user && !isUserinBlackList) {
+      console.log('NOT IN BLACK LIST');
       setLoading(true);
       const findedMember = project.members.find(
         (member) => member.id === user.id

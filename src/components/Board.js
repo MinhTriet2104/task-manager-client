@@ -49,7 +49,6 @@ export default ({ match }) => {
         (noti) =>
           noti.taskId === query.notifyTaskId && noti.type === query.notiType
       );
-
       const seenIndex = curNotifications[project.id].indexOf(seenNoti);
       curNotifications[project.id].splice(seenIndex, 1);
 

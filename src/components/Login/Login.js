@@ -11,7 +11,7 @@ import "../../styles/Login.scss";
 import GoogleIcon from "../../images/google_icon.svg";
 import FacebookIcon from "../../images/facebook_icon.svg";
 
-import { createUserRequest, setUser } from "../../actions";
+import { createUserRequest, updateUserRequest, setUser } from "../../actions";
 
 const LoginContainer = styled.div`
   height: 100vh;
@@ -62,8 +62,8 @@ const Login = () => {
 
   const history = useHistory();
 
-  if (user) {
-    history.replace("/project");
+  if (user && user.email) {
+    history.push("/project");
   }
 
   const responseFacebook = async (res) => {
@@ -80,7 +80,7 @@ const Login = () => {
       };
 
       if (!req.data) dispatch(createUserRequest(user));
-      else dispatch(setUser(req.data));
+      else dispatch(updateUserRequest(req.data));
 
       // history.replace("/project");
       history.push("/project");
@@ -103,7 +103,7 @@ const Login = () => {
       console.log(req.data);
 
       if (!req.data) dispatch(createUserRequest(user));
-      else dispatch(setUser(req.data));
+      else dispatch(updateUserRequest(user));
 
       // history.replace("/project");
       history.push("/project");

@@ -27,8 +27,14 @@ export const subscribeToLoadNewCmt = (loadNewCmt) => {
   });
 };
 
-export const NotifyProjectChange = () => {
-  if (socket) socket.emit("project change");
+export const NotifyProjectChange = (notificationInfo) => {
+  if (socket) {
+    if (notificationInfo && notificationInfo.type && notificationInfo.type === 'add') {
+      socket.emit("project change", notificationInfo);
+    } else {
+      socket.emit("project change");
+    }
+  }
 };
 
 export const NotifyNewComment = (newCmt) => {

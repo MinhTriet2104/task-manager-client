@@ -59,6 +59,7 @@ const Dashboard = () => {
 
   const globalMatch = useSelector((state) => state.globalMatch);
   const user = useSelector((state) => state.user);
+  const notifications = useSelector((state) => state.notifications);
 
   useEffect(() => {
     getProjects();

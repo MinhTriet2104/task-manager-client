@@ -85,6 +85,7 @@ const Notification = ({ match }) => {
       <List>
         {project &&
           notifications &&
+          notifications[project.id] &&
           notifications[project.id].map((noti, index) => {
             let expireTitle = "You have some task about to EXPIRE!!!!";
             let timeLeft = moment(noti.dueDate).diff(moment(), "hours");
@@ -138,7 +139,7 @@ const Notification = ({ match }) => {
                               : `${expireStr}`}
                           </Typography>
                           <span className={classes.itemCreateDate}>
-                            {noti.createAt && " " + noti.createAt}
+                            {noti.createAt && " " + moment(noti.dueDate).fromNow()}
                           </span>
                         </React.Fragment>
                       }

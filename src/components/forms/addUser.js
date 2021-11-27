@@ -1,4 +1,9 @@
 import React from "react";
+import { connect } from "react-redux";
+import axios from "axios";
+
+import { NotifyProjectChange } from "../Socket";
+
 import {
   Button,
   Modal,
@@ -9,17 +14,13 @@ import {
   FormGroup,
   Label,
 } from "reactstrap";
-import axios from "axios";
 
 class AddUser extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: false,
-      username: "",
-      name: "",
-      lastname: "",
-      profilePhoto: "5af1921c0fe5703dd4a463ec",
+      email: "",
       loading: false,
     };
 
@@ -34,31 +35,25 @@ class AddUser extends React.Component {
     });
   }
 
-  handleClick = (event) => {
-    // axios.post('/users', {
-    //   username:this.state.username,
-    //   name:this.state.name,
-    //   lastName:this.state.lastName,
-    //   profilePhoto:this.state.profilePhoto
-    // })
-    // .then((response)=> {
-    //   if(response.data.message)
-    //     alert(response.data.message)
-    //   else{
-    //     this.toggle();
-    //     this.setState({
-    //       username:null,
-    //       name:null,
-    //       lastName:null,
-    //       profilePhoto:null,
-    //       loading:false
-    //     })
-    //   }
-    //   console.log(response);
-    // })
-    // .catch((error)=> {
-    //   console.log(error);
-    // });
+  handleClick = () => {
+    axios.post(`http://localhost:2104/project/${this.props.project.id}/adduser`, {
+     email: this.state.email
+    })
+    .then((response)=> {
+      if (response.status === 200) {
+        alert('ADD_SUCCESS');
+        this.setState({
+          modal: false
+        });
+        NotifyProjectChange();
+      } else {
+        alert('ADD_FAILED');
+      }
+    })
+    .catch((error)=> {
+      console.log(error);
+      alert('ADD_FAILED');
+    });
   };
   toggle() {
     this.setState({
@@ -102,4 +97,9 @@ class AddUser extends React.Component {
   }
 }
 
-export default AddUser;
+const mapStateToProps = (state) => ({
+  project: state.project,
+  // user: state.user,
+});
+
+export default connect(mapStateToProps)(AddUser);
